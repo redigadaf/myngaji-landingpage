@@ -251,7 +251,7 @@ export default function EnhancedBackgroundPaths() {
   };
 
   return (
-    <div className="relative min-h-[600px] w-full flex items-center justify-center overflow-hidden bg-white/50 dark:bg-slate-900/50">
+    <div className="relative min-h-[600px] w-full flex items-center justify-center overflow-hidden bg-teal-50 dark:bg-slate-900/50">
       {/* Dynamic Background Patterns */}
       <div className="absolute inset-0 text-primary/20 dark:text-primary/10">
         <motion.div key={currentPattern} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 2 }}>
@@ -271,7 +271,12 @@ export default function EnhancedBackgroundPaths() {
               Harga Bermula
             </motion.h2>
 
-            <motion.p initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.4 }} className="text-xl md:text-2xl font-extrabold tracking-[0.2em] text-[#136a73]/70 dark:text-[#136a73]/70 mb-4 uppercase">
+            <motion.p
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.4 }}
+              className="text-xl md:text-2xl font-extrabold tracking-[0.2em] text-[#136a73]/70 dark:text-[#136a73]/70 mb-4 uppercase"
+            >
               Serendah
             </motion.p>
 

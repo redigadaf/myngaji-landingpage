@@ -1,102 +1,50 @@
 "use client";
 
 import { motion } from "motion/react";
-import { ArrowRight, CheckCircle2, BookOpen, Star, User, Users, ArrowUpRight } from "lucide-react";
+import { CircleCheck } from "lucide-react";
 import clsx from "clsx";
 import ScrollFloat from "@/components/scroll-float";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
 
-// Helper Interface for Data
-interface PackageItem {
-  id: string;
+interface PlanItem {
   title: string;
-  points: string[];
-  bg: string;
-  accent: string;
-  titleColor: string;
-  buttonBorder: string;
-  colSpan: string;
-  imagePos: "circle-left" | "circle-right" | "featured-right" | "bottom-icon" | "featured-left";
-  icon?: React.ElementType | string;
+  description: string;
+  features: string[];
+  cta: string;
+  href: string;
+  featured?: boolean;
 }
 
-const packages: PackageItem[] = [
+const plans: PlanItem[] = [
   {
-    id: "kids-mengaji",
-    title: "Kelas Mengaji Kanak-kanak",
-    points: ["Eksklusif one-to-one", "Waktu kelas yang fleksibel", "Menerima pelajar seawal 6 tahun", "Sesi pembelajaran yang interaktif"],
-    bg: "bg-white",
-    accent: "text-primary",
-    titleColor: "text-foreground",
-    buttonBorder: "border-orange-200 text-orange-900 hover:bg-orange-100",
-    colSpan: "col-span-1",
-    imagePos: "circle-left", // Icon Left
-    icon: "/pakej/icon-1.svg",
+    title: "Kelas Al Quran",
+    description: "Sesuai untuk semua peringkat umur (Kanak-kanak & Dewasa).",
+    features: ["Kelas Mengaji Kanak - Kanak", "Kelas Hafazan Al-Quran", "Kelas Mengaji Dewasa"],
+    cta: "Daftar Sekarang",
+    href: "/daftar",
+    featured: true,
   },
   {
-    id: "kids-arab",
-    title: "Kelas Bahasa Arab Kanak-kanak",
-    points: ["Eksklusif one-to-one", "Waktu kelas yang fleksibel", "Nota & latihan disediakan", "Sesi pembelajaran yang interaktif"],
-    bg: "bg-primary",
-    accent: "text-cyan-900",
-    titleColor: "text-cyan-600",
-    buttonBorder: "border-cyan-200 text-cyan-900 hover:bg-cyan-100",
-    colSpan: "col-span-1",
-    imagePos: "circle-right", // Icon Right
-    icon: "/pakej/icon-2.svg",
+    title: "Kelas Fardhu Ain",
+    description: "Pengukuhan ilmu agama dan praktikal ibadah harian.",
+    features: ["Kelas Agama & Fardhu Ain (KAFA)"],
+    cta: "Daftar Sekarang",
+    href: "/daftar",
   },
   {
-    id: "hafazan",
-    title: "Kelas Hafazan al-Quran",
-    points: ["Kelas secara one-to-one", "Dibimbing oleh asatizah hafiz/hafizah", "Terbuka kepada kanak-kanak & dewasa yang ingin memulakan hafalan al-Quran atau mengulang bacaan bersama asatizah bertauliah"],
-    bg: "bg-white",
-    accent: "text-primary",
-    titleColor: "text-foreground",
-    buttonBorder: "border-emerald-200 text-emerald-900 hover:bg-emerald-100",
-    colSpan: "col-span-1 md:col-span-2",
-    imagePos: "featured-right", // Large Icon Right
-    icon: "/pakej/icon-3.svg",
-  },
-  {
-    id: "kafa",
-    title: "Kelas Agama & Fardu Ain (KAFA)",
-    points: ["Eksklusif one-to-one", "Waktu kelas yang fleksibel", "Nota & latihan disediakan", "Sesi pembelajaran yang interaktif"],
-    bg: "bg-primary",
-    accent: "text-orange-900",
-    titleColor: "text-amber-500",
-    buttonBorder: "border-orange-200 text-orange-900 hover:bg-orange-100",
-    colSpan: "col-span-1",
-    imagePos: "bottom-icon", // Icon Bottom Right
-    icon: "/pakej/icon-4.svg",
-  },
-  {
-    id: "adult-mengaji",
-    title: "Kelas Mengaji Dewasa",
-    points: ["Kelas secara one-to-one", "Dibimbing oleh asatizah yang bertauliah & berpengetahuan", "Pendedahan ilmu asas tajwid", "Slide & nota disediakan"],
-    bg: "bg-white",
-    accent: "text-primary",
-    titleColor: "text-foreground",
-    buttonBorder: "border-cyan-200 text-cyan-900 hover:bg-cyan-100",
-    colSpan: "col-span-1",
-    imagePos: "bottom-icon", // Icon Bottom Right
-    icon: "/pakej/iconn-5.svg",
-  },
-  {
-    id: "adult-arab",
-    title: "Kelas Bahasa Arab Dewasa",
-    points: ["Kelas secara one-to-one", "Terbahagi kepada dua kategori iaitu Bahasa Arab alQuran & Bahasa Arab Komunikasi", "Waktu kelas yang fleksibel", "Nota & latihan disediakan"],
-    bg: "bg-primary",
-    accent: "text-orange-900",
-    titleColor: "text-amber-500",
-    buttonBorder: "border-orange-200 text-orange-900 hover:bg-orange-100",
-    colSpan: "col-span-1 md:col-span-2",
-    imagePos: "featured-left", // Icon Left
-    icon: "pakej/icon-6.svg",
+    title: "Kelas Bahasa Arab",
+    description: "Kuasai Bahasa Arab Al-Quran dan Komunikasi dengan mudah.",
+    features: ["Kelas Bahasa Arab Kanak - Kanak", "Kelas Bahasa Arab Dewasa"],
+    cta: "Daftar Sekarang",
+    href: "/daftar",
   },
 ];
 
 export const SenaraiPakejKelas = () => {
   return (
-    <section className="py-20 px-4 md:px-8 bg-gray-50 overflow-hidden font-sans">
+    <section className="py-20 px-4 md:px-8 bg-white overflow-hidden font-sans">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-wrap items-center justify-center gap-x-2 mb-16 text-center">
@@ -106,88 +54,62 @@ export const SenaraiPakejKelas = () => {
           </ScrollFloat>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
-          {/* Column 1 */}
-          <div className="flex flex-col gap-6 lg:gap-8">
-            {[packages[0], packages[3]].map((pkg) => (
-              <PackageCard key={pkg.id} pkg={pkg} />
-            ))}
-          </div>
+        <div className="not-prose mt-4 grid grid-cols-1 gap-6 min-[900px]:grid-cols-3">
+          {plans.map((plan, index) => {
+            // Animation logic: Left -> Bottom -> Right
+            const initialConfig = index === 0 ? { opacity: 0, x: -100, y: 0 } : index === 1 ? { opacity: 0, x: 0, y: 100 } : { opacity: 0, x: 100, y: 0 };
 
-          {/* Column 2 (Offset Top) */}
-          <div className="flex flex-col gap-6 lg:gap-8 lg:mt-16">
-            {[packages[1], packages[4]].map((pkg) => (
-              <PackageCard key={pkg.id} pkg={pkg} />
-            ))}
-          </div>
-
-          {/* Column 3 */}
-          <div className="flex flex-col gap-6 lg:gap-8">
-            {[packages[2], packages[5]].map((pkg) => (
-              <PackageCard key={pkg.id} pkg={pkg} />
-            ))}
-          </div>
+            return (
+              <motion.div
+                key={plan.title}
+                initial={initialConfig}
+                whileInView={{ opacity: 1, x: 0, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.8, ease: "easeOut", delay: index === 1 ? 0.2 : 0 }}
+                className="h-full"
+              >
+                <PricingCard plan={plan} />
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
   );
 };
 
-const PackageCard = ({ pkg }: { pkg: PackageItem }) => {
-  const isCustomIcon = typeof pkg.icon === "string";
-  const Icon = !isCustomIcon ? pkg.icon || BookOpen : BookOpen; // Fallback to avoid error, but won't be used if isCustomIcon is true
-
-  const isPrimary = pkg.bg.includes("bg-primary") || pkg.bg.includes("bg-[#2F5148]");
-
-  // Styles based on card background
-  const titleColor = isPrimary ? "text-white" : "text-slate-900";
-  const descColor = isPrimary ? "text-white/80" : pkg.accent;
-  // Use current color for text class, but custom icon might need explicit handling or just use original colors
-  const iconColor = isPrimary ? "text-white" : pkg.accent;
-
-  // If white card: Primary colored button with white text (ensures visibility)
-  const buttonClasses = isPrimary ? "bg-white text-primary hover:bg-slate-100" : "bg-primary text-white hover:bg-primary/90 shadow-md hover:shadow-lg";
-
+function PricingCard({ plan }: { plan: PlanItem }) {
   return (
-    <div className={clsx("group relative rounded-[2.5rem] p-8 pb-10 flex flex-col items-center text-center transition-all duration-300", pkg.bg, "shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)]")}>
-      <div className={clsx("mb-6", iconColor)}>
-        {isCustomIcon ? (
-          <div className="relative w-20 h-20 mb-2">
-            <div
-              className="absolute inset-0 bg-current transition-colors duration-300"
-              style={{
-                maskImage: `url('${pkg.icon as string}')`,
-                WebkitMaskImage: `url('${pkg.icon as string}')`,
-                maskSize: "contain",
-                WebkitMaskSize: "contain",
-                maskRepeat: "no-repeat",
-                WebkitMaskRepeat: "no-repeat",
-                maskPosition: "center",
-                WebkitMaskPosition: "center",
-              }}
-            />
-          </div>
-        ) : (
-          <Icon className="w-10 h-10 stroke-[1.2]" />
-        )}
-      </div>
-
-      <h3 className={clsx("text-xl font-semibold mb-1", titleColor)}>{pkg.title}</h3>
-
-      {/* Divider / Spacer if needed, or just margin */}
-      <div className="w-full my-5 px-4">
-        <div className="flex flex-col gap-2">
-          {pkg.points.map((point, idx) => (
-            <p key={idx} className={clsx("text-sm font-medium leading-relaxed opacity-80", isPrimary ? "text-white/80" : pkg.accent)}>
-              {point}
-            </p>
-          ))}
+    <div className={clsx("flex flex-col rounded-2xl border bg-white p-6 text-left shadow-sm transition-all hover:shadow-md h-full")}>
+      <div className="text-center">
+        <div className="inline-flex items-center gap-2 mb-4">
+          <Badge className="text-lg px-4 py-1 bg-primary text-white hover:bg-primary/90">{plan.title}</Badge>
         </div>
+
+        {/* Price placeholder removed as requested */}
+        {/* <h4 className="mb-2 mt-4 text-2xl text-primary">{plan.price}</h4> */}
+
+        {plan.description && <p className="text-sm text-gray-500 min-h-[40px]">{plan.description}</p>}
       </div>
 
-      <button className={clsx("mt-auto w-10 h-10 rounded-full flex items-center justify-center transition-colors", buttonClasses)}>
-        <ArrowUpRight className="w-5 h-5" />
-      </button>
+      <div className="my-6 border-t border-gray-100" />
+
+      <ul className="space-y-4 flex-grow">
+        {plan.features.map((feature) => (
+          <li key={feature} className="flex items-start text-sm text-gray-700">
+            <CircleCheck className="mr-3 h-5 w-5 text-primary flex-shrink-0" aria-hidden />
+            <span>{feature}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div className="mt-8 pt-6">
+        <Link href={plan.href} className="w-full block">
+          <Button size="lg" className="w-full font-bold" variant="default">
+            {plan.cta}
+          </Button>
+        </Link>
+      </div>
     </div>
   );
-};
+}
