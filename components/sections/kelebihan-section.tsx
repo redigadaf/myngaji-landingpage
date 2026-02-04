@@ -1,6 +1,8 @@
 "use client";
 
 import { ContainerScroll, CardSticky } from "@/components/ui/cards-stack";
+import ScrollFloat from "@/components/scroll-float";
+import { GradualSpacing } from "@/components/ui/gradual-spacing";
 import { UserRoundCheck, Sparkles, NotebookPen, TrendingUp, CalendarClock, UsersRound, MessageCircle, LibraryBig, GraduationCap, Award } from "lucide-react";
 
 const KELEBIHAN_PHASES = [
@@ -128,14 +130,33 @@ const KELEBIHAN_PHASES = [
 
 export function KelebihanSection() {
   return (
-    <div className="w-full min-h-svh place-content-center bg-stone-50 py-24">
+    <div className="w-full min-h-svh place-content-center bg-stone-50 py-56">
       <div className="container mx-auto px-6 text-stone-900 xl:px-12">
         <div className="flex flex-col gap-12 items-center">
           <div className="sticky top-32 flex flex-col items-center text-center max-w-3xl mx-auto">
-            <h5 className="text-2xl uppercase tracking-wide text-primary font-black mb-2">Kelebihan Kami</h5>
-            <h2 className="mb-6 text-4xl font-black tracking-tight leading-tight">
-              Kenapa Anda Perlu Memilih <span className="text-primary">MyNgaji?</span>
-            </h2>
+            <GradualSpacing className="text-2xl uppercase tracking-wide text-primary font-black mb-2" text="Kelebihan Kami" />
+            <ScrollFloat
+              animationDuration={1}
+              ease="back.inOut(2)"
+              scrollStart="center bottom+=50%"
+              scrollEnd="bottom bottom-=40%"
+              stagger={0.03}
+              containerClassName="text-primary font-black tracking-tight !my-0"
+              textClassName="text-5xl !leading-tight"
+            >
+              Kenapa Anda Perlu Memilih
+            </ScrollFloat>
+            <ScrollFloat
+              animationDuration={1}
+              ease="back.inOut(2)"
+              scrollStart="center bottom+=50%"
+              scrollEnd="bottom bottom-=40%"
+              stagger={0.03}
+              containerClassName="text-secondary font-black tracking-tight !my-0 mb-6"
+              textClassName="text-5xl !leading-tight"
+            >
+              MyNgaji?
+            </ScrollFloat>
             <p className="max-w-prose text-lg text-gray-600 leading-relaxed mx-auto">
               Kami komited untuk menyediakan pengalaman pembelajaran Al-Quran yang terbaik, mudah, dan berkesan. Pendekatan kami direka khas untuk membantu anda menguasai Al-Quran dengan yakin.
             </p>
@@ -145,7 +166,7 @@ export function KelebihanSection() {
               <CardSticky offsetTop={380} key={phase.id} index={index + 1} className={`rounded-2xl border p-8 shadow-md backdrop-blur-md overflow-hidden ${phase.bg} ${phase.border}`}>
                 {/* Decorative Background Icon */}
                 <div className={`absolute -right-6 -bottom-6 opacity-[0.07] pointer-events-none select-none z-0 ${phase.bg === "bg-white" ? "text-primary" : "text-white"}`}>
-                  <phase.icon strokeWidth={1.5} className="w-56 h-56 transform -rotate-12" />
+                  <phase.icon strokeWidth={1.5} className="w-40 h-40 transform -rotate-12" />
                 </div>
 
                 {/* Decorative Blur Blob */}

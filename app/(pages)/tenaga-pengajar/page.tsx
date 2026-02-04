@@ -4,7 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { FooterSection } from "@/components/layout/footer-section";
 import { ShinyButton } from "@/components/shiny-button";
-import { User, BookOpen, Star, Award, GraduationCap } from "lucide-react";
+import { User, BookOpen, Star, Award, GraduationCap, Sparkles } from "lucide-react";
 
 // Mock Data for Instructors
 const teachers = [
@@ -179,42 +179,20 @@ export default function TenagaPengajarPage() {
           <div className="relative inline-flex items-center justify-center">
             <ShinyButton className="relative z-10 !px-12 !py-6 !text-lg md:!text-xl font-bold shadow-2xl hover:scale-105 transition-transform duration-300">Daftar Kelas Sekarang</ShinyButton>
 
-            {/* Floating 'Sticker' Badge */}
-            <motion.div
-              initial={{ opacity: 0, x: 20, rotate: 15 }}
-              whileInView={{ opacity: 1, x: 0, rotate: 6 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="absolute -right-6 -bottom-8 md:-right-48 md:top-1/2 md:-translate-y-1/2 hidden md:block z-20"
-              style={{ filter: "drop-shadow(0 10px 8px rgb(0 0 0 / 0.15))" }}
-            >
-              <motion.div className="relative group cursor-pointer" whileHover="hover" initial="initial" animate="initial" whileTap={{ scale: 0.95 }}>
-                {/* Sticker Main Body */}
-                <motion.div
-                  className="bg-white text-slate-900 px-6 py-3 font-extrabold text-sm tracking-widest flex items-center gap-2"
-                  style={{ borderRadius: "0.5rem" }}
-                  variants={{
-                    initial: { clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)" },
-                    hover: { clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%)" },
-                  }}
-                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                >
-                  <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse ring-2 ring-green-100" />
-                  <span>JOM NGAJI!</span>
-                </motion.div>
-
-                {/* The Peeling Flap */}
-                <motion.div
-                  className="absolute bottom-0 right-0 bg-gradient-to-tl from-slate-100 to-slate-200 rounded-tl-xl pointer-events-none border-t border-l border-slate-100/50"
-                  variants={{
-                    initial: { width: 0, height: 0, opacity: 0 },
-                    hover: { width: 30, height: 30, opacity: 1 },
-                  }}
-                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                  style={{ boxShadow: "-2px -2px 6px rgba(0,0,0,0.05)" }}
-                />
-              </motion.div>
-            </motion.div>
+            {/* Floating 'Sticker' Badge with StickerPeel */}
+            <div className="absolute left-full top-1/2 -translate-y-1/2 ml-8 hidden md:block z-20">
+              <div className="w-[220px] h-14 bg-white flex items-center justify-center gap-3 px-3 rounded-xl border border-slate-200 shadow-xl rotate-6 hover:rotate-0 hover:scale-105 transition-all duration-300 cursor-default select-none">
+                <div className="bg-primary/10 p-1.5 rounded-lg text-primary">
+                  <Sparkles className="w-4 h-4 fill-primary/20 animate-pulse" />
+                </div>
+                <div className="flex flex-col items-start justify-center">
+                  <span className="text-[9px] uppercase font-bold text-slate-400 tracking-widest leading-none mb-0.5">Mari Serta</span>
+                  <span className="text-lg font-black text-slate-800 tracking-tighter leading-none italic">
+                    JOM <span className="text-primary underline decoration-wavy decoration-secondary/50 decoration-2 underline-offset-2">NGAJI!</span>
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
 
           <p className="text-teal-200/50 mt-16 text-sm max-w-md mx-auto">Sertai ribuan pelajar lain yang telah mendapat manfaat daripada bimbingan asatizah kami.</p>

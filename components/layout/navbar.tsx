@@ -32,6 +32,7 @@ export function Navbar() {
     { name: "Lokasi", href: "#" },
     { name: "Waktu Sholat", href: "#" },
     { name: "Testimoni", href: "#" },
+    { name: "Blog", href: "/blog" },
   ];
 
   useEffect(() => {

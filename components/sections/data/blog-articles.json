@@ -1,0 +1,162 @@
+[
+  {
+    "id": "1",
+    "title": "7 Tips Mudah Ajar Anak Mengaji di Rumah",
+    "slug": "7-tips-mudah-ajar-anak-mengaji-di-rumah",
+    "category": "Tips Ibu Bapa",
+    "excerpt": "Mengajar anak mengaji di rumah boleh jadi lebih mudah dengan pendekatan yang betul. Ketahui tips praktikal untuk ibu bapa.",
+    "content": "",
+    "author": {
+      "name": "Ustazah Siti Sarah",
+      "avatar": "/tenaga-pengajar/ustadzah-2.png"
+    },
+    "date": "2024-02-01",
+    "readingTime": "5 min",
+    "image": "/assets/blog/blog1.webp",
+    "featured": false
+  },
+  {
+    "id": "2",
+    "title": "Panduan Lengkap Belajar Tajwid untuk Pemula",
+    "slug": "panduan-lengkap-belajar-tajwid-untuk-pemula",
+    "category": "Tajwid",
+    "excerpt": "Tajwid adalah asas bacaan Al-Quran yang betul. Pelajari hukum-hukum tajwid asas dengan mudah melalui panduan ini.",
+    "content": "",
+    "author": {
+      "name": "Ustaz Muhammad Amirul",
+      "avatar": "/tenaga-pengajar/ustadz-1.png"
+    },
+    "date": "2024-01-28",
+    "readingTime": "8 min",
+    "image": "/assets/blog/blog2.webp",
+    "featured": true
+  },
+  {
+    "id": "3",
+    "title": "Kelebihan Hafaz Al-Quran dari Kecil",
+    "slug": "kelebihan-hafaz-al-quran-dari-kecil",
+    "category": "Hafazan",
+    "excerpt": "Ramai ibu bapa tertanya-tanya, adakah anak saya sesuai untuk hafaz Al-Quran? Ketahui kelebihan dan tips memulakan.",
+    "content": "",
+    "author": {
+      "name": "Ustazah Siti Sarah",
+      "avatar": "/tenaga-pengajar/ustadzah-2.png"
+    },
+    "date": "2024-01-25",
+    "readingTime": "6 min",
+    "image": "/assets/blog/blog3.webp",
+    "featured": false
+  },
+  {
+    "id": "4",
+    "title": "5 Kesalahan Biasa dalam Bacaan Al-Quran",
+    "slug": "5-kesalahan-biasa-dalam-bacaan-al-quran",
+    "category": "Al-Quran",
+    "excerpt": "Elakkan kesalahan umum yang sering dibuat ketika membaca Al-Quran. Perbaiki bacaan anda dengan betul.",
+    "content": "",
+    "author": {
+      "name": "Ustaz Muhammad Amirul",
+      "avatar": "/tenaga-pengajar/ustadz-1.png"
+    },
+    "date": "2024-01-20",
+    "readingTime": "7 min",
+    "image": "/assets/blog/blog4.webp",
+    "featured": false
+  },
+  {
+    "id": "5",
+    "title": "Cara Mudah Kuasai Bahasa Arab untuk Pemula",
+    "slug": "cara-mudah-kuasai-bahasa-arab-untuk-pemula",
+    "category": "Bahasa Arab",
+    "excerpt": "Bahasa Arab tidak sesukar yang disangka. Ikuti langkah-langkah mudah ini untuk mula belajar bahasa Al-Quran.",
+    "content": "",
+    "author": {
+      "name": "Ustaz Ahmad Fathi",
+      "avatar": "/tenaga-pengajar/ustadz-2.png"
+    },
+    "date": "2024-01-15",
+    "readingTime": "6 min",
+    "image": "/assets/blog/blog5.webp",
+    "featured": false
+  },
+  {
+    "id": "6",
+    "title": "Fardhu Ain yang Wajib Dipelajari Setiap Muslim",
+    "slug": "fardhu-ain-yang-wajib-dipelajari-setiap-muslim",
+    "category": "Fardhu Ain",
+    "excerpt": "Ketahui ilmu-ilmu fardhu ain yang wajib dipelajari oleh setiap muslim dan muslimah mengikut hukum syarak.",
+    "content": "",
+    "author": {
+      "name": "Ustazah Nurul Huda",
+      "avatar": "/tenaga-pengajar/ustadzah-1.png"
+    },
+    "date": "2024-01-10",
+    "readingTime": "10 min",
+    "image": "/assets/blog/blog6.webp",
+    "featured": false
+  },
+  {
+    "id": "7",
+    "title": "Adab Membaca Al-Quran yang Perlu Diketahui",
+    "slug": "adab-membaca-al-quran-yang-perlu-diketahui",
+    "category": "Al-Quran",
+    "excerpt": "Selain tajwid, adab membaca Al-Quran juga penting. Pelajari adab-adab yang betul sebelum dan semasa membaca.",
+    "content": "",
+    "author": {
+      "name": "Ustaz Hafiz Ibrahim",
+      "avatar": "/tenaga-pengajar/ustadz-3.png"
+    },
+    "date": "2024-01-05",
+    "readingTime": "5 min",
+    "image": "/assets/blog/blog7.webp",
+    "featured": false
+  },
+  {
+    "id": "8",
+    "title": "Motivasi Anak Suka Belajar Mengaji: Strategi Berkesan",
+    "slug": "motivasi-anak-suka-belajar-mengaji",
+    "category": "Tips Ibu Bapa",
+    "excerpt": "Anak tak berminat mengaji? Cuba strategi-strategi ini untuk meningkatkan minat anak terhadap pembelajaran Al-Quran.",
+    "content": "",
+    "author": {
+      "name": "Ustazah Aishah Humaira",
+      "avatar": "/tenaga-pengajar/ustadzah-3.png"
+    },
+    "date": "2024-01-01",
+    "readingTime": "7 min",
+    "image": "/assets/blog/blog8.webp",
+    "featured": false
+  },
+  {
+    "id": "9",
+    "title": "Kelas Online vs Kelas Fizikal: Mana Lebih Berkesan?",
+    "slug": "kelas-online-vs-kelas-fizikal",
+    "category": "Inspirasi",
+    "excerpt": "Ramai yang masih ragu dengan kelas mengaji online. Ketahui perbandingan dan kelebihan setiap kaedah pembelajaran.",
+    "content": "",
+    "author": {
+      "name": "Ustaz Hafiz Ibrahim",
+      "avatar": "/tenaga-pengajar/ustadz-3.png"
+    },
+    "date": "2023-12-28",
+    "readingTime": "6 min",
+    "image": "/assets/blog/blog9.webp",
+    "featured": false
+  },
+  {
+    "id": "10",
+    "title": "Bacaan Makhorijul Huruf yang Betul: Panduan Asas",
+    "slug": "bacaan-makhorijul-huruf-yang-betul",
+    "category": "Tajwid",
+    "excerpt": "Makhorijul huruf adalah tempat keluarnya huruf. Kuasai asas ini untuk memastikan bacaan Al-Quran anda sempurna.",
+    "content": "",
+    "author": {
+      "name": "Ustaz Muhammad Amirul",
+      "avatar": "/tenaga-pengajar/ustadz-1.png"
+    },
+    "date": "2023-12-25",
+    "readingTime": "9 min",
+    "image": "/assets/blog/blog10.webp",
+    "featured": false
+  }
+]
