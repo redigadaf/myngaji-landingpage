@@ -3,8 +3,8 @@ import Link from "next/link";
 import { BookOpen, Languages, User, Calendar, BarChart, Award } from "lucide-react";
 import { FaQuran, FaUser, FaLanguage, FaPrayingHands } from "react-icons/fa";
 import { RiUserVoiceFill } from "react-icons/ri";
-import CountUp from "../count-up";
-import { ShinyButton } from "../shiny-button";
+import CountUp from "../../count-up";
+import { ShinyButton } from "../../shiny-button";
 
 export function HeroSection() {
   const stats = [

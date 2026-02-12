@@ -1,0 +1,72 @@
+[
+  {
+    "id": "kelebihan-1",
+    "title": "Kelas Eksklusif Secara One-to-One",
+    "description": "Pembelajaran dijalankan secara peribadi antara tutor dan pelajar bagi memastikan fokus penuh serta pendekatan yang disesuaikan dengan tahap dan keperluan pelajar.",
+    "iconKey": "UserRoundCheck",
+    "illustrationKey": "video-call"
+  },
+  {
+    "id": "kelebihan-2",
+    "title": "Kelas Percubaan Percuma",
+    "description": "Kami menyediakan kelas percubaan secara percuma agar ibu bapa dan pelajar dapat merasai sendiri kaedah pembelajaran sebelum meneruskan kelas sepenuhnya.",
+    "iconKey": "Sparkles",
+    "illustrationKey": "free-trial"
+  },
+  {
+    "id": "kelebihan-3",
+    "title": "Nota & Latihan Disediakan",
+    "description": "Setiap sesi pembelajaran dilengkapi dengan nota dan latihan yang tersusun bagi membantu pelajar memahami dan mengukuhkan penguasaan pembelajaran.",
+    "iconKey": "NotebookPen",
+    "illustrationKey": "notes"
+  },
+  {
+    "id": "kelebihan-4",
+    "title": "Laporan Prestasi Bulanan",
+    "description": "Laporan prestasi pelajar disediakan setiap bulan bagi memantau perkembangan pembelajaran serta mengenal pasti aspek yang perlu dipertingkatkan.",
+    "iconKey": "TrendingUp",
+    "illustrationKey": "performance"
+  },
+  {
+    "id": "kelebihan-5",
+    "title": "Waktu Kelas Yang Fleksibel",
+    "description": "Jadual pembelajaran yang fleksibel membolehkan kelas diatur mengikut kesesuaian masa pelajar dan ibu bapa tanpa tekanan.",
+    "iconKey": "CalendarClock",
+    "illustrationKey": "flexible-time"
+  },
+  {
+    "id": "kelebihan-6",
+    "title": "Terbuka Untuk Semua Peringkat Usia",
+    "description": "Program pembelajaran kami terbuka kepada semua peringkat umur, dari kanak-kanak hingga dewasa, mengikut tahap kemampuan masing-masing.",
+    "iconKey": "UsersRound",
+    "illustrationKey": "all-ages"
+  },
+  {
+    "id": "kelebihan-7",
+    "title": "Sokongan Kumpulan WhatsApp",
+    "description": "Disediakan kumpulan WhatsApp khas sebagai medium komunikasi antara tutor dan ibu bapa bagi perbincangan serta pemantauan pembelajaran.",
+    "iconKey": "MessageCircle",
+    "illustrationKey": "whatsapp"
+  },
+  {
+    "id": "kelebihan-8",
+    "title": "Modul Pembelajaran Lengkap & Interaktif",
+    "description": "Modul pembelajaran disusun secara sistematik, lengkap dan interaktif untuk menjadikan sesi pembelajaran lebih menarik dan mudah difahami.",
+    "iconKey": "LibraryBig",
+    "illustrationKey": "modules"
+  },
+  {
+    "id": "kelebihan-9",
+    "title": "Dibimbing Oleh Tutor Berpengalaman",
+    "description": "Setiap pelajar dibimbing oleh tutor yang berpengalaman, berkelayakan dan berdedikasi dalam mendidik dengan penuh kesabaran.",
+    "iconKey": "GraduationCap",
+    "illustrationKey": "tutor"
+  },
+  {
+    "id": "kelebihan-10",
+    "title": "Sijil Pencapaian Disediakan",
+    "description": "Sijil pencapaian akan diberikan sebagai penghargaan atas usaha dan kemajuan pelajar sepanjang mengikuti program pembelajaran.",
+    "iconKey": "Award",
+    "illustrationKey": "certificate"
+  }
+]

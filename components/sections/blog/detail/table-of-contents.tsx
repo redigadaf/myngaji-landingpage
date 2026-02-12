@@ -59,7 +59,7 @@ export function TableOfContents() {
               className={cn(
                 "group flex items-center justify-between rounded-md px-3 py-2 text-sm font-medium transition-all duration-200",
                 activeId === heading.id
-                  ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400 border-l-2 border-emerald-500"
+                  ? "bg-emerald-50 text-primary dark:bg-emerald-900/20 dark:text-emerald-400 border-l-2 border-emerald-500"
                   : "text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100 border-l-2 border-transparent",
               )}
             >
