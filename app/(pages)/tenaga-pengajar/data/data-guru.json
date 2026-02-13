@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "name": "Ustaz Muhammad Amirul",
+    "role": "Guru Al-Quran",
+    "specialty": "Tajwid & Tarannum",
+    "experience": "5 Tahun",
+    "image": "/tenaga-pengajar/ustadz-1.png",
+    "bio": "Pakar dalam membimbing bacaan Al-Quran dengan taranum yang mengasyikkan. Mempunyai sanad Hafs 'an Asim."
+  },
+  {
+    "id": 2,
+    "name": "Ustazah Nurul Huda",
+    "role": "Guru Fardu Ain",
+    "specialty": "Fiqh Wanita & Ibadah",
+    "experience": "4 Tahun",
+    "image": "/tenaga-pengajar/ustadzah-1.png",
+    "bio": "Berpengalaman mengajar Fardu Ain untuk kanak-kanak dan dewasa. Fokus kepada aplikasi praktikal dalam kehidupan seharian."
+  },
+  {
+    "id": 3,
+    "name": "Ustaz Ahmad Fathi",
+    "role": "Guru Bahasa Arab",
+    "specialty": "Nahu & Komunikasi",
+    "experience": "6 Tahun",
+    "image": "/tenaga-pengajar/ustadz-2.png",
+    "bio": "Graduan Universiti Islam Madinah. Menggunakan teknik moden untuk memudahkan penguasaan Bahasa Arab."
+  },
+  {
+    "id": 4,
+    "name": "Ustazah Siti Sarah",
+    "role": "Guru Al-Quran Kanak-kanak",
+    "specialty": "Asas Iqra & Hafazan",
+    "experience": "3 Tahun",
+    "image": "/tenaga-pengajar/ustadzah-2.png",
+    "bio": "Penyabar dan ceria, mampu menarik minat kanak-kanak untuk mencintai Al-Quran sejak kecil."
+  },
+  {
+    "id": 5,
+    "name": "Ustaz Hafiz Ibrahim",
+    "role": "Guru Tafsir",
+    "specialty": "Tadabbur Al-Quran",
+    "experience": "8 Tahun",
+    "image": "/tenaga-pengajar/ustadz-3.png",
+    "bio": "Membawa pelajar menyelami makna disebalik ayat-ayat Al-Quran untuk penghayatan yang lebih mendalam."
+  },
+  {
+    "id": 6,
+    "name": "Ustazah Aishah Humaira",
+    "role": "Guru Sirah",
+    "specialty": "Sejarah Islam",
+    "experience": "5 Tahun",
+    "image": "/tenaga-pengajar/ustadzah-3.png",
+    "bio": "Menceritakan kisah-kisah Nabi dan Sahabat dengan gaya penceritaan yang menarik dan penuh pengajaran."
+  }
+]

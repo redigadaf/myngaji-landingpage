@@ -74,8 +74,8 @@ const GlowCard: React.FC<GlowCardProps> = ({ children, className = "", glowColor
       "--hue": "calc(var(--base) + (var(--xp, 0) * var(--spread, 0)))",
       backgroundImage: `radial-gradient(
         var(--spotlight-size) var(--spotlight-size) at
-        calc(var(--x, 0) * 1px)
-        calc(var(--y, 0) * 1px),
+        calc(var(--x, -9999) * 1px)
+        calc(var(--y, -9999) * 1px),
         hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 70) * 1%) / var(--bg-spot-opacity, 0.1)), transparent
       )`,
       backgroundSize: "calc(100% + (2 * var(--border-size))) calc(100% + (2 * var(--border-size)))",
@@ -118,8 +118,8 @@ const GlowCard: React.FC<GlowCardProps> = ({ children, className = "", glowColor
     [data-glow]::before {
       background-image: radial-gradient(
         calc(var(--spotlight-size) * 0.75) calc(var(--spotlight-size) * 0.75) at
-        calc(var(--x, 0) * 1px)
-        calc(var(--y, 0) * 1px),
+        calc(var(--x, -9999) * 1px)
+        calc(var(--y, -9999) * 1px),
         hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 50) * 1%) / var(--border-spot-opacity, 1)), transparent 100%
       );
       filter: brightness(2);
@@ -128,8 +128,8 @@ const GlowCard: React.FC<GlowCardProps> = ({ children, className = "", glowColor
     [data-glow]::after {
       background-image: radial-gradient(
         calc(var(--spotlight-size) * 0.5) calc(var(--spotlight-size) * 0.5) at
-        calc(var(--x, 0) * 1px)
-        calc(var(--y, 0) * 1px),
+        calc(var(--x, -9999) * 1px)
+        calc(var(--y, -9999) * 1px),
         hsl(0 100% 100% / var(--border-light-opacity, 1)), transparent 100%
       );
     }

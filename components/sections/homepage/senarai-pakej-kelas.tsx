@@ -1,48 +1,99 @@
 "use client";
 
 import { motion } from "motion/react";
-import { CircleCheck } from "lucide-react";
-import clsx from "clsx";
+import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
 import ScrollFloat from "@/components/scroll-float";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
 
-interface PlanItem {
+import classesData from "@/components/sections/data/data-pakej-kelas.json";
+
+interface ClassItem {
   title: string;
   description: string;
-  features: string[];
-  cta: string;
-  href: string;
-  featured?: boolean;
+  icon: string;
 }
 
-const plans: PlanItem[] = [
-  {
-    title: "Kelas Al Quran",
-    description: "Sesuai untuk semua peringkat umur (Kanak-kanak & Dewasa).",
-    features: ["Kelas Mengaji Kanak - Kanak", "Kelas Hafazan Al-Quran", "Kelas Mengaji Dewasa"],
-    cta: "Daftar Sekarang",
-    href: "/daftar",
-    featured: true,
+const classes: ClassItem[] = classesData;
+
+const cardVariants = {
+  hidden: {
+    opacity: 0,
+    y: 40,
+    scale: 0.95,
   },
-  {
-    title: "Kelas Fardhu Ain",
-    description: "Pengukuhan ilmu agama dan praktikal ibadah harian.",
-    features: ["Kelas Agama & Fardhu Ain (KAFA)"],
-    cta: "Daftar Sekarang",
-    href: "/daftar",
-  },
-  {
-    title: "Kelas Bahasa Arab",
-    description: "Kuasai Bahasa Arab Al-Quran dan Komunikasi dengan mudah.",
-    features: ["Kelas Bahasa Arab Kanak - Kanak", "Kelas Bahasa Arab Dewasa"],
-    cta: "Daftar Sekarang",
-    href: "/daftar",
-  },
-];
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      delay: i * 0.1,
+      duration: 0.8,
+      ease: [0.2, 0.8, 0.2, 1] as const, // Smooth cubic-bezier
+    },
+  }),
+};
 
 export const SenaraiPakejKelas = () => {
+  // Organize data into columns
+  const column1 = [classes[0], classes[3]]; // Index 0 (Dark), Index 3 (Dark)
+  const column2 = [classes[1], classes[4]]; // Index 1 (Light), Index 4 (Light)
+  const column3 = [classes[2], classes[5]]; // Index 2 (Dark), Index 5 (Light)
+
+  const renderCard = (item: ClassItem, index: number) => {
+    // Determine if the card should be dark based on the original classes array index.
+    // We need to find the original index of the item.
+    const originalIndex = classes.findIndex((c) => c === item);
+    const isDark = originalIndex === 1 || originalIndex === 3 || originalIndex === 5;
+
+    return (
+      <motion.div
+        key={item.title}
+        custom={originalIndex}
+        variants={cardVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        className={`group relative rounded-[2.5rem] p-8 pb-10 flex flex-col items-center text-center transition-all duration-300 overflow-hidden ${
+          isDark ? "bg-primary shadow-xl shadow-primary/20" : "bg-white border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)]"
+        }`}
+      >
+        <div className={`mb-6 ${isDark ? "text-white" : "text-primary"}`}>
+          <div className="relative w-16 h-16">
+            <Image src={item.icon} alt={item.title} fill className={`object-contain ${isDark ? "brightness-0 invert" : ""}`} />
+          </div>
+        </div>
+        <h3 className={`text-xl font-semibold mb-1 ${isDark ? "text-white" : "text-slate-900"}`}>{item.title}</h3>
+
+        {/* Optional Subtitle - keeping simple for now or using description part if needed. 
+            User example had subtitle, but data doesn't. 
+            We'll skip subtitle to "pertahankan isi konten". 
+        */}
+
+        <p className={`text-sm leading-relaxed mb-8 mt-4 ${isDark ? "text-white/80" : "text-slate-500"}`}>{item.description}</p>
+
+        <motion.button
+          whileHover="hover"
+          whileTap="tap"
+          variants={{
+            hover: { scale: 1.1 },
+            tap: { scale: 0.95 },
+          }}
+          className={`mt-auto w-10 h-10 rounded-full flex items-center justify-center transition-colors ${isDark ? "bg-white text-primary hover:bg-slate-100" : "bg-primary text-white hover:bg-primary/90"}`}
+        >
+          <motion.div
+            variants={{
+              hover: { rotate: 45 },
+            }}
+            transition={{ duration: 0.2 }}
+          >
+            <ArrowUpRight className="w-5 h-5" />
+          </motion.div>
+        </motion.button>
+        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+      </motion.div>
+    );
+  };
+
   return (
     <section className="py-20 px-4 md:px-8 bg-white overflow-hidden font-sans">
       <div className="max-w-7xl mx-auto">
@@ -54,62 +105,17 @@ export const SenaraiPakejKelas = () => {
           </ScrollFloat>
         </div>
 
-        <div className="not-prose mt-4 grid grid-cols-1 gap-6 min-[900px]:grid-cols-3">
-          {plans.map((plan, index) => {
-            // Animation logic: Left -> Bottom -> Right
-            const initialConfig = index === 0 ? { opacity: 0, x: -100, y: 0 } : index === 1 ? { opacity: 0, x: 0, y: 100 } : { opacity: 0, x: 100, y: 0 };
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
+          {/* Column 1 */}
+          <div className="flex flex-col gap-6 lg:gap-8">{column1.map((item, i) => renderCard(item, i))}</div>
 
-            return (
-              <motion.div
-                key={plan.title}
-                initial={initialConfig}
-                whileInView={{ opacity: 1, x: 0, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.8, ease: "easeOut", delay: index === 1 ? 0.2 : 0 }}
-                className="h-full"
-              >
-                <PricingCard plan={plan} />
-              </motion.div>
-            );
-          })}
+          {/* Column 2 (Offset Top) */}
+          <div className="flex flex-col gap-6 lg:gap-8 lg:mt-16">{column2.map((item, i) => renderCard(item, i))}</div>
+
+          {/* Column 3 */}
+          <div className="flex flex-col gap-6 lg:gap-8">{column3.map((item, i) => renderCard(item, i))}</div>
         </div>
       </div>
     </section>
   );
 };
-
-function PricingCard({ plan }: { plan: PlanItem }) {
-  return (
-    <div className={clsx("flex flex-col rounded-2xl border bg-white p-6 text-left shadow-sm transition-all hover:shadow-md h-full")}>
-      <div className="text-center">
-        <div className="inline-flex items-center gap-2 mb-4">
-          <Badge className="text-lg px-4 py-1 bg-primary text-white hover:bg-primary/90">{plan.title}</Badge>
-        </div>
-
-        {/* Price placeholder removed as requested */}
-        {/* <h4 className="mb-2 mt-4 text-2xl text-primary">{plan.price}</h4> */}
-
-        {plan.description && <p className="text-sm text-gray-500 min-h-[40px]">{plan.description}</p>}
-      </div>
-
-      <div className="my-6 border-t border-gray-100" />
-
-      <ul className="space-y-4 flex-grow">
-        {plan.features.map((feature) => (
-          <li key={feature} className="flex items-start text-sm text-gray-700">
-            <CircleCheck className="mr-3 h-5 w-5 text-primary flex-shrink-0" aria-hidden />
-            <span>{feature}</span>
-          </li>
-        ))}
-      </ul>
-
-      <div className="mt-8 pt-6">
-        <Link href={plan.href} className="w-full block">
-          <Button size="lg" className="w-full font-bold" variant="default">
-            {plan.cta}
-          </Button>
-        </Link>
-      </div>
-    </div>
-  );
-}

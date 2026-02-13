@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Kelas Mengaji Kanak-Kanak",
+    "description": "Direka khas untuk kanak-kanak, kelas ini dijalankan dengan kaedah yang menyeronokkan dan interaktif. Kanak-kanak belajar membaca Al-Quran dengan asas tajwid yang mudah difahami serta memupuk minat membaca al-Quran sejak kecil.",
+    "icon": "/pakej/icon-1.svg"
+  },
+  {
+    "title": "Kelas Mengaji Dewasa",
+    "description": "Sesuai untuk pelajar dewasa yang ingin memperbaiki bacaan Al-Quran mengikut tajwid yang betul. Kelas ini menumpukan pada kefahaman bacaan, memperbaiki kesalahan, dan membina keyakinan membaca Al-Quran dengan lancar dan bertajwid.",
+    "icon": "/pakej/iconn-5.svg"
+  },
+  {
+    "title": "Bahasa Arab Dewasa",
+    "description": "Kelas ini membantu pelajar dewasa menguasai Bahasa Arab dari asas hingga perbualan harian. Fokus pada kemahiran membaca, menulis, dan bertutur supaya pelajar dapat memahami teks Arab dengan lebih mendalam seterusnya memahami intipati di dalam al-Quran.",
+    "icon": "/pakej/icon-6.svg"
+  },
+  {
+    "title": "Bahasa Arab Kanak-Kanak",
+    "description": "Anak-anak diperkenalkan dengan bahasa Arab melalui aktiviti yang menyeronokkan, lagu pendek, dan permainan. Kelas ini membina asas yang kukuh untuk pembelajaran selanjutnya dalam Al-Quran dan komunikasi harian.",
+    "icon": "/pakej/icon-2.svg"
+  },
+  {
+    "title": "Kelas Agama & Fardhu Ain (KAFA)",
+    "description": "Kelas KAFA menyediakan asas pendidikan Islam untuk kanak-kanak, merangkumi tauhid, ibadah, akhlak, sirah, dan fardu ain. Pelajar belajar dengan kaedah interaktif supaya ilmu agama mudah difahami, diamalkan, dan menjadi sebahagian daripada kehidupan harian mereka. Kelas ini juga menekankan amalan fardu ain seperti solat, wuduk, doa, dan ibadah harian, sesuai untuk semua peringkat umur yang ingin memastikan amalan mereka mengikut syarak.",
+    "icon": "/pakej/icon-4.svg"
+  },
+  {
+    "title": "Hafazan",
+    "description": "Kelas ini fokus kepada teknik menghafal Al-Quran dengan berkesan dan konsisten. Pelajar diajar strategi hafalan, pengulangan, dan tajwid agar dapat menghafal dengan lancar dan tepat.",
+    "icon": "/pakej/icon-3.svg"
+  }
+]
