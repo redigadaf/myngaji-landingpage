@@ -120,9 +120,9 @@ export function Navbar() {
               </Link>
             ))}
 
-            <div className="mt-4">
+            <div className="mt-2 flex justify-start">
               <Link href="#" onClick={() => setOpen(false)}>
-                <ShinyButton className="w-full justify-center rounded-full py-4 text-base">
+                <ShinyButton className="inline-flex items-center justify-center !px-8 !py-4 rounded-full text-base font-extrabold shadow-lg hover:shadow-xl translate-y-0">
                   Daftar Kelas Percubaan
                   <ArrowRight className="w-4 h-4 ml-2 inline-block" />
                 </ShinyButton>

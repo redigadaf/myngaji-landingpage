@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import ScrollFloat from "@/components/scroll-float";
 import { GradualSpacing } from "@/components/ui/gradual-spacing";
 import { UserRoundCheck, Sparkles, NotebookPen, TrendingUp, CalendarClock, UsersRound, MessageCircle, LibraryBig, GraduationCap, Award, Check, Play, Star } from "lucide-react";
@@ -258,6 +259,44 @@ const cardVariants: Variants = {
 };
 
 export function KelebihanSection() {
+  const [isMobile, setIsMobile] = React.useState(false);
+  const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
+  const cardRefs = React.useRef<(HTMLDivElement | null)[]>([]);
+
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  React.useEffect(() => {
+    if (!isMobile) return;
+
+    const observerOptions = {
+      root: null,
+      rootMargin: "-45% 0px -45% 0px", // Trigger when item enters the middle 10% of screen
+      threshold: 0,
+    };
+
+    const observerCallback: IntersectionObserverCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const index = Number(entry.target.getAttribute("data-index"));
+          setActiveIndex(index);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    cardRefs.current.forEach((card) => {
+      if (card) observer.observe(card);
+    });
+
+    return () => observer.disconnect();
+  }, [isMobile]);
+
   return (
     <div className="w-full min-h-svh place-content-center bg-stone-50 py-24 md:py-32">
       <div className="container mx-auto px-6 text-stone-900 xl:px-12">
@@ -265,7 +304,7 @@ export function KelebihanSection() {
           {/* Header Section */}
           <div className="flex flex-col items-center text-center max-w-3xl mx-auto">
             <GradualSpacing className="text-xl md:text-2xl uppercase tracking-wide text-primary font-black mb-4" text="Kelebihan Kami" />
-            <div className="flex flex-wrap justify-center gap-x-3 text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-8 leading-tight">
+            <div className="flex flex-wrap justify-center gap-x-2 text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-8 leading-tight">
               <ScrollFloat animationDuration={1} ease="back.inOut(2)" scrollStart="center bottom+=50%" scrollEnd="bottom bottom-=40%" stagger={0.03} containerClassName="text-primary !my-0">
                 Kenapa Anda Perlu Memilih
               </ScrollFloat>
@@ -283,30 +322,45 @@ export function KelebihanSection() {
             {kelebihanData.map((phase, index) => {
               const Icon = ICON_MAP[phase.iconKey] || Star;
               const Illustration = ILLUSTRATION_MAP[phase.illustrationKey] || null;
+              const isActive = isMobile && activeIndex === index;
 
               return (
-                <motion.div key={phase.id} custom={index} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={cardVariants} className="h-full">
+                <motion.div
+                  key={phase.id}
+                  ref={(el) => {
+                    cardRefs.current[index] = el;
+                  }}
+                  data-index={index} // Added for observer
+                  custom={index}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: "-50px" }}
+                  variants={cardVariants}
+                  className="h-full"
+                >
                   <GlowCard
                     glowColor="myngaji"
                     customSize
-                    className="group !block !w-full !h-full !p-0 !gap-0 overflow-hidden !rounded-3xl border border-stone-200 bg-white shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-primary/20"
+                    className={`group !block !w-full !h-full !p-0 !gap-0 overflow-hidden !rounded-3xl border bg-white shadow-sm transition-all duration-300 ${
+                      isActive ? "shadow-xl -translate-y-1 border-primary/20" : "border-stone-200 hover:shadow-xl hover:-translate-y-1 hover:border-primary/20"
+                    }`}
                   >
                     <div className="flex flex-col h-full justify-between">
                       <div className="p-8 pb-0">
                         <div className="mb-6 flex items-start justify-between">
-                          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-white">
+                          <div className={`flex h-14 w-14 items-center justify-center rounded-2xl transition-colors ${isActive ? "bg-primary text-white" : "bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white"}`}>
                             <Icon strokeWidth={2} className="h-7 w-7" />
                           </div>
                         </div>
 
                         <div className="mb-6">
-                          <h3 className="mb-3 text-xl font-bold text-stone-900 group-hover:text-primary transition-colors">{phase.title}</h3>
+                          <h3 className={`mb-3 text-xl font-bold transition-colors ${isActive ? "text-primary" : "text-stone-900 group-hover:text-primary"}`}>{phase.title}</h3>
                           <p className="text-gray-600 leading-relaxed text-sm">{phase.description}</p>
                         </div>
                       </div>
 
                       {/* Illustration Area */}
-                      <div className="mt-auto w-full aspect-[16/9] bg-stone-50 border-t border-stone-100 relative overflow-hidden group-hover:bg-primary/5 transition-colors">
+                      <div className={`mt-auto w-full aspect-[16/9] border-t border-stone-100 relative overflow-hidden transition-colors ${isActive ? "bg-primary/5" : "bg-stone-50 group-hover:bg-primary/5"}`}>
                         {Illustration}
 
                         {/* Gradient Overlay for seamless integration */}

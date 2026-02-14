@@ -1,5 +1,4 @@
-"use client";
-
+import React, { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
@@ -34,62 +33,114 @@ const cardVariants = {
 };
 
 export const SenaraiPakejKelas = () => {
-  // Organize data into columns
+  const [isMobile, setIsMobile] = useState(false);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  // Organise data into columns
   const column1 = [classes[0], classes[3]]; // Index 0 (Dark), Index 3 (Dark)
   const column2 = [classes[1], classes[4]]; // Index 1 (Light), Index 4 (Light)
   const column3 = [classes[2], classes[5]]; // Index 2 (Dark), Index 5 (Light)
 
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (!isMobile) return;
+
+    const observerOptions = {
+      root: null,
+      rootMargin: "-45% 0px -45% 0px", // Trigger when item enters the middle 10% of screen
+      threshold: 0,
+    };
+
+    const observerCallback: IntersectionObserverCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const index = Number(entry.target.getAttribute("data-index"));
+          setActiveIndex(index);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    cardRefs.current.forEach((card) => {
+      if (card) observer.observe(card);
+    });
+
+    return () => observer.disconnect();
+  }, [isMobile]);
+
   const renderCard = (item: ClassItem, index: number) => {
     // Determine if the card should be dark based on the original classes array index.
-    // We need to find the original index of the item.
     const originalIndex = classes.findIndex((c) => c === item);
     const isDark = originalIndex === 1 || originalIndex === 3 || originalIndex === 5;
+    const isActive = isMobile && activeIndex === originalIndex;
 
     return (
-      <motion.div
-        key={item.title}
-        custom={originalIndex}
-        variants={cardVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-50px" }}
-        className={`group relative rounded-[2.5rem] p-8 pb-10 flex flex-col items-center text-center overflow-hidden transition-shadow duration-300 ${
-          isDark ? "bg-primary shadow-xl shadow-primary/20" : "bg-white border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)]"
-        }`}
-      >
-        <div className={`mb-6 ${isDark ? "text-white" : "text-primary"}`}>
-          <div className="relative w-16 h-16">
-            <Image src={item.icon} alt={item.title} fill className={`object-contain ${isDark ? "brightness-0 invert" : ""}`} />
-          </div>
-        </div>
-        <h3 className={`text-xl font-semibold mb-1 ${isDark ? "text-white" : "text-slate-900"}`}>{item.title}</h3>
-
-        {/* Optional Subtitle - keeping simple for now or using description part if needed. 
-            User example had subtitle, but data doesn't. 
-            We'll skip subtitle to "pertahankan isi konten". 
-        */}
-
-        <p className={`text-sm leading-relaxed mb-8 mt-4 ${isDark ? "text-white/80" : "text-slate-500"}`}>{item.description}</p>
-
-        <motion.button
-          whileHover="hover"
-          whileTap="tap"
-          variants={{
-            hover: { scale: 1.1 },
-            tap: { scale: 0.95 },
+      <motion.div key={item.title} custom={originalIndex} variants={cardVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}>
+        <div
+          ref={(el) => {
+            cardRefs.current[originalIndex] = el;
           }}
-          className={`mt-auto w-10 h-10 rounded-full flex items-center justify-center transition-colors ${isDark ? "bg-white text-primary hover:bg-slate-100" : "bg-primary text-white hover:bg-primary/90"}`}
+          data-index={originalIndex}
+          className={`group relative h-full rounded-[2.5rem] p-8 pb-10 flex flex-col items-center text-center overflow-hidden transition-all duration-500 ease-out ${
+            isDark
+              ? isActive
+                ? "bg-primary shadow-2xl shadow-primary/40 scale-[1.03]"
+                : "bg-primary shadow-xl shadow-primary/20"
+              : isActive
+                ? "bg-white border-primary/50 shadow-[0_20px_40px_rgb(0,0,0,0.12)] scale-[1.03]"
+                : "bg-white border-slate-100 border shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:-translate-y-1"
+          }`}
         >
-          <motion.div
+          <div className={`mb-6 transition-colors duration-300 ${isDark ? "text-white" : isActive ? "text-primary" : "text-primary"}`}>
+            <div className="relative w-16 h-16">
+              <Image src={item.icon} alt={item.title} fill className={`object-contain ${isDark ? "brightness-0 invert" : ""}`} />
+            </div>
+          </div>
+          <h3 className={`text-xl font-semibold mb-1 transition-colors duration-300 ${isDark ? "text-white" : isActive ? "text-primary" : "text-slate-900"}`}>{item.title}</h3>
+
+          <p className={`text-sm leading-relaxed mb-8 mt-4 transition-colors duration-300 ${isDark ? "text-white/80" : isActive ? "text-slate-600" : "text-slate-500"}`}>{item.description}</p>
+
+          <motion.button
+            whileHover="hover"
+            whileTap="tap"
+            animate={isActive ? "hover" : "rest"}
             variants={{
-              hover: { rotate: 45 },
+              rest: { scale: 1 },
+              hover: { scale: 1.1 },
+              tap: { scale: 0.95 },
             }}
-            transition={{ duration: 0.2 }}
+            className={`mt-auto w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-300 ${
+              isDark
+                ? isActive
+                  ? "bg-slate-100 text-primary" // Active Dark Card Button
+                  : "bg-white text-primary hover:bg-slate-100"
+                : isActive
+                  ? "bg-primary text-white" // Active Light Card Button
+                  : "bg-primary text-white hover:bg-primary/90"
+            }`}
           >
-            <ArrowUpRight className="w-5 h-5" />
-          </motion.div>
-        </motion.button>
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+            <motion.div
+              animate={isActive ? { rotate: 45 } : { rotate: 0 }}
+              variants={{
+                hover: { rotate: 45 },
+              }}
+              transition={{ duration: 0.2 }}
+            >
+              <ArrowUpRight className="w-5 h-5" />
+            </motion.div>
+          </motion.button>
+          <div
+            className={`absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-primary transform transition-transform duration-500 origin-left ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+          />
+        </div>
       </motion.div>
     );
   };

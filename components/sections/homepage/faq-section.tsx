@@ -176,7 +176,7 @@ export function FAQSection() {
       </div>
 
       {/* Layout */}
-      <div className="relative mx-auto max-w-5xl px-6 py-16">
+      <div className="relative mx-auto max-w-5xl px-6 py-24">
         {/* Header */}
         <motion.header
           initial={{ opacity: 0, y: 40 }}

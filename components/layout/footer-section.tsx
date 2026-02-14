@@ -7,7 +7,7 @@ export function FooterSection() {
       <div className="container mx-auto max-w-6xl px-6">
         <div className="flex flex-col md:flex-row justify-between items-end gap-10">
           {/* Contact Info */}
-          <div className="space-y-4">
+          <div className="space-y-4 mr-auto">
             <h4 className="text-xl font-extrabold text-secondary mb-6">Media Sosial</h4>
             <div className="flex items-center gap-3 text-teal-100 hover:text-white transition-colors">
               <Phone className="w-5 h-5" />

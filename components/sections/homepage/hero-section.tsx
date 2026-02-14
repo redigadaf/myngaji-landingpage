@@ -72,46 +72,41 @@ export function HeroSection() {
         {/* Right Image */}
         <div className="relative flex justify-center items-center z-10">
           <div className="relative w-full max-w-[500px] aspect-square">
-            {/* Blob Background
-            <div className="absolute inset-0 z-0 transform translate-y-4">
-              <Image src="/assets/blob.svg" alt="Blob Background" fill className="object-contain scale-[1.8]" priority />
-            </div> */}
-
             {/* Floating Card 1: Bacaan Al Quran */}
-            <div className="absolute bottom-12 left-0 sm:left-[-20px] lg:-left-8 xl:-left-16 z-20 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-xl flex items-center gap-4 animate-in fade-in slide-in-from-bottom-8 duration-1000 border border-emerald-100/50 hover:scale-105 transition-transform">
-              <div className="bg-emerald-100/80 p-3 rounded-xl text-emerald-600 shadow-sm">
-                <FaQuran className="w-6 h-6" />
+            <div className="absolute -bottom-4 left-0 sm:-bottom-4 sm:left-[-20px] lg:-left-8 xl:-left-16 z-20 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl shadow-xl flex items-center gap-3 sm:gap-4 animate-in fade-in slide-in-from-bottom-8 duration-1000 border border-emerald-100/50 hover:scale-105 transition-transform">
+              <div className="bg-emerald-100/80 p-2 sm:p-3 rounded-xl text-emerald-600 shadow-sm">
+                <FaQuran className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
               <div>
-                <p className="text-sm font-bold text-slate-800">Bacaan Al-Quran</p>
+                <p className="text-xs sm:text-sm font-bold text-slate-800">Bacaan Al-Quran</p>
                 <p className="text-[10px] font-medium text-slate-500">Tajwid & Fasohah</p>
               </div>
             </div>
 
             {/* Floating Card 2: Bahasa Arab */}
-            <div className="absolute top-1/2 right-0 sm:right-[-20px] lg:-right-4 xl:-right-12 -translate-y-1/2 z-20 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-xl flex items-center gap-4 animate-in fade-in zoom-in duration-1000 delay-200 border border-amber-100/50 hover:scale-105 transition-transform">
-              <div className="bg-amber-100/80 p-3 rounded-xl text-amber-600 shadow-sm">
-                <RiUserVoiceFill className="w-6 h-6" />
+            <div className="absolute top-1/2 right-0 sm:right-[-20px] lg:-right-4 xl:-right-12 -translate-y-1/2 z-20 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl shadow-xl flex items-center gap-3 sm:gap-4 animate-in fade-in zoom-in duration-1000 delay-200 border border-amber-100/50 hover:scale-105 transition-transform">
+              <div className="bg-amber-100/80 p-2 sm:p-3 rounded-xl text-amber-600 shadow-sm">
+                <RiUserVoiceFill className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
               <div>
-                <p className="text-sm font-bold text-slate-800">Bahasa Arab</p>
+                <p className="text-xs sm:text-sm font-bold text-slate-800">Bahasa Arab</p>
                 <p className="text-[10px] font-medium text-slate-500">Komunikasi & Nahu</p>
               </div>
             </div>
 
             {/* Floating Card 3: Fardu Ain */}
-            <div className="absolute top-16 left-0 sm:left-[-20px] lg:left-4 xl:-left-4 z-20 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-xl flex items-center gap-4 animate-in fade-in slide-in-from-left-8 duration-1000 delay-300 border border-blue-100/50 hover:scale-105 transition-transform">
-              <div className="bg-blue-100/80 p-3 rounded-xl text-blue-600 shadow-sm">
-                <FaPrayingHands className="w-6 h-6" />
+            <div className="absolute top-0 sm:top-16 left-0 sm:left-[-20px] lg:left-4 xl:-left-4 z-20 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl shadow-xl flex items-center gap-3 sm:gap-4 animate-in fade-in slide-in-from-left-8 duration-1000 delay-300 border border-blue-100/50 hover:scale-105 transition-transform">
+              <div className="bg-blue-100/80 p-2 sm:p-3 rounded-xl text-blue-600 shadow-sm">
+                <FaPrayingHands className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
               <div>
-                <p className="text-sm font-bold text-slate-800">Fardu Ain</p>
+                <p className="text-xs sm:text-sm font-bold text-slate-800">Fardu Ain</p>
                 <p className="text-[10px] font-medium text-slate-500">Amali & Teori</p>
               </div>
             </div>
 
             {/* Main Person Image */}
-            <div className="relative z-10 w-full h-full p-12 md:p-20">
+            <div className="relative z-10 w-full h-full p-16 sm:p-12 md:p-20">
               <Image src="/assets/1.webp" alt="Hero Student" fill className="object-contain" priority />
             </div>
           </div>
