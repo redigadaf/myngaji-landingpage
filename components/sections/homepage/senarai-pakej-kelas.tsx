@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import ScrollFloat from "@/components/scroll-float";
@@ -52,8 +52,8 @@ export const SenaraiPakejKelas = () => {
         variants={cardVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-        className={`group relative rounded-[2.5rem] p-8 pb-10 flex flex-col items-center text-center transition-all duration-300 overflow-hidden ${
+        viewport={{ once: true, margin: "-50px" }}
+        className={`group relative rounded-[2.5rem] p-8 pb-10 flex flex-col items-center text-center overflow-hidden transition-shadow duration-300 ${
           isDark ? "bg-primary shadow-xl shadow-primary/20" : "bg-white border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)]"
         }`}
       >

@@ -17,21 +17,21 @@ export function Navbar() {
   const pathname = usePathname();
 
   const navLinks = [
-    { name: "Tentang", href: "#" },
+    { name: "Tentang", href: "/tentang" },
     { name: "Tenaga Pengajar", href: "/tenaga-pengajar" },
     {
       name: "Kelas",
       href: "#",
       submenu: [
-        { name: "Kelas Alquran", href: "#" },
-        { name: "Kelas Fardhu Ain", href: "#" },
-        { name: "Kelas Bahasa Arab", href: "#" },
+        { name: "Kelas Alquran", href: "/kelas/kelas-alquran" },
+        { name: "Kelas Fardhu Ain", href: "/kelas/kelas-fardhu-ain" },
+        { name: "Kelas Bahasa Arab", href: "/kelas/kelas-bahasa-arab" },
       ],
     },
-    { name: "Hubungi", href: "#" },
-    { name: "Lokasi", href: "#" },
-    { name: "Waktu Sholat", href: "#" },
-    { name: "Testimoni", href: "#" },
+    { name: "Hubungi", href: "/hubungi" },
+    { name: "Lokasi", href: "/lokasi" },
+    { name: "Waktu Sholat", href: "/waktu-sholat" },
+    { name: "Testimoni", href: "/testimoni" },
     { name: "Blog", href: "/blog" },
   ];
 
@@ -51,7 +51,7 @@ export function Navbar() {
     <header
       className={cn("fixed top-0 left-0 right-0 z-50 mx-auto w-full border-b border-transparent transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]", {
         "bg-[#082b2f]/80 backdrop-blur-md shadow-sm dark:bg-black/50 border-white/30 dark:border-gray-800 md:top-4 md:max-w-7xl md:rounded-full md:border": scrolled && !open,
-        "bg-white dark:bg-black h-full": open,
+        "bg-primary dark:bg-black h-full": open,
         "bg-transparent": !scrolled && !open,
       })}
     >
@@ -105,7 +105,7 @@ export function Navbar() {
         </div>
 
         {/* Mobile Menu Button */}
-        <button className="md:hidden p-2 text-slate-800" onClick={() => setOpen(!open)} aria-label="Toggle menu">
+        <button className="md:hidden p-2 text-white" onClick={() => setOpen(!open)} aria-label="Toggle menu">
           <MenuToggleIcon open={open} className="w-6 h-6" />
         </button>
       </nav>

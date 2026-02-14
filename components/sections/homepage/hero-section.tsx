@@ -112,7 +112,7 @@ export function HeroSection() {
 
             {/* Main Person Image */}
             <div className="relative z-10 w-full h-full p-12 md:p-20">
-              <Image src="/assets/1.png" alt="Hero Student" fill className="object-contain" priority />
+              <Image src="/assets/1.webp" alt="Hero Student" fill className="object-contain" priority />
             </div>
           </div>
         </div>

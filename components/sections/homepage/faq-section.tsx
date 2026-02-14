@@ -183,10 +183,10 @@ export function FAQSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
           viewport={{ once: true }}
-          className="mb-10 flex flex-col md:flex-row items-end justify-between border-b border-stone-200 pb-6 gap-4"
+          className="mb-10 flex flex-col md:flex-row items-center md:items-end justify-between border-b border-stone-200 pb-6 gap-4"
         >
-          <div>
-            <h1 className="text-4xl md:text-6xl font-black tracking-tight text-primary">FAQ</h1>
+          <div className="text-center md:text-left">
+            <h1 className="text-5xl md:text-6xl font-black tracking-tight text-primary">FAQ</h1>
             <p className="mt-2 text-sm md:text-base text-stone-500">Soalan Lazim berkaitan Myngaji.</p>
           </div>
           <div className="flex items-center gap-3 w-full md:w-auto">
@@ -238,9 +238,6 @@ export function FAQSection() {
           </motion.div>
           {filtered.length === 0 && <p className="text-center text-stone-400 py-10">Tiada soalan ditemui.</p>}
         </section>
-
-        {/* Footer */}
-        <footer className="mt-16 border-t border-stone-200 pt-6 text-xs text-stone-400 text-center">© {new Date().getFullYear()} Myngaji — Kelas Mengaji Online.</footer>
       </div>
 
       {/* Control Panel (Hidden by default, open with 'h') */}
