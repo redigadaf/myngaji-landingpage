@@ -7,7 +7,7 @@ import ScrollFloat from "@/components/scroll-float";
 import { GradualSpacing } from "@/components/ui/gradual-spacing";
 import { cn } from "@/lib/utils";
 
-const galleryImages = ["/assets/gallery/poster1.png", "/assets/gallery/poster7.png", "/assets/gallery/poster3.png", "/assets/gallery/poster4.png", "/assets/gallery/poster5.png", "/assets/gallery/poster6.png"];
+const galleryImages = ["/assets/gallery/poster1.webp", "/assets/gallery/poster7.webp", "/assets/gallery/poster3.webp", "/assets/gallery/poster4.webp", "/assets/gallery/poster5.webp", "/assets/gallery/poster6.webp"];
 
 export function GaleriSection() {
   return (
