@@ -1,0 +1,94 @@
+<svg
+  width="180"
+  height="180"
+  viewBox="0 0 180 180"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <!-- Back page -->
+  <g transform="translate(48 30) rotate(6)">
+    <rect
+      x="0"
+      y="0"
+      width="96"
+      height="120"
+      rx="8"
+      fill="#ffffff"
+      stroke="#d6d3d1"
+    />
+  </g>
+
+  <!-- Middle page -->
+  <g transform="translate(40 30) rotate(3)">
+    <rect
+      x="0"
+      y="0"
+      width="96"
+      height="120"
+      rx="8"
+      fill="#ffffff"
+      stroke="#d6d3d1"
+    />
+  </g>
+
+  <!-- Front page -->
+  <g transform="translate(32 30)">
+    <rect
+      x="0"
+      y="0"
+      width="96"
+      height="120"
+      rx="8"
+      fill="#ffffff"
+      stroke="#d6d3d1"
+    />
+
+    <!-- Title -->
+    <rect
+      x="12"
+      y="12"
+      width="48"
+      height="8"
+      rx="4"
+      fill="#17838F"
+      opacity="0.25"
+    />
+
+    <!-- Lines -->
+    <rect x="12" y="28" width="72" height="6" rx="3" fill="#e7e5e4" />
+    <rect x="12" y="40" width="72" height="6" rx="3" fill="#e7e5e4" />
+    <rect x="12" y="52" width="48" height="6" rx="3" fill="#e7e5e4" />
+
+    <!-- Bottom buttons -->
+    <rect
+      x="12"
+      y="84"
+      width="32"
+      height="32"
+      rx="6"
+      fill="#fafafa"
+      stroke="#d6d3d1"
+    />
+
+    <rect
+      x="52"
+      y="84"
+      width="32"
+      height="32"
+      rx="6"
+      fill="#17838F"
+      opacity="0.15"
+      stroke="#17838F"
+      stroke-opacity="0.3"
+    />
+
+    <!-- Check icon -->
+    <path
+      d="M60 100l6 6 10-12"
+      fill="none"
+      stroke="#17838F"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </g>
+</svg>

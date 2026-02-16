@@ -1,0 +1,88 @@
+<svg
+  width="200"
+  height="220"
+  viewBox="0 0 200 220"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <!-- ===== Card ===== -->
+  <rect
+    x="24"
+    y="12"
+    width="128"
+    height="176"
+    rx="16"
+    fill="#ffffff"
+    stroke="#d6d3d1"
+  />
+
+  <!-- ===== Avatar ===== -->
+  <circle
+    cx="88"
+    cy="52"
+    r="32"
+    fill="#e7e5e4"
+    stroke="#ffffff"
+    stroke-width="3"
+  />
+
+  <!-- User icon -->
+  <circle cx="88" cy="46" r="8" fill="#a8a29e" />
+  <path
+    d="M72 68c0-8 32-8 32 0"
+    fill="#a8a29e"
+  />
+
+  <!-- ===== Name ===== -->
+  <rect x="56" y="96" width="64" height="8" rx="4" fill="#57534e" />
+
+  <!-- ===== Subtitle ===== -->
+  <rect x="68" y="110" width="40" height="6" rx="3" fill="#a8a29e" />
+
+  <!-- ===== Rating bar ===== -->
+  <rect
+    x="24"
+    y="156"
+    width="128"
+    height="32"
+    fill="#17838F"
+    opacity="0.1"
+  />
+
+  <!-- Stars -->
+  <g fill="#facc15" transform="translate(52 166)">
+    <polygon points="4,0 5.5,3 9,3.5 6.5,6 7.2,9.5 4,7.8 0.8,9.5 1.5,6 0,3.5 3.5,3" />
+  </g>
+  <g fill="#facc15" transform="translate(68 166)">
+    <polygon points="4,0 5.5,3 9,3.5 6.5,6 7.2,9.5 4,7.8 0.8,9.5 1.5,6 0,3.5 3.5,3" />
+  </g>
+  <g fill="#facc15" transform="translate(84 166)">
+    <polygon points="4,0 5.5,3 9,3.5 6.5,6 7.2,9.5 4,7.8 0.8,9.5 1.5,6 0,3.5 3.5,3" />
+  </g>
+  <g fill="#facc15" transform="translate(100 166)">
+    <polygon points="4,0 5.5,3 9,3.5 6.5,6 7.2,9.5 4,7.8 0.8,9.5 1.5,6 0,3.5 3.5,3" />
+  </g>
+  <g fill="#facc15" transform="translate(116 166)">
+    <polygon points="4,0 5.5,3 9,3.5 6.5,6 7.2,9.5 4,7.8 0.8,9.5 1.5,6 0,3.5 3.5,3" />
+  </g>
+
+  <!-- ===== Certified Badge ===== -->
+  <rect
+    x="140"
+    y="28"
+    width="60"
+    height="20"
+    rx="6"
+    fill="#17838F"
+  />
+  <text
+    x="170"
+    y="42"
+    text-anchor="middle"
+    font-size="10"
+    font-weight="700"
+    fill="#ffffff"
+    font-family="Arial, sans-serif"
+  >
+    CERTIFIED
+  </text>
+</svg>

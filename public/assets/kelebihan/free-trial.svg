@@ -1,0 +1,111 @@
+<svg
+  width="192"
+  height="160"
+  viewBox="0 0 192 160"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <!-- Card -->
+  <rect
+    x="1"
+    y="1"
+    width="190"
+    height="158"
+    rx="12"
+    fill="#ffffff"
+    stroke="#d6d3d1"
+  />
+
+  <!-- Header left placeholder -->
+  <rect
+    x="16"
+    y="16"
+    width="48"
+    height="8"
+    rx="4"
+    fill="#d6d3d1"
+  />
+
+  <!-- FREE badge -->
+  <rect
+    x="120"
+    y="12"
+    width="48"
+    height="16"
+    rx="8"
+    fill="#17838F"
+    opacity="0.15"
+  />
+  <text
+    x="144"
+    y="24"
+    text-anchor="middle"
+    font-size="10"
+    font-weight="700"
+    fill="#17838F"
+    font-family="Arial, sans-serif"
+  >
+    FREE
+  </text>
+
+  <!-- Active item -->
+  <rect
+    x="12"
+    y="40"
+    width="168"
+    height="28"
+    rx="8"
+    fill="#17838F"
+    opacity="0.1"
+    stroke="#17838F"
+    stroke-opacity="0.25"
+  />
+  <circle cx="26" cy="54" r="6" fill="#17838F" />
+  <rect
+    x="40"
+    y="50"
+    width="80"
+    height="6"
+    rx="3"
+    fill="#d6d3d1"
+  />
+
+  <!-- Inactive item 1 -->
+  <rect
+    x="12"
+    y="76"
+    width="168"
+    height="28"
+    rx="8"
+    fill="#fafafa"
+    opacity="1"
+  />
+  <circle cx="26" cy="90" r="6" fill="#e7e5e4" />
+  <rect
+    x="40"
+    y="86"
+    width="80"
+    height="6"
+    rx="3"
+    fill="#e7e5e4"
+  />
+
+  <!-- Inactive item 2 -->
+  <rect
+    x="12"
+    y="112"
+    width="168"
+    height="28"
+    rx="8"
+    fill="#fafafa"
+    opacity="1"
+  />
+  <circle cx="26" cy="126" r="6" fill="#e7e5e4" />
+  <rect
+    x="40"
+    y="122"
+    width="80"
+    height="6"
+    rx="3"
+    fill="#e7e5e4"
+  />
+</svg>

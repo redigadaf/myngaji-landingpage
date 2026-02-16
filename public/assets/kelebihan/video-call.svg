@@ -1,0 +1,39 @@
+<svg
+  width="200"
+  height="112"
+  viewBox="0 0 200 112"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <!-- Card -->
+  <rect
+    x="1"
+    y="1"
+    width="198"
+    height="110"
+    rx="12"
+    fill="#ffffff"
+    stroke="#d6d3d1"
+  />
+
+  <!-- Avatar -->
+  <circle cx="60" cy="48" r="20" fill="#17838F" opacity="0.25" />
+  
+  <!-- User icon -->
+  <circle cx="60" cy="44" r="6" fill="#17838F" />
+  <path
+    d="M50 60c0-6 20-6 20 0"
+    fill="#17838F"
+  />
+
+  <!-- Online status -->
+  <circle cx="72" cy="60" r="6" fill="#22c55e" stroke="#ffffff" stroke-width="2" />
+
+  <!-- Text placeholders -->
+  <rect x="90" y="40" width="60" height="8" rx="4" fill="#d6d3d1" />
+  <rect x="90" y="54" width="40" height="8" rx="4" fill="#d6d3d1" />
+
+  <!-- Bottom controls -->
+  <rect x="70" y="84" width="24" height="12" rx="3" fill="#d6d3d1" opacity="0.5" />
+  <rect x="98" y="84" width="24" height="12" rx="3" fill="#17838F" opacity="0.25" />
+  <rect x="126" y="84" width="24" height="12" rx="3" fill="#d6d3d1" opacity="0.5" />
+</svg>
