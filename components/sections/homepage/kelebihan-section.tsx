@@ -171,7 +171,7 @@ export function KelebihanSection() {
                   whileInView="visible"
                   viewport={{ once: true, margin: "-50px" }}
                   variants={cardVariants}
-                  className="h-full"
+                  className={`h-full ${index === kelebihanData.length - 1 ? "lg:col-start-2" : ""}`}
                 >
                   <GlowCard
                     glowColor="myngaji"

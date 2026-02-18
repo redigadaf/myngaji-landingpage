@@ -2,17 +2,12 @@ import React, { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
 import ScrollFloat from "@/components/scroll-float";
 
-import classesData from "@/components/sections/data/data-pakej-kelas.json";
+import { classesData, type PakejKelas } from "@/components/sections/data/data-pakej-kelas";
 
-interface ClassItem {
-  title: string;
-  description: string;
-  icon: string;
-}
-
-const classes: ClassItem[] = classesData;
+const classes: PakejKelas[] = classesData;
 
 const cardVariants = {
   hidden: {
@@ -76,14 +71,14 @@ export const SenaraiPakejKelas = () => {
     return () => observer.disconnect();
   }, [isMobile]);
 
-  const renderCard = (item: ClassItem, index: number) => {
+  const renderCard = (item: PakejKelas, index: number) => {
     // Determine if the card should be dark based on the original classes array index.
     const originalIndex = classes.findIndex((c) => c === item);
     const isDark = originalIndex === 1 || originalIndex === 3 || originalIndex === 5;
     const isActive = isMobile && activeIndex === originalIndex;
 
     return (
-      <motion.div key={item.title} custom={originalIndex} variants={cardVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}>
+      <motion.div key={item.slug} custom={originalIndex} variants={cardVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}>
         <div
           ref={(el) => {
             cardRefs.current[originalIndex] = el;
@@ -101,42 +96,44 @@ export const SenaraiPakejKelas = () => {
         >
           <div className={`mb-6 transition-colors duration-300 ${isDark ? "text-white" : isActive ? "text-primary" : "text-primary"}`}>
             <div className="relative w-16 h-16">
-              <Image src={item.icon} alt={item.title} fill className={`object-contain ${isDark ? "brightness-0 invert" : ""}`} />
+              <Image src={item.icon} alt={item.nama} fill className={`object-contain ${isDark ? "brightness-0 invert" : ""}`} />
             </div>
           </div>
-          <h3 className={`text-xl font-semibold mb-1 transition-colors duration-300 ${isDark ? "text-white" : isActive ? "text-primary" : "text-slate-900"}`}>{item.title}</h3>
+          <h3 className={`text-xl font-semibold mb-1 transition-colors duration-300 ${isDark ? "text-white" : isActive ? "text-primary" : "text-slate-900"}`}>{item.nama}</h3>
 
-          <p className={`text-sm leading-relaxed mb-8 mt-4 transition-colors duration-300 ${isDark ? "text-white/80" : isActive ? "text-slate-600" : "text-slate-500"}`}>{item.description}</p>
+          <p className={`text-sm leading-relaxed mb-8 mt-4 transition-colors duration-300 ${isDark ? "text-white/80" : isActive ? "text-slate-600" : "text-slate-500"}`}>{item.deskripsi[0]}</p>
 
-          <motion.button
-            whileHover="hover"
-            whileTap="tap"
-            animate={isActive ? "hover" : "rest"}
-            variants={{
-              rest: { scale: 1 },
-              hover: { scale: 1.1 },
-              tap: { scale: 0.95 },
-            }}
-            className={`mt-auto w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-300 ${
-              isDark
-                ? isActive
-                  ? "bg-slate-100 text-primary" // Active Dark Card Button
-                  : "bg-white text-primary hover:bg-slate-100"
-                : isActive
-                  ? "bg-primary text-white" // Active Light Card Button
-                  : "bg-primary text-white hover:bg-primary/90"
-            }`}
-          >
-            <motion.div
-              animate={isActive ? { rotate: 45 } : { rotate: 0 }}
+          <Link href={`/pakej-kelas/${item.slug}`} className="mt-auto">
+            <motion.button
+              whileHover="hover"
+              whileTap="tap"
+              animate={isActive ? "hover" : "rest"}
               variants={{
-                hover: { rotate: 45 },
+                rest: { scale: 1 },
+                hover: { scale: 1.1 },
+                tap: { scale: 0.95 },
               }}
-              transition={{ duration: 0.2 }}
+              className={`w-14 h-14 md:w-10 md:h-10 rounded-full flex items-center justify-center transition-colors duration-300 ${
+                isDark
+                  ? isActive
+                    ? "bg-slate-100 text-primary" // Active Dark Card Button
+                    : "bg-white text-primary hover:bg-slate-100"
+                  : isActive
+                    ? "bg-primary text-white" // Active Light Card Button
+                    : "bg-primary text-white hover:bg-primary/90"
+              }`}
             >
-              <ArrowUpRight className="w-5 h-5" />
-            </motion.div>
-          </motion.button>
+              <motion.div
+                animate={isActive ? { rotate: 45 } : { rotate: 0 }}
+                variants={{
+                  hover: { rotate: 45 },
+                }}
+                transition={{ duration: 0.2 }}
+              >
+                <ArrowUpRight className="w-6 h-6 md:w-5 md:h-5" />
+              </motion.div>
+            </motion.button>
+          </Link>
           <div
             className={`absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-primary transform transition-transform duration-500 origin-left ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
           />
