@@ -7,7 +7,17 @@ import ScrollFloat from "@/components/scroll-float";
 import { GradualSpacing } from "@/components/ui/gradual-spacing";
 import { cn } from "@/lib/utils";
 
-const galleryImages = ["/assets/gallery/poster1.webp", "/assets/gallery/poster7.webp", "/assets/gallery/poster3.webp", "/assets/gallery/poster4.webp", "/assets/gallery/poster5.webp", "/assets/gallery/poster6.webp"];
+const galleryItems = [
+  { src: "/assets/gallery/1.webp", title: "Kelas Al-Quran Dewasa", category: "Bimbingan Personal" },
+  { src: "/assets/gallery/2.webp", title: "Sesi Talaqqi", category: "Semakan Bacaan", className: "object-left" },
+  { src: "/assets/gallery/3.webp", title: "Kelas Kanak-kanak", category: "Asas Al-Quran" },
+  { src: "/assets/gallery/4.webp", title: "Program Tahsin", category: "Pemantapan Tajwid" },
+  { src: "/assets/gallery/5.webp", title: "Aktiviti Berkumpulan", category: "Program Khas" },
+  { src: "/assets/gallery/6.webp", title: "Seminar Al-Quran", category: "Perkongsian Ilmu" },
+  { src: "/assets/gallery/7.webp", title: "Kelas Fardu Ain", category: "Ilmu Asas", className: "object-right" },
+  { src: "/assets/gallery/8.webp", title: "Majlis Khatam", category: "Meraikan Kejayaan" },
+  { src: "/assets/gallery/9.webp", title: "Komuniti Ngaji", category: "Ukhwah & Ilmu" },
+];
 
 export function GaleriSection() {
   return (
@@ -37,22 +47,29 @@ export function GaleriSection() {
           </motion.p>
         </div>
 
-        {/* Masonry-style Grid */}
-        <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-          {galleryImages.map((src, index) => (
+        {/* Bento Grid Gallery */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 p-4 mx-auto max-w-7xl">
+          {galleryItems.map((item, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="break-inside-avoid group relative rounded-3xl overflow-hidden cursor-pointer"
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: index * 0.05 }}
+              className={cn(
+                "group relative overflow-hidden rounded-3xl cursor-pointer bg-gray-100",
+                // Spanning logic
+                index === 0 || index === 5 || index === 8 ? "col-span-2 md:col-span-2 aspect-[16/9] md:aspect-[2/1]" : "col-span-1 md:col-span-1 aspect-square",
+              )}
             >
-              <div className="relative aspect-[3/4] w-full">
-                <Image src={src} alt={`Aktiviti MyNgaji ${index + 1}`} fill className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-110" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
+              <Image src={item.src} alt={item.title} fill className={cn("object-cover transition-transform duration-700 ease-in-out group-hover:scale-105", item.className)} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
 
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+              {/* Glass Effect Overlay - visible on hover */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-60 transition-opacity duration-300" />
+
+              <div className="absolute bottom-0 left-0 right-0 bg-white/10 backdrop-blur-md border-t border-white/20 p-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                <h3 className="text-white font-bold text-xl leading-tight mb-2 drop-shadow-md">{item.title}</h3>
+                <p className="text-white/90 text-sm font-medium tracking-wide uppercase">{item.category}</p>
               </div>
             </motion.div>
           ))}

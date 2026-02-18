@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+// Force reload
 
 const config: Config = {
   darkMode: ["class"],

@@ -8,7 +8,7 @@ import ModernBackgroundPaths from "@/components/modern-background-paths";
 import TestimonialsSection from "@/components/sections/homepage/testimonial-v2";
 import { FooterSection } from "@/components/layout/footer-section";
 import { KelebihanSection } from "@/components/sections/homepage/kelebihan-section";
-import { ContentSocialMedia } from "@/components/sections/homepage/content-socialmedia";
+import { ContentSocialMedia } from "@/components/sections/homepage/content-socialmedia-section";
 import { GaleriSection } from "@/components/sections/homepage/galeri-section";
 
 export default function Home() {
