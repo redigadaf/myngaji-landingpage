@@ -50,25 +50,22 @@ export function FeaturesSection() {
           {features.map((feature, index) => {
             const isActive = activeFeature === index;
             return (
-              <motion.div
-                key={feature.id}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                onClick={() => setActiveFeature(index)}
-                className={cn(
-                  "group cursor-pointer rounded-2xl border p-6 transition-all duration-300",
-                  isActive ? "bg-white dark:bg-zinc-900 border-primary/20 shadow-lg scale-[1.02]" : "bg-transparent border-stone-200 dark:border-zinc-800 hover:bg-white/50 dark:hover:bg-zinc-900/50",
-                )}
-              >
-                <div className="flex gap-6 items-start">
-                  <div className={cn("p-3 rounded-xl transition-colors duration-300", isActive ? "bg-primary" : "bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary")}>
-                    <feature.icon className={cn("w-6 h-6", isActive ? "text-white" : "text-currentColor")} />
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className={cn("text-xl font-bold transition-colors", isActive ? "text-primary" : "text-muted-foreground")}>{feature.title}</h3>
-                    <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+              <motion.div key={feature.id} initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}>
+                <div
+                  onClick={() => setActiveFeature(index)}
+                  className={cn(
+                    "group cursor-pointer rounded-2xl border p-6 transition-all duration-300",
+                    isActive ? "bg-white dark:bg-zinc-900 border-primary shadow-lg scale-[1.02]" : "bg-transparent border-stone-200 dark:border-zinc-800 hover:bg-white/50 dark:hover:bg-zinc-900/50 hover:border-primary/50",
+                  )}
+                >
+                  <div className="flex gap-4 items-start">
+                    <div className={cn("p-3 rounded-xl transition-colors duration-300 shrink-0", isActive ? "bg-primary text-white" : "bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary")}>
+                      <feature.icon className="w-6 h-6" />
+                    </div>
+                    <div className="space-y-2">
+                      <h3 className={cn("text-xl font-bold transition-colors", isActive ? "text-primary" : "text-muted-foreground group-hover:text-primary/80")}>{feature.title}</h3>
+                      <p className="text-muted-foreground leading-relaxed text-sm md:text-base">{feature.description}</p>
+                    </div>
                   </div>
                 </div>
               </motion.div>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ChevronRight, Clock, Globe, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ShinyButton } from "@/components/shiny-button";
 import { Badge } from "@/components/ui/badge";
 import { PakejKelas } from "@/components/sections/data/data-pakej-kelas";
 
@@ -51,12 +52,12 @@ export function PakejHero({ data }: PakejHeroProps) {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Button size="lg" className="bg-white text-primary hover:bg-white/90 text-lg px-8 h-14 rounded-full font-bold shadow-lg shadow-black/10 transition-transform hover:scale-105">
+              <ShinyButton className="inline-flex items-center justify-center h-14 px-8 text-lg font-bold rounded-full shadow-lg hover:shadow-xl transition-transform hover:scale-105 [--shiny-cta-bg:#ffffff] [--shiny-cta-bg-subtle:#f1f5f9] [--shiny-cta-fg:#17838f] [--shiny-cta-highlight:#f5bb2c] [--shiny-cta-highlight-subtle:#fcd34d]">
                 Daftar Kelas Percubaan
-              </Button>
-              <Button variant="outline" size="lg" className="bg-transparent border-2 border-white text-white hover:bg-white/10 text-lg px-8 h-14 rounded-full font-semibold transition-transform hover:scale-105">
+              </ShinyButton>
+              <ShinyButton className="inline-flex items-center justify-center h-14 px-8 text-lg font-bold rounded-full shadow-lg hover:shadow-xl transition-transform hover:scale-105 !border-2 ![--shiny-cta-bg:var(--primary)] ![--shiny-cta-bg-subtle:rgba(255,255,255,0.3)] ![--shiny-cta-fg:#ffffff] ![--shiny-cta-highlight:#ffffff] ![--shiny-cta-highlight-subtle:rgba(255,255,255,0.5)]">
                 Hubungi Kami
-              </Button>
+              </ShinyButton>
             </div>
 
             <div className="flex flex-wrap gap-4 md:gap-6 pt-6 border-t border-white/20">

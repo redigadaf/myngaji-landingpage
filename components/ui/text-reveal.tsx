@@ -26,7 +26,7 @@ const TextRevealByWord: FC<TextRevealByWordProps> = ({ text, className }) => {
 
   return (
     <div ref={targetRef} className={cn("relative z-0 min-h-[150vh]", className)}>
-      <div className={"sticky top-0 mx-auto flex h-screen max-w-4xl items-center bg-transparent px-4 py-12 md:py-20"}>
+      <div className={"sticky top-0 mx-auto flex h-screen max-w-4xl items-start bg-transparent px-4 py-8 pt-28 md:pt-32"}>
         <div className="space-y-6 md:space-y-8">
           {paragraphs.map((paragraph, pIndex) => {
             const words = paragraph.split(" ");

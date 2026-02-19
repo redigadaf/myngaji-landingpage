@@ -4,7 +4,7 @@ import { TextRevealByWord } from "@/components/ui/text-reveal";
 
 export function IntroSection() {
   return (
-    <section className="container px-4 pt-16 md:pt-24 pb-0 max-w-4xl mx-auto text-center">
+    <section className="container px-4 pt-0 md:pt-4 pb-0 max-w-4xl mx-auto text-center">
       <div className="space-y-12">
         <TextRevealByWord
           text={`Myngaji merupakan platform pembelajaran agama dalam talian yang ditubuhkan pada tahun 2022, dengan fokus menyediakan pendidikan Islam yang tersusun, berperingkat dan mudah diakses oleh pelajar dari pelbagai latar belakang.

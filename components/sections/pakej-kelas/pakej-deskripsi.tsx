@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Star } from "lucide-react";
+import { Star, Clock, Laptop, Users, BookOpen } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PakejKelas } from "@/components/sections/data/data-pakej-kelas";
@@ -55,14 +55,14 @@ export function PakejDeskripsi({ data }: PakejDeskripsiProps) {
               <CardContent className="space-y-6 px-8 pb-6">
                 <div className="space-y-4">
                   {[
-                    { label: "Tempoh", value: "Fleksibel", icon: "🕒" },
-                    { label: "Kaedah", value: "Online (Zoom/Meet)", icon: "💻" },
-                    { label: "Kelas", value: "One-to-One / Kumpulan", icon: "👥" },
-                    { label: "Bahan", value: "Disediakan (PDF)", icon: "📚" },
+                    { label: "Tempoh", value: "Fleksibel", icon: Clock },
+                    { label: "Kaedah", value: "Online (Zoom/Meet)", icon: Laptop },
+                    { label: "Kelas", value: "One-to-One / Kumpulan", icon: Users },
+                    { label: "Bahan", value: "Disediakan (PDF)", icon: BookOpen },
                   ].map((item, i) => (
                     <div key={i} className="flex justify-between items-center py-3 border-b border-slate-50 last:border-0 hover:bg-slate-50 px-3 -mx-2 rounded-xl transition-colors">
                       <span className="text-slate-500 text-sm flex items-center gap-3 font-medium">
-                        <span className="text-lg">{item.icon}</span> {item.label}
+                        <item.icon className="w-5 h-5 text-primary" /> {item.label}
                       </span>
                       <span className="font-semibold text-slate-900 text-sm">{item.value}</span>
                     </div>
