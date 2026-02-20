@@ -12,7 +12,7 @@ export function IntroSection() {
 Menawarkan subjek seperti pembacaan Al-Quran, tajwid, asas Fardhu Ain serta pembetulan bacaan, sesi pembelajaran dijalankan secara fleksibel sama ada secara individu (one-to-one) atau berkumpulan, sesuai untuk kanak-kanak, dewasa, golongan profesional bekerja serta para ibu yang mempunyai jadual harian yang padat.
 
 Sehingga kini, Myngaji telah membimbing hampir 500 orang pelajar dari lebih 5 buah negara termasuk Singapura, Saudi Arabia dan Qatar dalam meningkatkan keyakinan bacaan Al-Quran serta kefahaman asas agama melalui bimbingan berterusan oleh barisan asatizah yang berkelayakan dan komited.`}
-          className="h-[150vh]"
+          className="h-[120vh]"
         />
       </div>
     </section>

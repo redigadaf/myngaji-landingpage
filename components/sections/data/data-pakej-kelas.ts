@@ -17,11 +17,17 @@ export const classesData: PakejKelas[] = [
     tagline: "Pembelajaran Al-Quran yang menyeronokkan untuk si kecil.",
     icon: "/pakej/icon-1.svg",
     deskripsi: [
-      "Direka khas untuk kanak-kanak, kelas ini dijalankan dengan kaedah yang menyeronokkan dan interaktif.",
-      "Kanak-kanak belajar membaca Al-Quran dengan asas tajwid yang mudah difahami serta memupuk minat membaca al-Quran sejak kecil.",
-      "Modul kami menekankan pendekatan psikologi kanak-kanak supaya mereka tidak bosan dan sentiasa bersemangat untuk belajar.",
+      "Kelas ini direka khusus untuk kanak-kanak dengan pendekatan yang menyeronokkan, interaktif, dan berstruktur.",
+      "Pelajar belajar membaca Al-Quran dengan asas tajwid yang mudah difahami, melalui aktiviti kreatif, latihan interaktif, dan pengulangan berperingkat yang menyeronokkan.",
+      "Selain itu, kanak-kanak juga akan dibimbing secara berperingkat mengikut kemampuan mereka bagi memastikan bacaan lancar, tepat, dan membina disiplin dalam membaca Al-Quran sejak awal.",
+      "Kelas ini membina asas bacaan yang kukuh sebagai persediaan untuk pembelajaran seterusnya, serta membantu menanam minat dan keyakinan membaca Al-Quran secara berterusan.",
     ],
-    sesuaiUntuk: ["Kanak-kanak berumur 5 hingga 12 tahun", "Kanak-kanak yang baru mula belajar", "Mereka yang ingin memperbaiki bacaan asas", "Kanak-kanak yang perlukan bimbingan one-to-one"],
+    sesuaiUntuk: [
+      "Kanak-kanak yang baru mula belajar membaca Al-Quran",
+      "Anak-anak yang ingin memperkukuh asas bacaan dan tajwid",
+      "Pelajar yang ingin rutin ulang kaji bacaan di rumah",
+      "Ibu bapa yang mahu anak belajar dalam suasana ceria, interaktif dan positif",
+    ],
     syllabus: [
       {
         tajuk: "Pengenalan Huruf Hijaiyah",
