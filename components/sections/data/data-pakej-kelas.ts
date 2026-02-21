@@ -55,11 +55,17 @@ export const classesData: PakejKelas[] = [
     tagline: "Kuasai Bahasa Arab dengan aktiviti yang ceria.",
     icon: "/pakej/icon-2.svg",
     deskripsi: [
-      "Anak-anak diperkenalkan dengan bahasa Arab melalui aktiviti yang menyeronokkan, lagu pendek, dan permainan.",
-      "Kelas ini membina asas yang kukuh untuk pembelajaran selanjutnya dalam Al-Quran dan komunikasi harian.",
-      "Melalui kaedah visual dan audio, kanak-kanak lebih mudah mengingati kosa kata dan ayat-ayat mudah.",
+      "Anak-anak diperkenalkan dengan Bahasa Arab melalui pendekatan yang menyeronokkan dan interaktif seperti aktiviti kreatif, lagu-lagu pendek, permainan bahasa serta latihan sebutan yang mudah diikuti.",
+      "Pembelajaran direka mengikut tahap umur supaya anak-anak dapat mengenal huruf hijaiyah, perkataan asas dan ayat mudah dengan cara yang santai dan berkesan.",
+      "Selain itu, mereka juga akan belajar menggunakan silibus sekolah semasa sebagai sokongan pembelajaran. Ini membantu anak-anak membuat ulang kaji topik yang dipelajari di sekolah, mengukuhkan kefahaman serta meningkatkan keyakinan mereka dalam kelas.",
+      "Kelas ini membina asas Bahasa Arab yang kukuh sebagai persediaan untuk pembelajaran seterusnya, sama ada dalam memahami teks Al-Qur’an mahupun untuk komunikasi harian.",
     ],
-    sesuaiUntuk: ["Kanak-kanak 5-12 tahun", "Pelajar tadika Islam", "Ibu bapa yang ingin anak mahir dwibahasa"],
+    sesuaiUntuk: [
+      "Kanak-kanak yang baru berjinak-jinak dengan Bahasa Arab",
+      "Anak-anak yang ingin memperkukuh asas bacaan",
+      "Pelajar yang ingin mengulang kaji topik Bahasa Arab sekolah",
+      "Ibu bapa yang mahu anak belajar dalam suasana ceria dan positif",
+    ],
     syllabus: [
       {
         tajuk: "Kosa Kata Harian",
@@ -81,11 +87,17 @@ export const classesData: PakejKelas[] = [
     tagline: "Perbaiki bacaan Al-Quran dengan yakin dan lancar.",
     icon: "/pakej/iconn-5.svg",
     deskripsi: [
-      "Sesuai untuk pelajar dewasa yang ingin memperbaiki bacaan Al-Quran mengikut tajwid yang betul.",
-      "Kelas ini menumpukan pada kefahaman bacaan, memperbaiki kesalahan, dan membina keyakinan membaca Al-Quran dengan lancar dan bertajwid.",
-      "Jadual yang fleksibel membolehkan anda belajar tanpa mengganggu komitmen kerja atau keluarga.",
+      "Kelas ini direka khas untuk pelajar dewasa yang ingin memperbaiki bacaan Al-Quran mengikut tajwid yang betul dan memahami makna bacaan mereka.",
+      "Pelajar akan dibimbing dengan teknik yang sistematik, termasuk pembetulan kesalahan bacaan, pengulangan, serta penekanan terhadap tajwid dan makhraj yang tepat.",
+      "Pendekatan pembelajaran direka supaya fleksibel mengikut kemampuan pelajar, sama ada sesi one-to-one atau berkumpulan, bagi memudahkan golongan dewasa yang mempunyai jadual harian padat.",
+      "Selain itu, kelas ini juga membantu pelajar memahami ayat yang dihafal, meningkatkan keyakinan membaca Al-Quran, dan membina rutin pembelajaran yang konsisten serta berkesan.",
     ],
-    sesuaiUntuk: ["Dewasa yang sibuk bekerja", "Mereka yang ingin memperbetulkan tajwid", "Mualaf yang baru memeluk Islam", "Warga emas yang ingin mengisi masa lapang"],
+    sesuaiUntuk: [
+      "Dewasa yang ingin memulakan atau memperkukuh hafalan Al-Quran",
+      "Golongan profesional yang mempunyai jadual harian padat",
+      "Pelajar yang ingin memperbaiki bacaan dengan tajwid yang tepat",
+      "Mereka yang ingin meningkatkan kefahaman terhadap ayat-ayat yang dibaca",
+    ],
     syllabus: [
       {
         tajuk: "Pemantapan Makhraj & Sifat Huruf",
@@ -112,23 +124,42 @@ export const classesData: PakejKelas[] = [
     tagline: "Didikan asas agama yang kukuh untuk semua.",
     icon: "/pakej/icon-4.svg",
     deskripsi: [
-      "Kelas KAFA menyediakan asas pendidikan Islam untuk kanak-kanak, merangkumi tauhid, ibadah, akhlak, sirah, dan fardu ain.",
-      "Pelajar belajar dengan kaedah interaktif supaya ilmu agama mudah difahami, diamalkan, dan menjadi sebahagian daripada kehidupan harian mereka.",
-      "Kelas ini juga menekankan amalan fardu ain seperti solat, wuduk, doa, dan ibadah harian, sesuai untuk semua peringkat umur yang ingin memastikan amalan mereka mengikut syarak.",
+      "Kelas KAFA ini memberi tumpuan kepada subjek dan tajuk yang terdapat dalam silibus peperiksaan UPKK (Ujian Penilaian Kelas KAFA) dan PSRA (Penilaian Sekolah Rendah Agama). Silibus disusun secara teratur mengikut format pembelajaran semasa bagi membantu pelajar memahami topik dengan lebih jelas dan tersusun.",
+      "Pembelajaran dijalankan secara interaktif serta disertakan latih tubi berstruktur supaya pelajar bukan sahaja memahami isi pelajaran, malah mampu mengaplikasikan ilmu dalam kehidupan seharian.",
     ],
-    sesuaiUntuk: ["Kanak-kanak sekolah rendah", "Remaja yang perlukan pengukuhan", "Dewasa yang ingin ulangkaji Fardhu Ain"],
+    sesuaiUntuk: [
+      "Pelajar yang tidak mengikuti kelas KAFA di sekolah tetapi ingin mendapatkan pendidikan agama yang tersusun",
+      "Ibu bapa yang memilih pembelajaran KAFA secara online sahaja",
+      "Pelajar yang ingin mengukuhkan asas fardu ain walaupun tidak mengambil peperiksaan",
+    ],
     syllabus: [
       {
-        tajuk: "Ibadah & Feqah",
-        topik: ["Rukun Islam & Iman", "Tatacara Solat & Wuduk", "Puasa & Zakat"],
+        tajuk: "Tauhid (Akidah)",
+        topik: ["Rukun Iman", "Sifat-sifat Allah", "Konsep ketuhanan dan asas pegangan Islam"],
       },
       {
-        tajuk: "Akhlak & Tasawwuf",
-        topik: ["Adab dengan ibubapa", "Adab seharian", "Penyucian hati"],
+        tajuk: "Fiqh (Ibadah)",
+        topik: ["Taharah (bersuci)", "Wuduk dan perkara membatalkan wuduk", "Solat (rukun, syarat sah, perkara membatalkan)", "Puasa dan ibadah asas lain"],
       },
       {
-        tajuk: "Sirah Nabi",
-        topik: ["Kisah Nabi Muhammad SAW", "Para Sahabat", "Pengajaran dari Sirah"],
+        tajuk: "Sirah",
+        topik: ["Riwayat hidup Nabi Muhammad", "Peristiwa penting dalam sejarah Islam", "Pengajaran dan ibrah daripada sirah"],
+      },
+      {
+        tajuk: "Akhlak (Adab & Akhlak Islamiah)",
+        topik: ["Adab terhadap ibu bapa, guru dan rakan", "Akhlak terpuji dan menjauhi akhlak tercela", "Pengamalan nilai Islam dalam kehidupan"],
+      },
+      {
+        tajuk: "Jawi & Khat",
+        topik: ["Membaca dan menulis Jawi", "Ejaan dan binaan ayat", "Latihan penulisan yang sistematik"],
+      },
+      {
+        tajuk: "Bahasa Arab",
+        topik: ["Kosa kata asas", "Tatabahasa mudah (isim, fi‘il, huruf)", "Kefahaman teks pendek"],
+      },
+      {
+        tajuk: "Tilawah Al-Quran",
+        topik: ["Bacaan yang betul dan bertajwid", "Latihan kelancaran bacaan", "Penilaian bacaan secara individu"],
       },
     ],
     harga: [
@@ -142,19 +173,24 @@ export const classesData: PakejKelas[] = [
     tagline: "Fahami bahasa Al-Quran dan komunikasi Arab.",
     icon: "/pakej/icon-6.svg",
     deskripsi: [
-      "Kelas ini membantu pelajar dewasa menguasai Bahasa Arab dari asas hingga perbualan harian.",
-      "Fokus pada kemahiran membaca, menulis, dan bertutur supaya pelajar dapat memahami teks Arab dengan lebih mendalam seterusnya memahami intipati di dalam al-Quran.",
-      "Sesuai untuk tujuan melancong, perniagaan, atau mendalami ilmu agama.",
+      "Kelas ini direka khas untuk membantu pelajar dewasa menguasai Bahasa Arab daripada peringkat asas sehingga mampu berkomunikasi dalam perbualan harian dengan yakin.",
+      "Pembelajaran memberi fokus kepada kemahiran membaca, menulis dan bertutur secara seimbang. Pelajar akan dibimbing memahami struktur ayat, tatabahasa asas, serta memperkayakan kosa kata yang praktikal dan relevan dengan situasi harian.",
+      "Program ini terbahagi kepada dua kategori utama: Bahasa Arab Komunikasi dan Bahasa Arab Al-Quran.",
     ],
-    sesuaiUntuk: ["Pelajar universiti", "Dewasa bekerjaya", "Jemaah Haji & Umrah"],
+    sesuaiUntuk: [
+      "Dewasa yang ingin belajar dari asas",
+      "Individu yang mahu memperbaiki bacaan dan pemahaman",
+      "Mereka yang ingin berkomunikasi dalam Bahasa Arab dengan yakin",
+      "Mereka yang ingin memahami mesej dan pengajaran dalam Al-Quran dengan lebih mendalam",
+    ],
     syllabus: [
       {
-        tajuk: "Nahu & Sorof Asas",
-        topik: ["Pembinaaan ayat mudah", "Kata kerja & Kata nama", "Perubahan baris akhir"],
+        tajuk: "Bahasa Arab Komunikasi",
+        topik: ["Memberi penekanan kepada kemahiran bertutur dan memahami perbualan harian", "Melatih penggunaan ayat-ayat mudah dan praktikal dalam interaksi harian"],
       },
       {
-        tajuk: "Komunikasi Praktikal",
-        topik: ["Dialog di lapangan terbang", "Urusan jual beli", "Perbualan di hotel"],
+        tajuk: "Bahasa Arab Al-Quran",
+        topik: ["Fokus pemahaman teks Arab untuk mendalami makna dalam Al-Qur'an", "Mempelajari struktur bahasa yang sering digunakan dalam ayat-ayat Al-Quran"],
       },
     ],
     harga: [
@@ -168,11 +204,20 @@ export const classesData: PakejKelas[] = [
     tagline: "Hafal Al-Quran dengan teknik berkesan.",
     icon: "/pakej/icon-3.svg",
     deskripsi: [
-      "Kelas ini fokus kepada teknik menghafal Al-Quran dengan berkesan dan konsisten.",
-      "Pelajar diajar strategi hafalan, pengulangan, dan tajwid agar dapat menghafal dengan lancar dan tepat.",
-      "Kami menggunakan kaedah yang terbukti membantu ingatan jangka panjang dan pemantapan hafalan.",
+      "Hafazan Kanak-kanak: Kelas ini direka khas untuk membantu kanak-kanak menghafal Al-Quran dengan cara yang menyeronokkan dan berkesan. Program ini menekankan strategi hafalan, pengulangan konsisten, dan penguasaan tajwid supaya pelajar dapat membaca dengan lancar dan tepat.",
+      "Pendekatan pembelajaran disesuaikan dengan tahap umur dan kemampuan kanak-kanak, menjadikan proses hafalan lebih mudah diikuti serta menyeronokkan. Aktiviti interaktif dan teknik pengulangan kreatif membantu memastikan hafalan kekal dalam ingatan jangka panjang.",
+      "Hafazan Dewasa: Kelas ini direka untuk membantu dewasa memperkukuh hafalan Al-Quran secara sistematik dan berkesan. Program ini sesuai untuk mereka yang ingin memulakan hafalan baru, menambah hafalan sedia ada, atau memperbaiki bacaan dan tajwid bagi meningkatkan keyakinan membaca Al-Quran.",
+      "Pembelajaran menekankan pendekatan holistik termasuk teknik hafalan berstruktur, pengulangan konsisten, pemahaman makna ayat, dan penguasaan tajwid yang tepat. Pelajar dibimbing supaya hafalan bukan sekadar diingati, tetapi juga difahami dan dihayati, menjadikan setiap ayat yang dihafal memberi manfaat spiritual yang mendalam.",
     ],
-    sesuaiUntuk: ["Kanak-kanak & Remaja", "Dewasa yang ingin menghafal Juz Amma", "Mereka yang ingin menjadi huffaz"],
+    sesuaiUntuk: [
+      "Kanak-kanak yang baru memulakan hafalan",
+      "Mereka yang ingin membina asas tajwid yang kuat",
+      "Kanak-kanak yang ingin menghafal dengan konsisten dan menyeronokkan",
+      "Dewasa yang ingin memulakan atau menambah hafalan Al-Quran",
+      "Individu yang mahu memperbaiki bacaan dan penguasaan tajwid",
+      "Mereka yang ingin menghafal dengan sistematik dan konsisten",
+      "Mereka yang ingin menghayati makna dan pengajaran Al-Quran dengan lebih mendalam",
+    ],
     syllabus: [
       {
         tajuk: "Teknik Hafalan",

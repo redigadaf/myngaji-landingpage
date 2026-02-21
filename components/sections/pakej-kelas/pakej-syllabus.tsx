@@ -17,7 +17,11 @@ export function PakejSyllabus({ data }: PakejSyllabusProps) {
 
         <Accordion type="single" collapsible className="space-y-4">
           {data.syllabus.map((modul, index) => (
-            <AccordionItem key={index} value={`item-${index}`} className="border rounded-2xl px-6 bg-slate-50 data-[state=open]:bg-white data-[state=open]:shadow-lg transition-all duration-300">
+            <AccordionItem
+              key={index}
+              value={`item-${index}`}
+              className="border border-slate-200 last:border-b last:border-slate-200 rounded-2xl px-6 bg-slate-50 data-[state=open]:bg-white data-[state=open]:shadow-lg transition-all duration-300 mb-2"
+            >
               <AccordionTrigger className="hover:no-underline py-6">
                 <div className="flex items-center gap-4 text-left">
                   <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary font-bold text-sm shrink-0">{String(index + 1).padStart(2, "0")}</div>

@@ -143,7 +143,7 @@ export const SenaraiPakejKelas = () => {
   };
 
   return (
-    <section className="py-20 px-4 md:px-8 bg-white overflow-hidden font-sans">
+    <section id="senarai-pakej" className="py-20 px-4 md:px-8 bg-white overflow-hidden font-sans">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-wrap items-center justify-center gap-x-2 mb-16 text-center">

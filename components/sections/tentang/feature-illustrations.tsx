@@ -161,8 +161,12 @@ export function ExpertIllustration() {
         className="absolute -bottom-4 -left-4 bg-white dark:bg-zinc-800 py-2 px-4 rounded-xl shadow-lg border z-20 flex items-center gap-2"
       >
         <div className="flex -space-x-2">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="w-6 h-6 rounded-full bg-muted border-2 border-white dark:border-zinc-800" />
+          {[
+            "https://images.unsplash.com/photo-1584339312444-6952d098e152?w=100&h=100&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1598698230199-f7f08ed4234b?w=100&h=100&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1651646781428-18b47ae1e17b?w=100&h=100&fit=crop&q=80",
+          ].map((url, i) => (
+            <img key={i} src={url} alt={`Pelajar ${i + 1}`} className="w-6 h-6 rounded-full bg-muted border-2 border-white dark:border-zinc-800 object-cover" />
           ))}
         </div>
         <span className="text-xs font-medium">+120 Pelajar</span>
