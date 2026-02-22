@@ -1,10 +1,9 @@
 "use client";
 
 import { HeroSection } from "@/components/sections/homepage/hero-section";
-import { HadithSection } from "@/components/sections/homepage/hadith-section";
 import { SenaraiPakejKelas } from "@/components/sections/homepage/senarai-pakej-kelas";
 import { FAQSection } from "@/components/sections/homepage/faq-section";
-import ModernBackgroundPaths from "@/components/modern-background-paths";
+import CtaSection from "@/components/sections/homepage/cta-section";
 import TestimonialsSection from "@/components/sections/homepage/testimonial-v2";
 import { FooterSection } from "@/components/layout/footer-section";
 import { KelebihanSection } from "@/components/sections/homepage/kelebihan-section";
@@ -17,12 +16,11 @@ export default function Home() {
       <HeroSection />
       <KelebihanSection />
       <SenaraiPakejKelas />
-      <FAQSection />
       <ContentSocialMedia />
       <GaleriSection />
-      <ModernBackgroundPaths />
-      {/* <HadithSection /> */}
       <TestimonialsSection />
+      <FAQSection />
+      <CtaSection />
       <FooterSection />
     </main>
   );

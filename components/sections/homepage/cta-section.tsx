@@ -1,30 +1,33 @@
 "use client";
 
-import { motion } from "motion/react";
-import Link from "next/link";
-import clsx from "clsx";
+import { motion } from "framer-motion";
+import { ShinyButton } from "@/components/shiny-button";
 import { useState, useEffect } from "react";
 
-// --- Background Path Components ---
-
+// Geometric Grid Paths
 function GeometricPaths() {
-  const gridSize = 40;
-  const paths = [];
+  const [paths, setPaths] = useState<any[]>([]);
 
-  for (let x = 0; x < 20; x++) {
-    for (let y = 0; y < 12; y++) {
-      if (Math.random() > 0.7) {
-        paths.push({
-          id: `grid-${x}-${y}`,
-          d: `M${x * gridSize},${y * gridSize} L${(x + 1) * gridSize},${y * gridSize} L${(x + 1) * gridSize},${(y + 1) * gridSize} L${x * gridSize},${(y + 1) * gridSize} Z`,
-          delay: Math.random() * 5,
-        });
+  useEffect(() => {
+    const newPaths = [];
+    const gridSize = 40;
+
+    for (let x = 0; x < 20; x++) {
+      for (let y = 0; y < 12; y++) {
+        if (Math.random() > 0.7) {
+          newPaths.push({
+            id: `grid-${x}-${y}`,
+            d: `M${x * gridSize},${y * gridSize} L${(x + 1) * gridSize},${y * gridSize} L${(x + 1) * gridSize},${(y + 1) * gridSize} L${x * gridSize},${(y + 1) * gridSize} Z`,
+            delay: Math.random() * 5,
+          });
+        }
       }
     }
-  }
+    setPaths(newPaths);
+  }, []);
 
   return (
-    <svg className="absolute inset-0 w-full h-full opacity-30 text-teal-600/20" viewBox="0 0 800 480" preserveAspectRatio="xMidYMid slice">
+    <svg className="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 800 480">
       {paths.map((path) => (
         <motion.path
           key={path.id}
@@ -50,9 +53,11 @@ function GeometricPaths() {
   );
 }
 
+// Organic Flow Paths
 function FlowPaths() {
   const flowPaths = Array.from({ length: 12 }, (_, i) => {
     const amplitude = 50 + i * 10;
+    const frequency = 0.01 + i * 0.002;
     const offset = i * 60;
 
     return {
@@ -65,7 +70,7 @@ function FlowPaths() {
   });
 
   return (
-    <svg className="absolute inset-0 w-full h-full opacity-30 text-amber-600/30" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice">
+    <svg className="absolute inset-0 w-full h-full opacity-30" viewBox="0 0 800 800">
       {flowPaths.map((path) => (
         <motion.path
           key={path.id}
@@ -91,32 +96,41 @@ function FlowPaths() {
   );
 }
 
+// Neural Network Paths
 function NeuralPaths() {
-  const nodes = Array.from({ length: 50 }, (_, i) => ({
-    x: Math.random() * 800,
-    y: Math.random() * 600,
-    id: `node-${i}`,
-  }));
+  const [nodes, setNodes] = useState<{ x: number; y: number; id: string }[]>([]);
+  const [connections, setConnections] = useState<{ id: string; d: string; delay: number }[]>([]);
 
-  const connections: { id: string; d: string; delay: number }[] = [];
-  nodes.forEach((node, i) => {
-    const nearbyNodes = nodes.filter((other, j) => {
-      if (i === j) return false;
-      const distance = Math.sqrt(Math.pow(node.x - other.x, 2) + Math.pow(node.y - other.y, 2));
-      return distance < 120 && Math.random() > 0.6;
-    });
+  useEffect(() => {
+    const newNodes = Array.from({ length: 50 }, (_, i) => ({
+      x: Math.random() * 800,
+      y: Math.random() * 600,
+      id: `node-${i}`,
+    }));
 
-    nearbyNodes.forEach((target) => {
-      connections.push({
-        id: `conn-${i}-${target.id}`,
-        d: `M${node.x},${node.y} L${target.x},${target.y}`,
-        delay: Math.random() * 10,
+    const newConnections: { id: string; d: string; delay: number }[] = [];
+    newNodes.forEach((node, i) => {
+      const nearbyNodes = newNodes.filter((other, j) => {
+        if (i === j) return false;
+        const distance = Math.sqrt(Math.pow(node.x - other.x, 2) + Math.pow(node.y - other.y, 2));
+        return distance < 120 && Math.random() > 0.6;
+      });
+
+      nearbyNodes.forEach((target) => {
+        newConnections.push({
+          id: `conn-${i}-${target.id}`,
+          d: `M${node.x},${node.y} L${target.x},${target.y}`,
+          delay: Math.random() * 10,
+        });
       });
     });
-  });
+
+    setNodes(newNodes);
+    setConnections(newConnections);
+  }, []);
 
   return (
-    <svg className="absolute inset-0 w-full h-full opacity-25 text-teal-700/30" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+    <svg className="absolute inset-0 w-full h-full opacity-15" viewBox="0 0 800 600">
       {connections.map((conn) => (
         <motion.path
           key={conn.id}
@@ -160,6 +174,7 @@ function NeuralPaths() {
   );
 }
 
+// Spiral Paths
 function SpiralPaths() {
   const spirals = Array.from({ length: 8 }, (_, i) => {
     const centerX = 400 + ((i % 4) - 1.5) * 200;
@@ -184,7 +199,7 @@ function SpiralPaths() {
   });
 
   return (
-    <svg className="absolute inset-0 w-full h-full opacity-20 text-amber-500/40" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+    <svg className="absolute inset-0 w-full h-full opacity-25" viewBox="0 0 800 600">
       {spirals.map((spiral) => (
         <motion.path
           key={spiral.id}
@@ -209,9 +224,7 @@ function SpiralPaths() {
   );
 }
 
-// --- Main CTA Component ---
-
-export const CtaSection = () => {
+export default function CtaSection() {
   const [currentPattern, setCurrentPattern] = useState(0);
   const patterns = ["neural", "flow", "geometric", "spiral"];
 
@@ -220,7 +233,7 @@ export const CtaSection = () => {
       setCurrentPattern((prev) => (prev + 1) % patterns.length);
     }, 12000);
     return () => clearInterval(interval);
-  }, [patterns.length]);
+  }, []);
 
   const renderPattern = () => {
     switch (currentPattern) {
@@ -238,36 +251,82 @@ export const CtaSection = () => {
   };
 
   return (
-    <section className="py-16 px-4 bg-stone-50">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        viewport={{ once: true, margin: "-100px" }}
-        className="max-w-6xl mx-auto bg-amber-100/50 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden"
-      >
-        {/* Dynamic Background Patterns */}
-        <div className="absolute inset-0">
-          <motion.div key={currentPattern} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 2 }} className="w-full h-full">
-            {renderPattern()}
-          </motion.div>
-        </div>
+    <div className="relative min-h-[600px] w-full flex items-center justify-center overflow-hidden bg-teal-50 dark:bg-slate-900/50">
+      {/* Dynamic Background Patterns */}
+      <div className="absolute inset-0 text-primary/20 dark:text-primary/10">
+        <motion.div key={currentPattern} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 2 }}>
+          {renderPattern()}
+        </motion.div>
+      </div>
 
-        {/* Content */}
-        <div className="relative z-10">
-          <h3 className="text-3xl md:text-4xl font-extrabold text-teal-800/80 mb-2 uppercase tracking-tight">Harga Bermula</h3>
-          <p className="text-xl font-bold text-teal-600 tracking-[0.2em] mb-6">SERENDAH</p>
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-white/80 dark:from-slate-900/80 dark:via-transparent dark:to-slate-900/80" />
 
-          <div className="flex items-center justify-center gap-2 mb-10">
-            <span className="text-4xl font-bold text-amber-500 mt-4">RM</span>
-            <span className="text-8xl md:text-9xl font-extrabold text-amber-500 drop-shadow-sm">80</span>
+      {/* Main Content */}
+      <div className="relative z-10 container mx-auto px-4 md:px-6 text-center">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5, ease: "easeOut" }} className="max-w-4xl mx-auto flex flex-col items-center">
+          {/* Main Title Group */}
+          <div className="mb-8 flex flex-col items-center justify-center">
+            <motion.h2 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-[#17838F] dark:text-[#17838F] mb-2 uppercase">
+              Harga Bermula
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.4 }}
+              className="text-xl md:text-2xl font-extrabold tracking-[0.2em] text-[#136a73]/70 dark:text-[#136a73]/70 mb-4 uppercase"
+            >
+              Serendah
+            </motion.p>
+
+            <motion.div
+              initial={{ scale: 0.5, opacity: 0, rotate: -5 }}
+              animate={{ scale: 1, opacity: 1, rotate: 0 }}
+              whileHover={{ scale: 1.05, rotate: 2 }}
+              transition={{
+                delay: 0.6,
+                type: "spring",
+                stiffness: 200,
+                damping: 20,
+              }}
+              className="relative"
+            >
+              <span className="text-7xl md:text-9xl font-black text-[#F5BB2C] drop-shadow-2xl filter" style={{ textShadow: "4px 4px 0px rgba(23, 131, 143, 0.2)" }}>
+                RM 80
+              </span>
+              {/* Decorative elements around price */}
+              <motion.div animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }} className="absolute -top-8 -right-8 w-16 h-16 border-4 border-[#F5BB2C]/30 border-dashed rounded-full" />
+              <motion.div animate={{ rotate: -360 }} transition={{ duration: 15, repeat: Infinity, ease: "linear" }} className="absolute -bottom-4 -left-8 w-12 h-12 border-4 border-[#17838F]/20 border-dotted rounded-full" />
+            </motion.div>
           </div>
 
-          <Link href="#" className={clsx("inline-block bg-teal-700 hover:bg-teal-800 text-white font-semibold text-xl px-12 py-4 rounded-full", "shadow-xl shadow-teal-700/20 transition-all hover:-translate-y-1 active:scale-95")}>
-            Daftar Sekarang
-          </Link>
-        </div>
-      </motion.div>
-    </section>
+          {/* CTA Button */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1, type: "spring", stiffness: 100 }} className="mt-8">
+            <ShinyButton className="!px-12 !py-4 !text-lg !rounded-full shadow-xl hover:shadow-2xl transition-all font-bold">Daftar Sekarang</ShinyButton>
+          </motion.div>
+        </motion.div>
+      </div>
+
+      {/* Floating Elements (kept from original but adjusted colors) */}
+      <motion.div
+        className="absolute top-1/4 left-1/4 w-4 h-4 bg-[#17838F]/20 rounded-full blur-sm"
+        animate={{
+          y: [0, -20, 0],
+          x: [0, 10, 0],
+          scale: [1, 1.2, 1],
+        }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute top-3/4 right-1/3 w-6 h-6 bg-[#F5BB2C]/20 rounded-full blur-sm"
+        animate={{
+          y: [0, 15, 0],
+          x: [0, -15, 0],
+          scale: [1, 0.8, 1],
+        }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+      />
+    </div>
   );
-};
+}
