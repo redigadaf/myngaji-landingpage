@@ -18,7 +18,13 @@ const InstructorCard = ({ teacher, index }: { teacher: (typeof teachersData)[0];
         <div className="absolute top-[-50%] left-[-50%] w-[200%] h-[200%] bg-gradient-to-br from-teal-800 via-amber-800 to-teal-800 rounded-[40%] animate-spin-slow opacity-[0.15]" />
 
         <Image src={teacher.image} alt={teacher.name} fill className="object-cover mt-6 object-top drop-shadow-[0_10px_10px_rgba(0,0,0,0.15)] group-hover:scale-110 transition-transform duration-500" />
-        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent" />
+        <div
+          className="absolute inset-x-0 bottom-0 h-2/3"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(0,0,0,0.50) 0%, rgba(0,0,0,0.30) 30%, rgba(0,0,0,0.08) 60%, rgba(0,0,0,0) 100%)",
+          }}
+        />
 
         {/* Floating Badge */}
         <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-sm flex items-center gap-1.5 border border-white/50">
