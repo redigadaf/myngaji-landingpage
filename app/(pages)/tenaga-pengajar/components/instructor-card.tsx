@@ -13,11 +13,11 @@ const InstructorCard = ({ teacher, index }: { teacher: (typeof teachersData)[0];
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className="group relative bg-white rounded-3xl overflow-hidden shadow-lg border border-slate-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
     >
-      <div className="relative h-72 w-full bg-slate-50 overflow-hidden">
+      <div className="relative h-72 w-full bg-teal-50/80 overflow-hidden">
         {/* Background Blob Effect */}
-        <div className="absolute top-[-50%] left-[-50%] w-[200%] h-[200%] bg-gradient-to-br from-teal-50 to-amber-50 rounded-[40%] animate-spin-slow opacity-60" />
+        <div className="absolute top-[-50%] left-[-50%] w-[200%] h-[200%] bg-gradient-to-br from-teal-800 via-amber-800 to-teal-800 rounded-[40%] animate-spin-slow opacity-[0.15]" />
 
-        <Image src={teacher.image} alt={teacher.name} fill className="object-cover object-top group-hover:scale-110 transition-transform duration-500" />
+        <Image src={teacher.image} alt={teacher.name} fill className="object-cover mt-6 object-top drop-shadow-[0_10px_10px_rgba(0,0,0,0.15)] group-hover:scale-110 transition-transform duration-500" />
         <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent" />
 
         {/* Floating Badge */}
@@ -35,13 +35,6 @@ const InstructorCard = ({ teacher, index }: { teacher: (typeof teachersData)[0];
           </div>
 
           <div className="space-y-3">
-            <div className="flex items-center gap-2 text-sm text-slate-600 bg-slate-50 p-2 rounded-lg">
-              <div className="p-1.5 bg-white rounded-md shadow-sm text-secondary">
-                <GraduationCap className="w-4 h-4" />
-              </div>
-              <span className="font-medium text-xs">{teacher.specialty}</span>
-            </div>
-
             <p className="text-sm text-slate-500 leading-relaxed text-center line-clamp-3">{teacher.bio}</p>
           </div>
         </div>
