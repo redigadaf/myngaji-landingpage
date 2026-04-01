@@ -4,12 +4,17 @@ import { motion } from "framer-motion";
 import { ShinyButton } from "@/components/shiny-button";
 import { useState, useEffect } from "react";
 
-// Geometric Grid Paths
+interface GridPath {
+  id: string;
+  d: string;
+  delay: number;
+}
+
 function GeometricPaths() {
-  const [paths, setPaths] = useState<any[]>([]);
+  const [paths, setPaths] = useState<GridPath[]>([]);
 
   useEffect(() => {
-    const newPaths = [];
+    const newPaths: GridPath[] = [];
     const gridSize = 40;
 
     for (let x = 0; x < 20; x++) {
@@ -23,7 +28,10 @@ function GeometricPaths() {
         }
       }
     }
-    setPaths(newPaths);
+    const timeoutId = setTimeout(() => {
+      setPaths(newPaths);
+    }, 0);
+    return () => clearTimeout(timeoutId);
   }, []);
 
   return (
@@ -96,19 +104,30 @@ function FlowPaths() {
   );
 }
 
-// Neural Network Paths
+interface Node {
+  x: number;
+  y: number;
+  id: string;
+}
+
+interface Connection {
+  id: string;
+  d: string;
+  delay: number;
+}
+
 function NeuralPaths() {
-  const [nodes, setNodes] = useState<{ x: number; y: number; id: string }[]>([]);
-  const [connections, setConnections] = useState<{ id: string; d: string; delay: number }[]>([]);
+  const [nodes, setNodes] = useState<Node[]>([]);
+  const [connections, setConnections] = useState<Connection[]>([]);
 
   useEffect(() => {
-    const newNodes = Array.from({ length: 50 }, (_, i) => ({
+    const newNodes: Node[] = Array.from({ length: 50 }, (_, i) => ({
       x: Math.random() * 800,
       y: Math.random() * 600,
       id: `node-${i}`,
     }));
 
-    const newConnections: { id: string; d: string; delay: number }[] = [];
+    const newConnections: Connection[] = [];
     newNodes.forEach((node, i) => {
       const nearbyNodes = newNodes.filter((other, j) => {
         if (i === j) return false;
@@ -125,8 +144,11 @@ function NeuralPaths() {
       });
     });
 
-    setNodes(newNodes);
-    setConnections(newConnections);
+    const timeoutId = setTimeout(() => {
+      setNodes(newNodes);
+      setConnections(newConnections);
+    }, 0);
+    return () => clearTimeout(timeoutId);
   }, []);
 
   return (

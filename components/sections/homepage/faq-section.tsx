@@ -3,6 +3,8 @@ import { Search } from "lucide-react";
 import { motion } from "framer-motion";
 import faqData from "@/components/sections/data/data-faq.json";
 
+type GradientType = "none" | "rainbow" | "sunset" | "ocean" | "fire" | "neon" | "pastel" | "grayscale";
+
 export function FAQSection() {
   const spiralRef = useRef<HTMLDivElement | null>(null);
   const [panelOpen, setPanelOpen] = useState(false);
@@ -14,7 +16,7 @@ export function FAQSection() {
     dotRadius: 1.8,
     duration: 3.0,
     color: "#17838F", // Primary Color
-    gradient: "none" as "none" | "rainbow" | "sunset" | "ocean" | "fire" | "neon" | "pastel" | "grayscale",
+    gradient: "none" as GradientType,
     pulseEffect: true,
     opacityMin: 0.25,
     opacityMax: 0.9,
@@ -24,7 +26,7 @@ export function FAQSection() {
   });
 
   // Gradient presets
-  const gradients: Record<string, string[]> = useMemo(
+  const gradients: Record<GradientType, string[]> = useMemo(
     () => ({
       none: [],
       rainbow: ["#ff0000", "#ff9900", "#ffff00", "#00ff00", "#0099ff", "#6633ff"],
@@ -268,7 +270,7 @@ export function FAQSection() {
                 { label: "Pastel", value: "pastel" },
                 { label: "Grayscale", value: "grayscale" },
               ]}
-              onChange={(v) => setCfg({ ...cfg, gradient: v as any })}
+              onChange={(v) => setCfg({ ...cfg, gradient: v })}
             />
 
             <div className="flex gap-2">
@@ -333,14 +335,24 @@ function Toggle({ label, value, onChange }: { label: string; value: boolean; onC
   );
 }
 
-function Select({ label, value, options, onChange }: { label: string; value: string; options: { label: string; value: string }[]; onChange: (v: string) => void }) {
+function Select<T extends string>({
+  label,
+  value,
+  options,
+  onChange,
+}: {
+  label: string;
+  value: T;
+  options: { label: string; value: T }[];
+  onChange: (v: T) => void;
+}) {
   return (
     <label className="block">
       <div className="mb-1 text-stone-600">{label}</div>
       <div className="relative">
         <select
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e) => onChange(e.target.value as T)}
           className="w-full appearance-none rounded-xl border border-stone-200 bg-white px-3 py-2 text-xs text-stone-700 outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-sm"
         >
           {options.map((o) => (
