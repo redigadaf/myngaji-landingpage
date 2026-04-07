@@ -5,13 +5,13 @@ import Image from "next/image";
 import React from "react";
 import ScrollFloat from "@/components/scroll-float";
 import { GradualSpacing } from "@/components/ui/gradual-spacing";
-import { UserRoundCheck, Sparkles, NotebookPen, TrendingUp, CalendarClock, UsersRound, MessageCircle, LibraryBig, GraduationCap, Award, Star } from "lucide-react";
+import { LucideIcon, UserRoundCheck, Sparkles, NotebookPen, TrendingUp, CalendarClock, UsersRound, MessageCircle, LibraryBig, GraduationCap, Award, Star } from "lucide-react";
 import { GlowCard } from "@/components/spotlight-card";
 import kelebihanData from "@/components/sections/data/data-kelebihan.json";
 import { motion, type Variants } from "framer-motion";
 
 // Icon Mapping
-const ICON_MAP: Record<string, any> = {
+const ICON_MAP: Record<string, LucideIcon> = {
   UserRoundCheck,
   Sparkles,
   NotebookPen,

@@ -9,6 +9,7 @@ import { FooterSection } from "@/components/layout/footer-section";
 import { KelebihanSection } from "@/components/sections/homepage/kelebihan-section";
 import { ContentSocialMedia } from "@/components/sections/homepage/content-socialmedia-section";
 import { GaleriSection } from "@/components/sections/homepage/galeri-section";
+import { PengajarSection } from "@/components/sections/homepage/pengajar/pengajar-section";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <SenaraiPakejKelas />
       <ContentSocialMedia />
       <GaleriSection />
+      <PengajarSection />
       <TestimonialsSection />
       <FAQSection />
       <CtaSection />

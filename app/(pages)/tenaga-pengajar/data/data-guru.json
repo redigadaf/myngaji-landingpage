@@ -1,56 +1,242 @@
 [
   {
     "id": 1,
-    "name": "Ustaz Muhammad Amirul",
-    "role": "Guru Al-Quran",
-    "specialty": "Tajwid & Tarannum",
-    "experience": "5 Tahun",
-    "image": "/tenaga-pengajar/ustadz-1.png",
-    "bio": "Pakar dalam membimbing bacaan Al-Quran dengan taranum yang mengasyikkan. Mempunyai sanad Hafs 'an Asim."
+    "name": "Ustazah Farra Aina",
+    "role": "⁠Pengasas Myngaji Academy",
+    "experience": "10 Tahun",
+    "image": "/tenaga-pengajar/Ustazah Farra Aina.png",
+    "bio": "Memiliki Ijazah Bacaan Riwayat Hafs 'an 'Asim. Pendakwah Bertauliah Negeri Selangor & Wilayah Persekutuan."
   },
   {
     "id": 2,
-    "name": "Ustazah Nurul Huda",
-    "role": "Guru Fardu Ain",
-    "specialty": "Fiqh Wanita & Ibadah",
-    "experience": "4 Tahun",
-    "image": "/tenaga-pengajar/ustadzah-1.png",
-    "bio": "Berpengalaman mengajar Fardu Ain untuk kanak-kanak dan dewasa. Fokus kepada aplikasi praktikal dalam kehidupan seharian."
+    "name": "Ustazah Asma",
+    "role": "Guru Al-Quran",
+    "experience": "7 Tahun",
+    "image": "/tenaga-pengajar/Ustazah Asma.png",
+    "bio": "Memiliki Ijazah Bacaan Riwayat Hafs 'an 'Asim dari Jordan. Pendakwah Bertauliah Negeri Selangor kategori al-Quran. Berpengalaman mengajar al-Quran dewasa dan kanak-kanak sejak tahun 2019."
   },
   {
     "id": 3,
-    "name": "Ustaz Ahmad Fathi",
-    "role": "Guru Bahasa Arab",
-    "specialty": "Nahu & Komunikasi",
-    "experience": "6 Tahun",
-    "image": "/tenaga-pengajar/ustadz-2.png",
-    "bio": "Graduan Universiti Islam Madinah. Menggunakan teknik moden untuk memudahkan penguasaan Bahasa Arab."
+    "name": "Ustazah Ezwin",
+    "role": "Guru Al-Quran & Tajwid",
+    "experience": "3 Tahun",
+    "image": "/tenaga-pengajar/Ustazah Ezwin.png",
+    "bio": "Pelajar Universiti Sains Islam Malaysia. Mempraktiskan ilmu yang telah dipelajari dalam mengajar al-Quran & tajwid di samping dapat mendekatkan diri jugak dengan Quran sekaligus insyaAllah untuk memberikan ilmu serta manfaat kepada orang di luar sana"
   },
   {
     "id": 4,
-    "name": "Ustazah Siti Sarah",
-    "role": "Guru Al-Quran Kanak-kanak",
-    "specialty": "Asas Iqra & Hafazan",
-    "experience": "3 Tahun",
-    "image": "/tenaga-pengajar/ustadzah-2.png",
-    "bio": "Penyabar dan ceria, mampu menarik minat kanak-kanak untuk mencintai Al-Quran sejak kecil."
+    "name": "Ustazah Farah Humairaa",
+    "role": "Guru Mengaji , Sirah , Bahasa Arab",
+    "experience": "1 Tahun",
+    "image": "/tenaga-pengajar/Ustazah Farah Humairaa.png",
+    "bio": "Graduan Universiti Malaya (Ijazah Sarjana Muda Syariah). Menggunakan teknik moden untuk memudahkan penguasaan Bahasa Arab."
   },
   {
     "id": 5,
-    "name": "Ustaz Hafiz Ibrahim",
-    "role": "Guru Tafsir",
-    "specialty": "Tadabbur Al-Quran",
-    "experience": "8 Tahun",
-    "image": "/tenaga-pengajar/ustadz-3.png",
-    "bio": "Membawa pelajar menyelami makna disebalik ayat-ayat Al-Quran untuk penghayatan yang lebih mendalam."
+    "name": "Ustazah Irdina",
+    "role": "Guru Jawi, Mengaji (Iqra’ dan Al-Quran) & Bahasa Arab",
+    "experience": "5 Tahun",
+    "image": "/tenaga-pengajar/Ustazah Irdina.png",
+    "bio": "Graduan Universiti Pendidikan Sultan Idris (Ijazah Sarjana Muda Bahasa Arab dengan Pendidikan)."
   },
   {
     "id": 6,
-    "name": "Ustazah Aishah Humaira",
-    "role": "Guru Sirah",
-    "specialty": "Sejarah Islam",
+    "name": "Ustazah Amirah",
+    "role": "-",
     "experience": "5 Tahun",
-    "image": "/tenaga-pengajar/ustadzah-3.png",
-    "bio": "Menceritakan kisah-kisah Nabi dan Sahabat dengan gaya penceritaan yang menarik dan penuh pengajaran."
+    "image": "/tenaga-pengajar/Ustazah Amirah.png",
+    "bio": "Graduan Darul Quran Jakim"
+  },
+  {
+    "id": 7,
+    "name": "Ustazah Afya",
+    "role": "-",
+    "experience": "1 Tahun",
+    "image": "/tenaga-pengajar/Afya.png",
+    "bio": "Degree in Islamic Education, IPG Kampus Darulaman."
+  },
+  {
+    "id": 8,
+    "name": "Ustazah Kaiyisah",
+    "role": "-",
+    "experience": "2 Tahun",
+    "image": "/tenaga-pengajar/Ustazah Kaiyisah.png",
+    "bio": "Graduan Universiti Sains Islam Malaysia."
+  },
+  {
+    "id": 9,
+    "name": "Ustaz Baihaqi",
+    "role": "-",
+    "experience": "6 Bulan",
+    "image": "/tenaga-pengajar/Baihaqi.png",
+    "bio": "Ijazah Sarjana Muda Sunnah dengan Pengurusan Maklumat Dengan Kepujian Di Universiti Sains Islam Malaysia."
+  },
+  {
+    "id": 10,
+    "name": "Ustazah Hajar",
+    "role": "Guru Fardhu Ain",
+    "experience": "3 Tahun",
+    "image": "/tenaga-pengajar/Ustazah Hajar.png",
+    "bio": "Sudah khatam kitab Islamiah(daurah hadis) , mengajar Fardhu Ain, dan fokus membimbing hafazan serta bacaan Al-Quran kanak-kanak dengan tajwid yang betul."
+  },
+  {
+    "id": 11,
+    "name": "Ustaz Naim",
+    "role": "Guru Al-Quran & As-Sunnah",
+    "experience": "3 Tahun",
+    "image": "/tenaga-pengajar/Ustaz Naim.png",
+    "bio": "Graduan Universiti Sains Islam Malaysia."
+  },
+  {
+    "id": 12,
+    "name": "Ustaz ‘Afif",
+    "role": "Guru Tahfiz Al-Quran & Qiraat",
+    "experience": "6 Tahun",
+    "image": "/tenaga-pengajar/Ustaz Afif.png",
+    "bio": "Diploma Darul Quran Jakim (2017-2020). Degree pendidikan tahfiz al quran dan qiraat UPSI (2020-2024)."
+  },
+  {
+    "id": 13,
+    "name": "Ustazah Afifah",
+    "role": "Guru Alquran & Tajwid",
+    "experience": "7 Tahun",
+    "image": "/tenaga-pengajar/Ustazah Afifah.png",
+    "bio": "Graduan Universiti Mu'tah, Jordan (Ijazah Sarjana Muda Bahasa Arab dan Kesusasteraannya). Menerima tauliah mengajar alquran tajwid negeri Kedah."
+  },
+  {
+    "id": 14,
+    "name": "Ustazah Bahiyyah",
+    "role": "Guru Mengaji",
+    "experience": "4 Tahun",
+    "image": "/tenaga-pengajar/Ustazah Bahiyyah.png",
+    "bio": "Khatam Hafazan di Maahad Nasihun Amin & Maahad Tahfiz wal Alim Al-Mahdy. Bantu belajar mengaji dari zero sampai lancar & membimbing hafazan secara berperingkat."
+  },
+  {
+    "id": 15,
+    "name": "Ustazah Shazleen",
+    "role": "-",
+    "experience": "2 Tahun",
+    "image": "/tenaga-pengajar/Ustazah Shazleen.png",
+    "bio": "Graduan Usuluddin (Dakwah dan Pembangunan Insan) Universiti Malaya."
+  },
+  {
+    "id": 16,
+    "name": "Ustazah Izzah",
+    "role": "Guru Iqra' & Al-Quran",
+    "experience": "3 Tahun",
+    "image": "/tenaga-pengajar/Ustazah Izzah.png",
+    "bio": "Saya Nurul Izzah binti Ez Zailani merupakan graduan Universiti Pendidikan Sultan Idris (UPSI) di bawah jurusan Ijazah Sarjana Muda Bahasa Arab dengan Pendidikan. Subjek yang diajar oleh saya ialah Mengaji (Iqra'/Quran), bahasa Arab dan Hafazan. Gaya pengajaran yang digunakan ialah bersifat lembut, sabar, memberikan bimbingan yang berterusan dan santai supaya pelajar berasa selesa ketika belajar. Selain itu, saya menggunakan bahan bantu mengajar yang moden seperti slide powerpoint, Kahoot, Quizziz, Youtube dan sebagainya. Saya berharap dapat membimbing pelajar untuk menguasai bacaan al-Quran, hafazan dan bahasa Arab secara berperingkat dan konsisten."
+  },
+  {
+    "id": 17,
+    "name": "Ustaz Afif Syatir",
+    "role": "Guru Al-Quran, Bahasa Arab & Hafazan",
+    "experience": "3 Tahun",
+    "image": "/tenaga-pengajar/Ustaz Afif Syatir.png",
+    "bio": "Graduan Universiti Yarmouk, Jordan. Menekankan keseimbangan antara adab, kefahaman ilmu dan penghayatan Al-Quran dengan pendekatan tarbiah yang sistematik dan berterusan."
+  },
+  {
+    "id": 18,
+    "name": "Ustazah Ain",
+    "role": "Guru Al-Quran",
+    "experience": "1 Tahun",
+    "image": "/tenaga-pengajar/Ustazah Ain.png",
+    "bio": "Graduan Universiti Malaya dalam pengkhususan Al-Quran & Al-Hadith."
+  },
+  {
+    "id": 19,
+    "name": "Ustazah Asyiqin",
+    "role": "Guru Al-Quran",
+    "experience": "2 Tahun",
+    "image": "/tenaga-pengajar/Ustazah Asyiqin.png",
+    "bio": "Mahasiswa Quran dan Sunnah dengan minor Human Sciences, UIAM."
+  },
+  {
+    "id": 20,
+    "name": "Ustazah Hanifah",
+    "role": "Guru Al Quran Dan Iqra",
+    "experience": "3 Tahun",
+    "image": "/tenaga-pengajar/Ustazah Hanifah.png",
+    "bio": "Graduan university of jordan. Mengutamakan kefahaman Dan kelancaran pelajar untuk mengaji Al Quran Dan iqra."
+  },
+  {
+    "id": 21,
+    "name": "Ustazah Syaimaa'",
+    "role": "-",
+    "experience": "2 Tahun",
+    "image": "/tenaga-pengajar/Ustazah Syaimaa.png",
+    "bio": "Tahun 2 Ijazah Sarjana Muda Pengajian Arab dan Tamadun Islam Universiti Kebangsaan Malaysia Bangi. STAM Kolej Islam Sultan Alam Shah. SPM Sekolah Agama Menengah Rawang."
+  },
+  {
+    "id": 22,
+    "name": "Ustazah Najwa'",
+    "role": "Guru Al Quran Dan Iqra",
+    "experience": "5 Tahun",
+    "image": "/tenaga-pengajar/Ustazah Najwa.png",
+    "bio": "Ijazah Sarjana Muda Al Quran dan Al Sunnah dari Universiti Islam Selangor. Diploma Pendidikan Lepasan Ijazah UKM. Kini bertugas sebagai guru KAFA dan guru mengaji Al Quran dan Iqra'."
+  },
+  {
+    "id": 23,
+    "name": "Ustazah Ain",
+    "role": "Guru Al-Quran",
+    "experience": "3 Tahun",
+    "image": "/tenaga-pengajar/Ustazah Ain (2).png",
+    "bio": "Graduan Pengajian Islam. Membimbing pelbagai peringkat umur untuk memperkemas bacaan Al-Quran mengikut hukum tajwid yang tepat serta makhraj huruf yang betul."
+  },
+  {
+    "id": 24,
+    "name": "Ustazah Hafizah",
+    "role": "-",
+    "experience": "1 Tahun",
+    "image": "/tenaga-pengajar/Ustazah Hafizah.png",
+    "bio": "Penterjemah Luar Institut Terjemahan & Buku Malaysia. Penterjemah Luar Telaga Biru Sdn Bhd. Memegang Ijazah Sarjana Linguistik Arab, UIAM."
+  },
+  {
+    "id": 25,
+    "name": "Ustazah Alwani",
+    "role": "Guru Bahasa Arab",
+    "experience": "3 Tahun",
+    "image": "/tenaga-pengajar/Ustazah Alwani.png",
+    "bio": "Graduan universiti mu’tah (degree bahasa arab & kesusasteraanny) dan universiti sains islam malaysia (master bahasa arab (terjemahan). Menggunakan pendekatan berperingkat dan sistematik bagi memudahkan pembelajaran."
+  },
+  {
+    "id": 26,
+    "name": "Ustazah Aisyah Jahidah",
+    "role": "Guru Bahasa Arab",
+    "experience": "5 Tahun",
+    "image": "/tenaga-pengajar/Ustazah Aisyah Jahidah.png",
+    "bio": "Graduan Universiti Mu’tah, Jordan. Menggunakan pedagogi terbeza mengikut tahap pelajar dalam menguasai bahasa Arab."
+  },
+  {
+    "id": 27,
+    "name": "Ustazah Afina",
+    "role": "Guru Mengaji",
+    "experience": "1 Tahun",
+    "image": "/tenaga-pengajar/Ustazah Afina.png",
+    "bio": "Lepasan Diploma Tahfiz Al-Quran & Qiraat Darul Quran."
+  },
+  {
+    "id": 28,
+    "name": "Ustazah Syakirah",
+    "role": "Guru Al-Quran",
+    "experience": "5 Tahun",
+    "image": "/tenaga-pengajar/Ustazah Syakirah.png",
+    "bio": "Graduan Universiti Sultan Zainal Abidin. Menggunakan kaedah moden & bertahap bagi membantu pelajar membaca Al-Quran dengan betul, lancar dan yakin."
+  },
+  {
+    "id": 29,
+    "name": "Ustazah Farah Suhada",
+    "role": "-",
+    "experience": "4 Tahun",
+    "image": "/tenaga-pengajar/Ustazah Farah Suhada.png",
+    "bio": "-"
+  },
+  {
+    "id": 30,
+    "name": "Ustazah Nurul Aini",
+    "role": "-",
+    "experience": "5 Tahun",
+    "image": "/tenaga-pengajar/Ustazah Nurul Aini.png",
+    "bio": "Graduan USIM & UM."
   }
 ]
