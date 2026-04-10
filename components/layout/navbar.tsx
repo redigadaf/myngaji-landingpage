@@ -24,8 +24,9 @@ export function Navbar() {
       href: "#",
       submenu: [
         { name: "Kelas Alquran", href: "/kelas/kelas-alquran" },
-        { name: "Kelas Fardhu Ain", href: "/kelas/kelas-fardhu-ain" },
         { name: "Kelas Bahasa Arab", href: "/kelas/kelas-bahasa-arab" },
+        { name: "Kelas Kafa", href: "/kelas/kelas-kafa" },
+        { name: "Kelas Hafazan", href: "/kelas/kelas-hafazan" },
       ],
     },
     { name: "Hubungi", href: "/hubungi" },

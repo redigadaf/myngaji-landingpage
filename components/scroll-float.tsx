@@ -34,12 +34,26 @@ const ScrollFloat: React.FC<ScrollFloatProps> = ({
     const nodes: ReactNode[] = [];
     const process = (child: ReactNode, className: string = "") => {
       if (typeof child === "string") {
-        child.split("").forEach((char, index) => {
-          nodes.push(
-            <span className={`inline-block word ${className}`} key={`${nodes.length}-${index}`}>
-              {char === " " ? "\u00A0" : char}
-            </span>,
-          );
+        const words = child.split(/(\s+)/);
+        words.forEach((word, wordIndex) => {
+          if (word.trim() === "") {
+            // It's a space
+            nodes.push(<span key={`space-${nodes.length}-${wordIndex}`}>{word}</span>);
+          } else {
+            // It's a word, wrap it to prevent breaking
+            nodes.push(
+              <span className="inline-block whitespace-nowrap" key={`word-${nodes.length}-${wordIndex}`}>
+                {[...word].map((char, charIndex) => (
+                  <span 
+                    className={`inline-block char ${className}`} 
+                    key={`char-${charIndex}`}
+                  >
+                    {char}
+                  </span>
+                ))}
+              </span>
+            );
+          }
         });
       } else if (React.isValidElement(child)) {
         const props = child.props as { children?: ReactNode; className?: string };
@@ -59,7 +73,7 @@ const ScrollFloat: React.FC<ScrollFloatProps> = ({
 
     const scroller = scrollContainerRef && scrollContainerRef.current ? scrollContainerRef.current : window;
 
-    const charElements = el.querySelectorAll(".inline-block");
+    const charElements = el.querySelectorAll(".char");
 
     gsap.fromTo(
       charElements,

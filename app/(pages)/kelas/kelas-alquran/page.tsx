@@ -1,4 +1,9 @@
 import { PageHeader } from "@/components/page-header";
+import { PainPoints } from "@/components/sections/kelas/alquran/pain-points";
+import { Solution } from "@/components/sections/kelas/alquran/solution";
+import { Offer } from "@/components/sections/kelas/alquran/offer";
+import { Closing } from "@/components/sections/kelas/alquran/closing";
+import { FAQAlquran } from "@/components/sections/kelas/alquran/faq-alquran";
 
 export default function KelasAlquranPage() {
   return (
@@ -11,10 +16,12 @@ export default function KelasAlquranPage() {
         }
         description="Pelajari bacaan Al-Quran dari asas hingga mahir dengan bimbingan guru yang bertauliah. Kami menawarkan kelas mengaji personal dan berkumpulan."
       />
-      {/* Content will be added later */}
-      <div className="container mx-auto px-6 py-12">
-        <p className="text-center text-gray-500">Content coming soon...</p>
-      </div>
+      
+      <PainPoints />
+      <Solution />
+      <Offer />
+      <Closing />
+      <FAQAlquran />
     </main>
   );
 }
