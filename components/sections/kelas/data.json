@@ -1,0 +1,474 @@
+{
+  "kelas-alquran": {
+    "header": {
+      "titlePart1": "Kelas",
+      "titlePart2": "Al-Quran",
+      "description": "Pelajari bacaan Al-Quran dari asas hingga mahir dengan bimbingan guru yang bertauliah. Kami menawarkan kelas mengaji personal dan berkumpulan."
+    },
+    "painPoints": {
+      "hook": "Masih merangkak baca Al-Quran walaupun dah bertahun cuba? 🤍",
+      "description": "Dah 2026 tapi anak masih belum khatam al-Quran walaupun sekali?",
+      "points": [
+        {
+          "title": "Rasa malu nak mula…",
+          "desc": "Takut dianggap lambat atau dipandang sinis kerana baru mahu bermula di usia dewasa."
+        },
+        {
+          "title": "Takut orang judge…",
+          "desc": "Perasaan rendah diri yang menghalang anda daripada mencari bimbingan yang betul."
+        },
+        {
+          "title": "Masih tersekat-sekat…",
+          "desc": "Walaupun sudah lama mencuba, bacaan masih tidak lancar dan sering keliru makhraj."
+        },
+        {
+          "title": "Al-Quran jarang dibaca…",
+          "desc": "Terasa rugi bila naskhah suci hanya tersimpan di rak tanpa dibaca dengan yakin setiap hari."
+        },
+        {
+          "title": "Anak ketinggalan…",
+          "desc": "Risau bila melihat rakan sebaya anak sudah jauh ke depan dalam hafalan & bacaan."
+        }
+      ],
+      "empathy": {
+        "headline": "Kami Faham Perasaan Anda",
+        "content": "Belajar Al-Quran bukan soal siapa paling cepat, tapi soal istiqamah dan keinginan untuk memperbaiki diri.",
+        "quote": "Langkah kecil hari ini, besar nilainya di sisi Allah."
+      }
+    },
+    "solution": {
+      "headline": "Di MyNgaji, kami bantu anda dari Zero → Lancar → Yakin.",
+      "subline": "Kami menggabungkan teknik tradisional yang muktabar dengan teknologi moden untuk memastikan sesiapa sahaja boleh mula membaca Al-Quran dengan mudah.",
+      "mechanisms": [
+        {
+          "title": "Modul step-by-step",
+          "desc": "Iqra’ → Al-Quran yang disusun sistematik untuk semua peringkat."
+        },
+        {
+          "title": "Fokus makhraj & tajwid",
+          "desc": "Bukan sekadar baca, kami tekankan sebutan yang betul dan hukum tajwid."
+        },
+        {
+          "title": "Kelas kecil / 1-1",
+          "desc": "Lebih fokus dan personal. Guru boleh beri perhatian penuh kepada anda."
+        },
+        {
+          "title": "Guru bertauliah",
+          "desc": "Guru ditapis & dilatih khas untuk mengajar dengan teknik yang mudah."
+        }
+      ]
+    },
+    "proof": {
+      "label": "Hasil Nyata",
+      "headline": "Bukan Sekadar Janji Manis.",
+      "subline": "Kami membimbing sehingga anda benar-benar melihat perubahan kualiti bacaan anda sendiri.",
+      "testimonial": {
+        "text": "MasyaAllah, baru rasa yakin pegang Al-Quran semula. Guru sangat sabar walaupun saya dah mula berumur. Sekarang dah lancar makhraj.",
+        "author": "Hajah Aminah",
+        "role": "Pelajar Dewasa MyNgaji"
+      },
+      "metrics": [
+        {
+          "label": "Transformasi Terpantas",
+          "title": "Zero → Lancar Membaca",
+          "desc": "Majoriti pelajar dari buta huruf dah boleh baca dalam beberapa bulan."
+        },
+        {
+          "label": "Kejayaan Dewasa",
+          "title": "Mula Semula & Berjaya",
+          "desc": "Ramai warga emas & dewasa mula semula & berjaya lancar bacaan."
+        },
+        {
+          "label": "Pencapaian Ilmu",
+          "title": "Iqra' 2 → Mahir Tajwid",
+          "desc": "Kuasai hukum tajwid sepenuhnya dalam tempoh hanya 1 tahun bimbingan."
+        }
+      ]
+    },
+    "offer": {
+      "price": "80",
+      "priceSub": "/bulan",
+      "features": [
+        "Khas untuk Kanak-kanak & Dewasa",
+        "Masa Fleksibel & Personal",
+        "Guru Bertauliah (KPM & Jakim)"
+      ],
+      "bonuses": [
+        "Ebook Al-Quran Eksklusif",
+        "Panduan Tajwid Ringkas & Padat",
+        "Progress Tracking Berkala"
+      ],
+      "urgency": "Kami mengekalkan kualiti dengan mengehadkan slot pelajar. Daftar sekarang sebelum penuh.",
+      "riskReversal": "Cuba trial tanpa bayaran!"
+    },
+    "offerConfig": {
+      "packageName": "Bimbingan Personal",
+      "packageDesc": "Sesi One-to-One Fokus 100%"
+    },
+    "closing": {
+      "headline": "Al-Quran bukan untuk yang sempurna, tapi untuk yang ingin belajar.",
+      "subline": "Hari ini mungkin langkah kecil anda — tapi ia adalah langkah yang paling bernilai bagi jiwa anda."
+    },
+    "faqs": [
+      {
+        "q": "Saya dah besar, boleh lagi ke?",
+        "a": "Sangat boleh. Ramai pelajar kami bermula dari dewasa, ada yang pesara pun ada. Tiada istilah lambat untuk belajar Al-Quran."
+      },
+      {
+        "q": "Kena ada asas?",
+        "a": "Tak perlu. Kami ajar dari zero. Kami akan bimbing anda dari mengenal huruf (Iqra') sehinggal lancar bacaan Al-Quran."
+      },
+      {
+        "q": "Online berkesan ke?",
+        "a": "Ya, dengan guru & sistem yang betul — ia lebih fokus (1-ke-1) & fleksibel. Kami menggunakan platform yang stabil untuk memastikan kualiti suara & visual yang jelas."
+      },
+      {
+        "q": "Bermula dari umur berapa boleh mendaftar?",
+        "a": "Bermula seawal 6 tahun dan tiada had umur maksimum. Kami ada modul khas untuk kanak-kanak dan juga dewasa."
+      },
+      {
+        "q": "Ada ajar tajwid ke nanti?",
+        "a": "Ya, ilmu asas tajwid akan diajar kepada pelajar termasuklah yang mengambil pakej kelas mengaji kanak-kanak. Kami mahu anda membaca dengan betul, bukan sekadar lancar."
+      }
+    ]
+  },
+  "kelas-kafa": {
+    "header": {
+      "titlePart1": "Kelas",
+      "titlePart2": "KAFA",
+      "description": "Bimbingan Fardu Ain & Al-Quran yang syumul untuk anak-anak. Kami tumpukan kepada kefahaman asas akidah & ibadah yang benar."
+    },
+    "painPoints": {
+      "hook": "Anak tidak ke sekolah agama jadi bagaimana kefahaman asas akidah & ibadahnya? 🤔",
+      "description": "Risau bila anak mengamalkan ibadah tanpa bimbingan ilmu yang betul.",
+      "points": [
+        {
+          "title": "Solat dibuat… tapi tak yakin sah.",
+          "desc": "Belajar sendirian tanpa bimbingan guru kadangkala meninggalkan ragu-ragu dalam kesempurnaan ibadah."
+        },
+        {
+          "title": "Belajar… tapi tak faham.",
+          "desc": "Banyak hafal istilah agama tapi kurang memahami maksud sebenar di sebalik setiap rukun."
+        },
+        {
+          "title": "Amalan tanpa ilmu yang betul.",
+          "desc": "Tanpa asas yang kuat, bimbang anak terikut-ikut amalan yang kurang tepat atau sekadar ikut-ikutan."
+        }
+      ],
+      "empathy": {
+        "headline": "Kami Sedia Membimbing",
+        "content": "Pendidikan agama adalah pelaburan terbaik untuk masa depan akhirat anak-anak kita.",
+        "quote": "Didiklah anakmu dengan adab dan ilmu agama sejak kecil."
+      }
+    },
+    "solution": {
+      "headline": "Kami bantu anak faham & amalkan Fardhu Ain dengan yakin.",
+      "subline": "Modul praktikal yang membantu anak anda menyerap ilmu agama dengan lebih mendalam.",
+      "mechanisms": [
+        {
+          "title": "Fokus Praktikal",
+          "desc": "Bukan sekadar teori semata, kami tumpukan kepada cara amalan yang betul & sah."
+        },
+        {
+          "title": "Step-by-step Ibadah",
+          "desc": "Bimbingan tersusun dari asas akidah sehinggalah kaedah ibadah harian."
+        },
+        {
+          "title": "Guru Bimbing Satu-persatu",
+          "desc": "Tumpuan personal untuk memastikan setiap persoalan agama anak anda terjawab."
+        }
+      ]
+    },
+    "proof": {
+      "label": "Hasil Pembelajaran",
+      "headline": "Bukan Sekadar Ilmu, Tapi Amalan.",
+      "subline": "Lihat bagaimana anak-anak memulakan perubahan positif dalam ibadah harian mereka.",
+      "testimonial": {
+        "text": "Alhamdulillah, anak saya sekarang dah mula rajin solat tanpa disuruh dan lebih faham apa yang dibaca.",
+        "author": "Puan Sofia",
+        "role": "Ibu Pelajar KAFA"
+      },
+      "metrics": [
+        {
+          "label": "Keyakinan Solat",
+          "title": "Pelajar Lebih Yakin Solat",
+          "desc": "Murid mampu melakukan rukun solat dengan sempurna tanpa ragu-ragu."
+        },
+        {
+          "label": "Ketepatan Asas",
+          "title": "Kurang Kesilapan Asas",
+          "desc": "Mengurangkan ralat dalam bacaan & tertib ibadah harian yang kritikal."
+        },
+        {
+          "label": "Amalan Berilmu",
+          "title": "Faham Setiap Amalan",
+          "desc": "Anak tahu 'mengapa' dan 'bagaimana' setiap ibadah dilakukan mengikut syariat."
+        }
+      ]
+    },
+    "offer": {
+      "price": "160",
+      "priceSub": "/bulan",
+      "features": [
+        "Khas untuk Kanak-kanak & Remaja",
+        "Silibus Sekolah Agama Negeri",
+        "Guru Bertauliah & Sabar"
+      ],
+      "bonuses": [
+        "🎁 Panduan solat eksklusif",
+        "🎁 Checklist ibadah harian",
+        "🎁 Nota ringkas & padat"
+      ],
+      "urgency": "Slot sangat terhad untuk setiap pengambilan.",
+      "riskReversal": "Cuba dulu kelas trial tanpa obligasi."
+    },
+    "offerConfig": {
+      "packageName": "Pakej Asas Agama",
+      "packageDesc": "Pastikan Asas Agama Anak Kukuh"
+    },
+    "closing": {
+      "headline": "Ibadah tanpa ilmu ibarat bangunan tanpa asas 🤍",
+      "subline": "Pastikan anak kita berdiri di atas ilmu yang benar."
+    },
+    "faqs": [
+      {
+        "q": "Anak saya dah sekolah agama, perlu lagi?",
+        "a": "Ya, ini untuk reinforce & perbaiki kefahaman supaya amalan harian mereka lebih mantap."
+      },
+      {
+        "q": "Silibus & modul apa yang akan digunakan nanti?",
+        "a": "Sama seperti silibus di sekolah agama negeri untuk memastikan keselarasan ilmu yang dipelajari."
+      }
+    ]
+  },
+  "kelas-hafazan": {
+    "header": {
+      "titlePart1": "Kelas",
+      "titlePart2": "Hafazan",
+      "description": "Lahirkan huffaz di dalam keluarga anda. Kami tawarkan teknik hafalan yang sistematik, fokus kepada kualiti bacaan dan ingatan jangka panjang."
+    },
+    "painPoints": {
+      "hook": "Hafal… tapi cepat lupa? 😔",
+      "description": "Menghafal tanpa teknik bimbingan yang betul selalunya membawa kepada cepat lupa.",
+      "points": [
+        {
+          "title": "Hafal hari ini… esok lupa.",
+          "desc": "Tiada teknik ulangkaji (muraja'ah) yang berkesan menyebabkan hafalan baru mudah hilang dari ingatan."
+        },
+        {
+          "title": "Tiada sistem & pemantauan.",
+          "desc": "Menghafal bersendirian tanpa pemantauan guru menyebabkan kualiti bacaan & makhraj terabai."
+        },
+        {
+          "title": "Hafazan jadi tak konsisten.",
+          "desc": "Tanpa jadual yang tetap, progres hafalan menjadi sangat perlahan dan akhirnya terhenti separuh jalan."
+        }
+      ],
+      "empathy": {
+        "headline": "Hafazan Itu Perjuangan",
+        "content": "Menjadi penjaga kalam Allah adalah kemuliaan agung. Kami di sini untuk memudahkan perjalanan itu.",
+        "quote": "Sebaik-baik kamu adalah yang belajar Al-Quran dan mengajarkannya."
+      }
+    },
+    "solution": {
+      "headline": "MyNgaji bantu anda hafal & kekalkan hafazan.",
+      "subline": "Kami menggabungkan teknik hafalan klasik dengan sistem pemantauan moden untuk hasil yang lebih mantap.",
+      "mechanisms": [
+        {
+          "title": "Teknik Hafazan Terbukti",
+          "desc": "Menggunakan kaedah tikrar & talaqqi yang memudahkan ingatan meresap ke dalam dada."
+        },
+        {
+          "title": "Sistem Muraja'ah Konsisten",
+          "desc": "Jadual ulangkaji yang teratur untuk memastikan hafalan lama tetap segar dan kuat."
+        },
+        {
+          "title": "Monitoring Progress",
+          "desc": "Pemantauan berkala oleh guru untuk melihat tahap kemajuan hafalan setiap pelajar."
+        }
+      ]
+    },
+    "proof": {
+      "label": "Bukti Hafalan",
+      "headline": "Hafalan Yang Melekat Di Dada.",
+      "subline": "Kejayaan pelajar mencapai target juzuk hafalan dengan kualiti itqan yang tinggi.",
+      "testimonial": {
+        "text": "Alhamdulillah, sekarang hafalan saya lebih konsisten. Dulu selalu lupa, tapi dengan teknik kat sini, ingatan makin kuat.",
+        "author": "Encik Idris",
+        "role": "Pelajar Hafazan MyNgaji"
+      },
+      "metrics": [
+        {
+          "label": "Konsistensi",
+          "title": "Pelajar Lebih Konsisten",
+          "desc": "Majoriti pelajar kami berjaya mengekalkan rutin hafalan harian tanpa gagal."
+        },
+        {
+          "label": "Kualiti Itqan",
+          "title": "Hafazan Lebih Kuat",
+          "desc": "Hafalan yang lebih mantap dan lancar tanpa perlu kerap merujuk mushaf."
+        },
+        {
+          "label": "Daya Ingatan",
+          "title": "Kurang Masalah Lupa",
+          "desc": "Sistem muraja'ah yang ketat meminimumkan risiko lupa surah-surah yang telah dihafal."
+        }
+      ]
+    },
+    "offer": {
+      "price": "80",
+      "priceSub": "/bulan",
+      "features": [
+        "Sesi Talaqqi Muka ke Muka (Online)",
+        "Jadual Hafalan Personal",
+        "Bimbingan Makhraj Intensif"
+      ],
+      "bonuses": [
+        "🎁 Jadual hafalan sistematik",
+        "🎁 Tracker progress harian",
+        "🎁 Semakan guru bertauliah"
+      ],
+      "urgency": "Pengambilan terhad setiap batch untuk kualiti tumpuan.",
+      "riskReversal": "Kelas trial disediakan untuk anda mencuba teknik kami."
+    },
+    "offerConfig": {
+      "packageName": "Pakej Itqan Hafazan",
+      "packageDesc": "Mulakan Hafazan Hari Ini"
+    },
+    "closing": {
+      "headline": "Setiap ayat yang dihafal… akan menjadi cahaya di akhirat 🤍",
+      "subline": "Mulakan walaupun sedikit — tapi istiqamah."
+    },
+    "faqs": [
+      {
+        "q": "Saya tak kuat ingatan, boleh?",
+        "a": "Sangat boleh. Kami tidak fokus pada kelajuan, tapi pada teknik & konsistensi bimbingan."
+      },
+      {
+        "q": "Surah apa yang akan dihafal?",
+        "a": "Lazimnya kami bermula dengan surah-surah pendek iaitu pada Juzuk 30 (Juz Amma) sebelum ke peringkat seterusnya."
+      }
+    ]
+  },
+  "kelas-bahasa-arab": {
+    "header": {
+      "titlePart1": "Kelas",
+      "titlePart2": "Bahasa Arab",
+      "description": "Fahami keindahan bahasa Al-Quran dan komunikasi Arab. Modul pembelajaran yang disusun rapi untuk memudahkan pemahaman anda dari peringkat asas."
+    },
+    "painPoints": {
+      "hook": "Belajar Bahasa Arab tapi masih tak faham? 🤔",
+      "description": "Dah habis banyak masa hafal kosa kata, tapi bila baca ayat tetap tak tahu maksud.",
+      "points": [
+        {
+          "title": "Hafal banyak… tapi tak faham.",
+          "desc": "Dah habis banyak masa hafal kosa kata, tapi bila baca ayat tetap tak tahu maksud."
+        },
+        {
+          "title": "Nampak ayat Arab… tapi tak tahu maksud.",
+          "desc": "Tengok kitab atau Al-Quran, nampak macam bahasa asing yang sangat susah."
+        },
+        {
+          "title": "Akhirnya rasa putus asa.",
+          "desc": "Rasa macam bahasa Arab ni hanya untuk orang tertentu je. Terhenti separuh jalan."
+        },
+        {
+          "title": "Terperangkap teknikal...",
+          "desc": "Terlalu pening dengan hukum nahu yang kompleks sebelum faham makna inti."
+        },
+        {
+          "title": "Tiada praktikal...",
+          "desc": "Hanya belajar teori tanpa ada peluang untuk membina ayat sendiri."
+        }
+      ],
+      "empathy": {
+        "headline": "Kami Faham Perasaan Anda",
+        "content": "Bahasa Arab adalah kunci memahami Al-Quran. Kami bantu anda faham struktur ayat dengan mudah.",
+        "quote": "Pelajarilah bahasa Arab kerana ia sebahagian daripada agama kamu."
+      }
+    },
+    "solution": {
+      "headline": "Nahu & Sorof Mudah → Faham Quran → Komunikasi Arab.",
+      "subline": "Kami bantu anda faham, bukan sekadar hafal kosa kata kosong.",
+      "mechanisms": [
+        {
+          "title": "Nahu & sorof dipermudahkan",
+          "desc": "Kami buang teknikal yang memeningkan, kami beri inti pati yang paling penting."
+        },
+        {
+          "title": "Teknik faham ayat Al-Quran",
+          "desc": "Belajar terus menggunakan contoh dari ayat-ayat suci untuk kesan yang lebih mendalam."
+        },
+        {
+          "title": "Latihan praktikal bina ayat",
+          "desc": "Bukan sekadar teori, anda akan terus berlatih membina ayat sendiri setiap sesi."
+        },
+        {
+          "title": "Belajar santai, tak stress",
+          "desc": "Suasana pembelajaran yang kondusif & fleksibel mengikut kemampuan anda."
+        }
+      ]
+    },
+    "proof": {
+      "label": "Hasil Pembelajaran",
+      "headline": "Bukti Penguasaan Pelajar Kami",
+      "subline": "Lihat bagaimana pelajar kami mula memahami teks Arab dalam masa singkat.",
+      "testimonial": {
+        "text": "Baru belajar beberapa bulan, sekarang dah mula faham ayat-ayat basic dalam solat. Rasa lebih khusyuk!",
+        "author": "Ahmad Fauzi",
+        "role": "Pelajar Asas Bahasa Arab"
+      },
+      "metrics": [
+        {
+          "label": "Kefahaman Tahap 1",
+          "title": "Pelajar mula faham ayat basic",
+          "desc": "Mampu menterjemah frasa mudah tanpa merujuk kamus dalam masa singkat."
+        },
+        {
+          "label": "Keyakinan Membaca",
+          "title": "Lebih yakin memahami teks",
+          "desc": "Hilang rasa gerun bila berhadapan dengan teks bahasa Arab yang panjang."
+        },
+        {
+          "label": "Motivasi Tinggi",
+          "title": "Minat belajar meningkat",
+          "desc": "95% pelajar kami rasa lebih teruja untuk meneroka bahasa syurga ini."
+        }
+      ]
+    },
+    "offer": {
+      "price": "90",
+      "priceSub": "/bulan",
+      "features": [
+        "Sesuai untuk remaja & dewasa",
+        "Bimbingan nahu & sorof sistematik",
+        "Latihan kosa kata harian"
+      ],
+      "bonuses": [
+        "Nota ringkas (Cheat Sheet)",
+        "Latihan tambahan berkala",
+        "Rakaman kelas untuk ulangkaji"
+      ],
+      "urgency": "Pengambilan terhad setiap batch untuk kualiti tumpuan.",
+      "riskReversal": "Cuba kelas trial dulu tanpa bayaran."
+    },
+    "offerConfig": {
+      "packageName": "Pakej Asas Arab",
+      "packageDesc": "Kuasai Struktur & Makna"
+    },
+    "closing": {
+      "headline": "Bahasa Arab adalah kunci memahami Al-Quran 🤍",
+      "subline": "Jangan sekadar membaca… fahamilah keindahan setiap kalimah-Nya."
+    },
+    "faqs": [
+      {
+        "q": "Susah ke nak mula?",
+        "a": "Kami simplify nahu & sorof supaya anda mudah faham dari hari pertama lagi."
+      },
+      {
+        "q": "Sesuai untuk beginner?",
+        "a": "Ya, memang modul ini direka khas untuk mereka yang bermula dari asas (zero)."
+      }
+    ]
+  }
+}

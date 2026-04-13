@@ -2,34 +2,32 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { CheckCircle2, BookOpen, Users, Star, ArrowRight } from "lucide-react";
+import { CheckCircle2, BookOpen, Users, Star, ArrowRight, LucideIcon } from "lucide-react";
 import ScrollFloat from "@/components/scroll-float";
 import { GradualSpacing } from "@/components/ui/gradual-spacing";
 
-const mechanisms = [
-  {
-    title: "Modul step-by-step",
-    desc: "Iqra’ → Al-Quran yang disusun sistematik untuk semua peringkat.",
-    icon: BookOpen,
-  },
-  {
-    title: "Fokus makhraj & tajwid",
-    desc: "Bukan sekadar baca, kami tekankan sebutan yang betul dan hukum tajwid.",
-    icon: Star,
-  },
-  {
-    title: "Kelas kecil / 1-1",
-    desc: "Lebih fokus dan personal. Guru boleh beri perhatian penuh kepada anda.",
-    icon: Users,
-  },
-  {
-    title: "Guru bertauliah",
-    desc: "Guru ditapis & dilatih khas untuk mengajar dengan teknik yang mudah.",
-    icon: CheckCircle2,
-  },
-];
+interface Mechanism {
+  title: string;
+  desc: string;
+}
 
-export function Solution() {
+interface SolutionProps {
+  data: {
+    headline: string;
+    subline: string;
+    mechanisms: Mechanism[];
+  };
+  iconMap?: Record<string, LucideIcon>;
+}
+
+const defaultIconMap: Record<string, LucideIcon> = {
+  "Modul step-by-step": BookOpen,
+  "Fokus makhraj & tajwid": Star,
+  "Kelas kecil / 1-1": Users,
+  "Guru bertauliah": CheckCircle2,
+};
+
+export function Solution({ data, iconMap = defaultIconMap }: SolutionProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -67,6 +65,11 @@ export function Solution() {
     return () => observer.disconnect();
   }, [isMobile]);
 
+  // Split headline at the arrow if present, otherwise just split in middle
+  const headlineParts = data.headline.includes("→") 
+    ? data.headline.split("→") 
+    : [data.headline.substring(0, Math.floor(data.headline.length / 2)), data.headline.substring(Math.floor(data.headline.length / 2))];
+
   return (
     <section className="py-24 md:py-32 bg-white relative overflow-hidden">
       {/* Subtle Background Blobs */}
@@ -95,17 +98,17 @@ export function Solution() {
                 containerClassName="!my-0 mb-8"
                 textClassName="text-3xl md:text-4xl lg:text-4xl font-black leading-tight block uppercase tracking-tight"
             >
-              <span className="text-primary">Di MyNgaji, kami bantu anda dari</span> 
-              <br className="hidden md:block" />
-              <span className="text-secondary"> Zero </span> 
-              <span className="text-primary">→</span> 
-              <span className="text-secondary"> Lancar </span> 
-              <span className="text-primary">→</span> 
-              <span className="text-secondary"> Yakin.</span>
+              <span className="text-primary">{headlineParts[0]}</span> 
+              {headlineParts.length > 1 && (
+                <>
+                  <br className="hidden md:block" />
+                  <span className="text-secondary">{headlineParts.slice(1).join(" → ")}</span>
+                </>
+              )}
             </ScrollFloat>
 
             <p className="text-lg md:text-xl text-stone-600 mb-10 leading-relaxed font-medium">
-              Kami menggabungkan teknik tradisional yang muktabar dengan teknologi moden untuk memastikan sesiapa sahaja boleh mula membaca Al-Quran dengan mudah.
+              {data.subline}
             </p>
             
             <motion.button
@@ -120,8 +123,9 @@ export function Solution() {
 
           {/* Right Grid */}
           <div className="lg:w-1/2 grid sm:grid-cols-2 gap-5 p-2">
-            {mechanisms.map((item, index) => {
+            {data.mechanisms.map((item, index) => {
               const isActive = isMobile && activeIndex === index;
+              const Icon = iconMap[item.title] || BookOpen;
               return (
                 <motion.div
                   key={index}
@@ -146,7 +150,7 @@ export function Solution() {
                           ? "bg-primary text-white scale-110" 
                           : "bg-white border border-stone-100 group-hover:bg-primary group-hover:text-white group-hover:scale-110"
                       }`}>
-                        <item.icon className={`w-6 h-6 transition-colors ${
+                        <Icon className={`w-6 h-6 transition-colors ${
                           isActive ? "text-white" : "text-primary group-hover:text-white"
                         }`} />
                       </div>

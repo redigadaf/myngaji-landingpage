@@ -4,30 +4,17 @@ import React, { useEffect, useRef, useState } from "react";
 import { Search } from "lucide-react";
 import { motion } from "framer-motion";
 
-const faqs = [
-  {
-    q: "Saya dah besar, boleh lagi ke?",
-    a: "Sangat boleh. Ramai pelajar kami bermula dari dewasa, ada yang pesara pun ada. Tiada istilah lambat untuk belajar Al-Quran.",
-  },
-  {
-    q: "Kena ada asas?",
-    a: "Tak perlu. Kami ajar dari zero. Kami akan bimbing anda dari mengenal huruf (Iqra') sehinggal lancar bacaan Al-Quran.",
-  },
-  {
-    q: "Online berkesan ke?",
-    a: "Ya, dengan guru & sistem yang betul — ia lebih fokus (1-ke-1) & fleksibel. Kami menggunakan platform yang stabil untuk memastikan kualiti suara & visual yang jelas.",
-  },
-  {
-    q: "Bermula dari umur berapa boleh mendaftar?",
-    a: "Bermula seawal 6 tahun dan tiada had umur maksimum. Kami ada modul khas untuk kanak-kanak dan juga dewasa.",
-  },
-  {
-    q: "Ada ajar tajwid ke nanti?",
-    a: "Ya, ilmu asas tajwid akan diajar kepada pelajar termasuklah yang mengambil pakej kelas mengaji kanak-kanak. Kami mahu anda membaca dengan betul, bukan sekadar lancar.",
-  },
-];
+interface FAQItem {
+  q: string;
+  a: string;
+}
 
-export function FAQAlquran() {
+interface GenericFAQProps {
+  data: FAQItem[];
+  categoryName: string;
+}
+
+export function FAQ({ data, categoryName }: GenericFAQProps) {
   const spiralRef = useRef<HTMLDivElement | null>(null);
   const [query, setQuery] = useState("");
 
@@ -105,7 +92,7 @@ export function FAQAlquran() {
     spiralRef.current.appendChild(svg);
   }, [cfg.points, cfg.dotRadius, cfg.duration, cfg.color, cfg.pulseEffect, cfg.sizeMin, cfg.sizeMax, cfg.opacityMin, cfg.opacityMax]);
 
-  const filtered = query ? faqs.filter(({ q, a }) => (q + a).toLowerCase().includes(query.toLowerCase())) : faqs;
+  const filtered = query ? data.filter(({ q, a }) => (q + a).toLowerCase().includes(query.toLowerCase())) : data;
 
   return (
     <div className="relative w-full overflow-hidden text-stone-900 bg-stone-50 border-t border-stone-100">
@@ -124,7 +111,7 @@ export function FAQAlquran() {
         >
           <div className="text-center md:text-left">
             <h2 className="text-5xl md:text-6xl font-black tracking-tight text-primary">FAQ</h2>
-            <p className="mt-3 text-sm md:text-base text-stone-500 font-medium italic">Soalan Lazim berkaitan Kelas Al-Quran.</p>
+            <p className="mt-3 text-sm md:text-base text-stone-500 font-medium italic">Soalan Lazim berkaitan Kelas {categoryName}.</p>
           </div>
           <div className="flex items-center gap-3 w-full md:w-auto">
             <div className="relative w-full md:w-80">

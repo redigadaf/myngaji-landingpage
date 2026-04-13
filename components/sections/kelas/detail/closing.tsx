@@ -3,7 +3,19 @@
 import { motion } from "framer-motion";
 import { Heart, ArrowRight, MessageCircle } from "lucide-react";
 
-export function Closing() {
+interface ClosingProps {
+  data: {
+    headline: string;
+    subline: string;
+  };
+}
+
+export function Closing({ data }: ClosingProps) {
+  // Split headline at the first comma if present to highlight the second part
+  const headlineParts = data.headline.includes(",") 
+    ? [data.headline.split(",")[0] + ",", data.headline.split(",").slice(1).join(",")]
+    : [data.headline, ""];
+
   return (
     <section className="py-20 md:py-24 bg-white relative overflow-hidden">
       {/* Background Decorative Elements */}
@@ -31,14 +43,13 @@ export function Closing() {
               </motion.div>
 
               <h2 className="text-2xl md:text-3xl font-black text-white mb-6 leading-tight tracking-tight uppercase">
-                Al-Quran bukan untuk yang sempurna,<br />
-                tapi untuk yang <span className="text-secondary italic">ingin belajar.</span>
+                {headlineParts[0]}<br />
+                {headlineParts[1] && <span className="text-secondary italic">{headlineParts[1]}</span>}
               </h2>
               
               <div className="max-w-md mx-auto border-t border-white/10 pt-6 mb-10">
                 <p className="text-lg md:text-xl font-medium text-white/80 italic leading-relaxed">
-                  &quot;Hari ini mungkin langkah kecil anda —<br />
-                  tapi ia adalah langkah yang paling bernilai bagi jiwa anda.&quot;
+                  &quot;{data.subline}&quot;
                 </p>
               </div>
 

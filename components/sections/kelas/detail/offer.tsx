@@ -1,30 +1,38 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Check, Gift, ShieldCheck, ArrowRight, Timer, Sparkles } from "lucide-react";
+import { Check, Sparkles, Gift, ArrowRight, Timer, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const bonuses = [
-  "Ebook Al-Quran Eksklusif",
-  "Panduan Tajwid Ringkas & Padat",
-  "Progress Tracking Berkala",
-];
+interface OfferProps {
+  data: {
+    price: string;
+    priceSub: string;
+    bonuses: string[];
+    urgency: string;
+    riskReversal: string;
+  };
+  packageName?: string;
+  packageDesc?: string;
+  featureList?: string[];
+}
 
-export function Offer() {
+export function Offer({ 
+  data, 
+  packageName = "Bimbingan Personal", 
+  packageDesc = "Sesi One-to-One Fokus 100%",
+  featureList = ["Pelajaran Fleksibel", "Guru Bertauliah", "Modul Sistematik"]
+}: OfferProps) {
   return (
-    <section className="py-24 md:py-32 bg-stone-50 relative overflow-hidden">
-      {/* Premium Accents */}
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] -z-10"></div>
-      <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-[120px] -z-10"></div>
-
-      <div className="container mx-auto px-6 relative z-10">
+    <section className="py-24 bg-stone-50 overflow-hidden">
+      <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="bg-white rounded-[2.5rem] shadow-2xl shadow-stone-200/50 border border-stone-100 overflow-hidden flex flex-col md:flex-row"
+            className="bg-white rounded-[2.5rem] shadow-[0_30px_100px_-20px_rgba(23,131,143,0.15),0_15px_40px_-10px_rgba(0,0,0,0.05)] border border-stone-100 overflow-hidden flex flex-col md:flex-row"
           >
             {/* Left Side: The Package */}
             <div className={`flex-1 p-8 md:p-12 relative overflow-hidden bg-primary shadow-inner`}>
@@ -37,23 +45,19 @@ export function Offer() {
                   <span className="text-[10px] font-black text-white/90 uppercase tracking-[0.2em]">Eksklusif</span>
                 </div>
 
-                <h3 className="text-3xl font-black text-white mb-2">Bimbingan Personal</h3>
-                <p className="text-white/60 font-medium text-sm mb-10">Sesi One-to-One Fokus 100%</p>
+                <h3 className="text-3xl font-black text-white mb-2">{packageName}</h3>
+                <p className="text-white/60 font-medium text-sm mb-10">{packageDesc}</p>
                 
                 <div className="flex flex-col gap-1 mb-10">
                   <span className="text-white/50 text-xs font-bold uppercase tracking-widest">Yuran Bulanan</span>
                   <div className="flex items-baseline gap-2">
-                    <span className="text-5xl font-black text-white tracking-tighter">RM80</span>
-                    <span className="text-white/50 font-bold text-sm">/bulan</span>
+                    <span className="text-5xl font-black text-white tracking-tighter">{data.price}</span>
+                    <span className="text-white/50 font-bold text-sm">{data.priceSub}</span>
                   </div>
                 </div>
 
                 <ul className="space-y-5 mb-12">
-                  {[
-                    "Khas untuk Kanak-kanak & Dewasa",
-                    "Masa Fleksibel & Personal",
-                    "Guru Bertauliah (KPM & Jakim)"
-                  ].map((item, i) => (
+                  {featureList.map((item, i) => (
                     <li key={i} className="flex items-center gap-3 text-white/90 font-bold text-sm">
                       <div className="flex-shrink-0 w-5 h-5 bg-secondary flex items-center justify-center rounded-full">
                         <Check className="w-3 h-3 text-primary" />
@@ -78,7 +82,7 @@ export function Offer() {
                   Bonus Eksklusif
                 </h4>
                 <div className="space-y-4 mb-10">
-                  {bonuses.map((bonus, i) => (
+                  {data.bonuses.map((bonus, i) => (
                     <div key={i} className="flex items-center gap-3 text-stone-600 font-bold text-sm bg-white p-3 rounded-xl border border-stone-100 shadow-sm">
                       <div className="w-2 h-2 rounded-full bg-secondary" />
                       {bonus}
@@ -95,22 +99,18 @@ export function Offer() {
                   <div>
                     <h5 className="text-xs font-black text-stone-900 uppercase tracking-wider mb-1">Slot Terhad</h5>
                     <p className="text-stone-500 text-[11px] leading-relaxed font-bold">
-                      Kami mengekalkan kualiti dengan mengehadkan slot pelajar. Daftar sekarang sebelum penuh.
+                      {data.urgency}
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-white border border-stone-100 shadow-sm mt-6">
                   <ShieldCheck className="w-4 h-4 text-primary" />
-                  <p className="text-[10px] font-black text-stone-600 uppercase tracking-tight">Cuba trial tanpa bayaran!</p>
+                  <p className="text-[10px] font-black text-stone-600 uppercase tracking-tight">{data.riskReversal}</p>
                 </div>
               </div>
             </div>
           </motion.div>
-
-          <p className="text-center mt-8 text-stone-400 font-medium italic text-sm">
-            &quot;Langkah kecil hari ini, besar nilainya di sisi-Nya.&quot;
-          </p>
         </div>
       </div>
     </section>

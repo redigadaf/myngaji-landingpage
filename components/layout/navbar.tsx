@@ -13,6 +13,7 @@ import { usePathname } from "next/navigation";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
   const scrolled = useScroll(10);
   const pathname = usePathname();
 
@@ -114,14 +115,63 @@ export function Navbar() {
       {/* Mobile Menu Overlay */}
       <div className={cn("fixed top-20 right-0 bottom-0 left-0 z-50 flex flex-col overflow-hidden bg-white dark:bg-black md:hidden", open ? "block" : "hidden")}>
         <div className="flex h-full w-full flex-col p-6 animate-in slide-in-from-top-10 duration-200">
-          <div className="flex flex-col gap-6 mt-4">
+          <div className="flex flex-col gap-4 mt-4 overflow-y-auto pb-20">
             {navLinks.map((link) => (
-              <Link key={link.name} href={link.href} className={cn("text-xl font-medium transition-colors", pathname === link.href ? "text-primary font-bold" : "text-slate-800 hover:text-primary")} onClick={() => setOpen(false)}>
-                {link.name}
-              </Link>
+              <div key={link.name} className="flex flex-col">
+                <div className="flex items-center justify-between">
+                  {link.submenu ? (
+                    <button
+                      onClick={() => setActiveSubmenu(activeSubmenu === link.name ? null : link.name)}
+                      className={cn(
+                        "text-xl font-semibold py-2 transition-colors flex items-center justify-between w-full",
+                        activeSubmenu === link.name || pathname.startsWith(link.href) ? "text-primary" : "text-slate-800"
+                      )}
+                    >
+                      {link.name}
+                      <ChevronDown className={cn("w-5 h-5 transition-transform", activeSubmenu === link.name ? "rotate-180" : "")} />
+                    </button>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className={cn(
+                        "text-xl font-semibold py-2 transition-colors",
+                        pathname === link.href ? "text-primary" : "text-slate-800 hover:text-primary"
+                      )}
+                      onClick={() => setOpen(false)}
+                    >
+                      {link.name}
+                    </Link>
+                  )}
+                </div>
+
+                {link.submenu && (
+                  <div
+                    className={cn(
+                      "grid transition-all duration-300 ease-in-out",
+                      activeSubmenu === link.name ? "grid-rows-[1fr] opacity-100 mt-2" : "grid-rows-[0fr] opacity-0"
+                    )}
+                  >
+                    <div className="overflow-hidden flex flex-col gap-3 pl-4 border-l-2 border-primary/10 ml-1">
+                      {link.submenu.map((subItem) => (
+                        <Link
+                          key={subItem.name}
+                          href={subItem.href}
+                          className={cn(
+                            "text-[17px] py-1.5 transition-colors",
+                            pathname === subItem.href ? "text-primary font-bold" : "text-slate-500"
+                          )}
+                          onClick={() => setOpen(false)}
+                        >
+                          {subItem.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             ))}
 
-            <div className="mt-2 flex justify-start">
+            <div className="mt-6 flex justify-start">
               <Link href="#" onClick={() => setOpen(false)}>
                 <ShinyButton className="inline-flex items-center justify-center !px-8 !py-4 rounded-full text-base font-extrabold shadow-lg hover:shadow-xl translate-y-0">
                   Daftar Kelas Percubaan
