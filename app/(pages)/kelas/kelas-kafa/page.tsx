@@ -8,20 +8,19 @@ import { Closing } from "@/components/sections/kelas/detail/closing";
 import { FAQ } from "@/components/sections/kelas/detail/faq-kelas";
 
 export const metadata = {
-  title: "Kelas Al-Quran | MyNgaji",
-  description: "Pelajari bacaan Al-Quran dari asas hingga mahir dengan bimbingan guru yang bertauliah. Kami menawarkan kelas mengaji personal dan berkumpulan.",
+  title: "Kelas KAFA | MyNgaji",
+  description: "Bimbingan Fardu Ain & Al-Quran yang syumul untuk anak-anak. Modul interaktif Tauhid, Feqah, Akhlak, Sirah dan Jawi.",
 };
 
-const kelas = data["kelas-alquran"];
+const kelas = data["kelas-kafa"];
 
-export default function KelasAlquranPage() {
+export default function KelasKafaPage() {
   return (
     <main className="min-h-screen bg-white">
       <PageHeader
         title={<>{kelas.header.titlePart1} <span className="text-secondary">{kelas.header.titlePart2}</span></>}
         description={kelas.header.description}
       />
-      
       <PainPoints data={kelas.painPoints} />
       <Solution data={kelas.solution} />
       <Proof data={kelas.proof} />

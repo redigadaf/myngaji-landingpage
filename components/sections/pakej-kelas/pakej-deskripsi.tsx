@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Star, Clock, Laptop, Users, BookOpen } from "lucide-react";
+import { Star, Clock, Laptop, Users, BookOpen, Phone } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PakejKelas } from "@/components/sections/data/data-pakej-kelas";
@@ -9,9 +9,6 @@ interface PakejDeskripsiProps {
 }
 
 export function PakejDeskripsi({ data }: PakejDeskripsiProps) {
-  // Use first price for display
-  const startingPrice = data.harga[0];
-
   return (
     <section className="py-20 md:py-24 bg-slate-50 relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
@@ -45,10 +42,13 @@ export function PakejDeskripsi({ data }: PakejDeskripsiProps) {
               <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-primary via-emerald-400 to-primary"></div>
 
               <CardHeader className="text-center pt-8 pb-4">
-                <CardTitle className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Harga Bermula</CardTitle>
-                <div className="flex items-baseline justify-center gap-1 text-slate-900">
-                  <span className="text-5xl font-black tracking-tighter text-primary">{startingPrice.harga}</span>
-                  <span className="text-slate-400 font-medium text-lg">/{startingPrice.tempoh.toLowerCase()}</span>
+                <CardTitle className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Yuran Pengajian</CardTitle>
+                <div className="flex flex-col items-center gap-2">
+                  <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-2">
+                    <Phone className="w-7 h-7 text-primary" />
+                  </div>
+                  <p className="text-2xl font-black text-primary tracking-tight">Hubungi Kami</p>
+                  <p className="text-slate-400 text-sm font-medium">Dapatkan maklumat yuran terkini</p>
                 </div>
               </CardHeader>
 
@@ -71,10 +71,16 @@ export function PakejDeskripsi({ data }: PakejDeskripsiProps) {
               </CardContent>
 
               <CardFooter className="flex flex-col gap-3 px-8 pb-10 bg-slate-50/50 pt-8">
-                <Button className="w-full bg-primary hover:bg-primary/90 text-white rounded-full h-14 text-lg font-bold shadow-xl shadow-primary/20 hover:shadow-primary/30 transition-all hover:scale-[1.02]">Daftar Sekarang</Button>
-                <Button variant="outline" className="w-full border-2 border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900 rounded-full h-14 text-base font-semibold">
-                  Cuba Percuma
-                </Button>
+                <Link href="https://wa.me/601131018501" target="_blank" className="w-full">
+                  <Button className="w-full bg-primary hover:bg-primary/90 text-white rounded-full h-14 text-lg font-bold shadow-xl shadow-primary/20 hover:shadow-primary/30 transition-all hover:scale-[1.02]">
+                    Daftar Sekarang
+                  </Button>
+                </Link>
+                <Link href="https://wa.me/601131018501" target="_blank" className="w-full">
+                  <Button variant="outline" className="w-full border-2 border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900 rounded-full h-14 text-base font-semibold">
+                    Cuba Percuma
+                  </Button>
+                </Link>
                 <div className="flex justify-center items-center gap-2 mt-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
                   <p className="text-center text-xs text-slate-400 font-medium">Tempat terhad bulan ini</p>

@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
 
 export type TypewriterSegment = {
   text: string;
@@ -22,7 +21,7 @@ export interface TypewriterProps {
 // Helper to flatten rich text segments into individual characters with their styling
 const flattenSegments = (segments: TypewriterSegment[]) => {
   return segments.flatMap((segment) =>
-    segment.text.split("").map((char) => ({
+    Array.from(segment.text).map((char) => ({
       char,
       className: segment.className,
     })),
@@ -71,18 +70,21 @@ export function Typewriter({ text, speed = 100, cursor = "|", loop = false, dele
     const currentText = textArray[textArrayIndex] || "";
     if (!currentText) return;
 
+    const chars = Array.from(currentText);
+
     const timeout = setTimeout(
       () => {
         if (!isDeleting) {
-          if (currentIndex < currentText.length) {
-            setDisplayText((prev) => prev + currentText[currentIndex]);
+          if (currentIndex < chars.length) {
+            setDisplayText((prev) => prev + chars[currentIndex]);
             setCurrentIndex((prev) => prev + 1);
           } else if (loop) {
             setTimeout(() => setIsDeleting(true), delay);
           }
         } else {
           if (displayText.length > 0) {
-            setDisplayText((prev) => prev.slice(0, -1));
+            // Using Array.from for safety when deleting as well
+            setDisplayText((prev) => Array.from(prev).slice(0, -1).join(""));
           } else {
             setIsDeleting(false);
             setCurrentIndex(0);
