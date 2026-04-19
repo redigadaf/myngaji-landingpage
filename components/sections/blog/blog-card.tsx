@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Calendar, Clock, User, ArrowRight } from "lucide-react";
 import Image from "next/image";
@@ -31,6 +32,19 @@ interface BlogCardProps {
 }
 
 export function BlogCard({ article }: BlogCardProps) {
+  const [imageError, setImageError] = useState(false);
+
+  // Get initials for fallback
+  const getInitials = (name?: string) => {
+    if (!name) return "U";
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .substring(0, 2);
+  };
+
   return (
     <motion.div whileHover={{ y: -8 }} transition={{ type: "spring", stiffness: 300, damping: 20 }} className="h-full">
       <Card className="flex h-full flex-col overflow-hidden border-none shadow-md hover:shadow-xl transition-shadow duration-300 dark:bg-gray-900">
@@ -70,13 +84,18 @@ export function BlogCard({ article }: BlogCardProps) {
         <CardFooter className="border-t p-5 dark:border-gray-800">
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="h-8 w-8 overflow-hidden rounded-full bg-emerald-100 dark:bg-emerald-900">
-                {/* Author Avatar Placeholder */}
-                <Image src={article.author.avatar} alt={article.author.name} width={32} height={32} className="h-full w-full object-cover" />
+              <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-emerald-100 text-[10px] font-bold text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300">
+                {!imageError && article.author?.avatar ? (
+                  <Image src={article.author.avatar} alt={article.author.name || "Author"} width={32} height={32} className="h-full w-full object-cover" onError={() => setImageError(true)} />
+                ) : (
+                  <span>{getInitials(article.author?.name)}</span>
+                )}
               </div>
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{article.author.name}</span>
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{article.author?.name || "Unknown"}</span>
             </div>
-            {/* Optional: Read more icon/button */}
+            <Link href={`/blog/${article.slug}`} className="text-primary hover:text-emerald-700 transition-colors">
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
         </CardFooter>
       </Card>

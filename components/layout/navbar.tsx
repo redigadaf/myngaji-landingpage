@@ -49,6 +49,10 @@ export function Navbar() {
     };
   }, [open]);
 
+  if (pathname.startsWith("/dashboard") || pathname === "/login") {
+    return null;
+  }
+
   return (
     <header
       className={cn("fixed top-0 left-0 right-0 z-50 mx-auto w-full border-b border-transparent transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]", {

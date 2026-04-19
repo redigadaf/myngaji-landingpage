@@ -35,7 +35,7 @@ export function FeaturedArticle({ article }: FeaturedArticleProps) {
             <div className="mb-4 flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
               <div className="flex items-center gap-1">
                 <User className="h-4 w-4" />
-                <span>{article.author.name}</span>
+                <span>{article.author?.name || "Unknown"}</span>
               </div>
               <div className="flex items-center gap-1">
                 <Calendar className="h-4 w-4" />

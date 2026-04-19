@@ -42,8 +42,12 @@ export function ArticleHeader({ title, category, author, date, readingTime, imag
       {/* Meta Info Row */}
       <div className="flex flex-wrap items-center gap-6 text-sm text-gray-600 dark:text-gray-400 border-b border-gray-100 dark:border-gray-800 pb-8">
         <div className="flex items-center gap-3">
-          <div className="h-10 w-10 relative overflow-hidden rounded-full border-2 border-emerald-100 dark:border-emerald-900">
-            <Image src={author.avatar} alt={author.name} fill className="object-cover" />
+          <div className="h-10 w-10 relative overflow-hidden rounded-full border-2 border-emerald-100 dark:border-emerald-900 bg-emerald-100 flex items-center justify-center font-bold text-emerald-800">
+            {author.avatar ? (
+              <Image src={author.avatar} alt={author.name} fill className="object-cover" />
+            ) : (
+              <span>{author.name?.charAt(0) || "U"}</span>
+            )}
           </div>
           <div className="flex flex-col">
             <span className="font-semibold text-gray-900 dark:text-white">{author.name}</span>
