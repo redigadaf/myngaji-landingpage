@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase/client";
+import { useState } from "react";
 import { BlogHero } from "@/components/sections/blog/blog-hero";
 import { FeaturedArticle } from "@/components/sections/blog/featured-article";
 import { BlogCategoryFilter } from "@/components/sections/blog/blog-category-filter";
@@ -9,6 +8,7 @@ import { BlogList } from "@/components/sections/blog/blog-list";
 import { BlogSidebar } from "@/components/sections/blog/blog-sidebar";
 import { BlogPagination } from "@/components/sections/blog/blog-pagination";
 import { BlogArticle } from "@/components/sections/blog/blog-card";
+import blogData from "@/components/sections/data/blog-articles.json";
 
 // Extract categories and counts from data
 const getCategories = (articles: BlogArticle[]) => {
@@ -23,95 +23,13 @@ const getCategories = (articles: BlogArticle[]) => {
 };
 
 export default function BlogPage() {
-  const [allArticles, setAllArticles] = useState<BlogArticle[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [allArticles, setAllArticles] = useState<BlogArticle[]>(blogData as BlogArticle[]);
+  const [isLoading, setIsLoading] = useState(false);
   
   const [activeCategory, setActiveCategory] = useState("Semua");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
-
-  useEffect(() => {
-    const fetchArticles = async () => {
-      setIsLoading(true);
-      try {
-        const { data, error } = await supabase
-          .from("blog_posts")
-          .select(`
-            id,
-            title,
-            slug,
-            excerpt,
-            content_html,
-            reading_time,
-            is_featured,
-            published_at,
-            media:media_assets(url),
-            category:blog_categories(name),
-            author:teachers(nama, image_url, display_role, bio)
-          `)
-          .eq("status", "published")
-          .order("published_at", { ascending: false });
-
-        if (error) {
-          console.error("Supabase error:", error);
-          throw error;
-        }
-
-        if (data) {
-          // Define expected shape from the supabase query
-          interface SupabasePost {
-            id: string;
-            title: string;
-            slug: string;
-            excerpt: string | null;
-            content_html: string | null;
-            reading_time: string | null;
-            is_featured: boolean;
-            published_at: string;
-            media: { url: string } | null;
-            category: { name: string } | null;
-            author: {
-              nama: string;
-              image_url: string | null;
-              display_role: string | null;
-              bio: string | null;
-            } | null;
-          }
-
-          const mappedArticles: BlogArticle[] = (data as unknown as SupabasePost[]).map((post) => {
-            return {
-              id: post.id,
-              title: post.title,
-              slug: post.slug,
-              category: post.category?.name || "Uncategorized",
-              excerpt: post.excerpt || "",
-              content: post.content_html || "",
-              author: {
-                name: post.author?.nama || "Unknown",
-                avatar: post.author?.image_url || "/assets/placeholder-user.jpg",
-                role: post.author?.display_role || "Penulis",
-                bio: post.author?.bio || "",
-              },
-              date: post.published_at,
-              readingTime: post.reading_time || "5 min",
-              image: post.media?.url || "/assets/placeholder.jpg",
-              featured: post.is_featured || false,
-            };
-          });
-          
-          setAllArticles(mappedArticles);
-        }
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : String(err);
-        console.error("Error fetching articles:", errorMessage);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchArticles();
-  }, []);
 
   // Filter Logic
   const filteredArticles = allArticles.filter((article) => {
