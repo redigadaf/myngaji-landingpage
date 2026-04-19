@@ -13,7 +13,18 @@ import { ArticleNavigation } from "@/components/sections/blog/detail/article-nav
 import { ReadingProgress } from "@/components/sections/blog/detail/reading-progress";
 import { ChevronRight, Home } from "lucide-react";
 import { Metadata } from "next";
+export const revalidate = 3600; // revalidate at most every hour
 
+export async function generateStaticParams() {
+  const { data: posts } = await supabase
+    .from("blog_posts")
+    .select("slug")
+    .eq("status", "published");
+
+  return (posts || []).map((post) => ({
+    slug: post.slug,
+  }));
+}
 interface SupabaseArticleResponse {
   id: string;
   title: string;
