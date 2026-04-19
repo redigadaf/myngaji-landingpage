@@ -8,7 +8,11 @@ import { useState } from "react";
 // This is a comprehensive component that simulates markdown rendering for the specific demo content
 // In a real app with dynamic content, we'd use react-markdown or MDX
 
-export function ArticleContent() {
+interface ArticleContentProps {
+  content?: string;
+}
+
+export function ArticleContent({ content }: ArticleContentProps) {
   const [copied, setCopied] = useState(false);
 
   const copyToClipboard = () => {
@@ -16,6 +20,15 @@ export function ArticleContent() {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  if (content && content.trim() !== "") {
+    return (
+      <article 
+        className="prose prose-lg prose-emerald dark:prose-invert max-w-none tiptap-content"
+        dangerouslySetInnerHTML={{ __html: content }} 
+      />
+    );
+  }
 
   return (
     <article className="prose prose-lg prose-emerald dark:prose-invert max-w-none">
@@ -43,10 +56,10 @@ export function ArticleContent() {
 
       <blockquote className="border-l-4 border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 p-6 my-8 rounded-r-lg italic text-gray-700 dark:text-gray-300">
         <div className="flex gap-2 mb-2 font-bold text-emerald-700 dark:text-emerald-400 not-italic">💡 Tip Pro:</div>
-        "Mulakan dengan durasi pendek (10 minit) dan tingkatkan secara beransur-ansur. Ini lebih baik daripada sesi panjang yang memenatkan."
+        &quot;Mulakan dengan durasi pendek (10 minit) dan tingkatkan secara beransur-ansur. Ini lebih baik daripada sesi panjang yang memenatkan.&quot;
       </blockquote>
 
-      <p>Pastikan waktu ini bebas daripada gangguan seperti televisyen atau permainan. Jadikan ia sebagai 'sacred time' yang anak-anak nantikan.</p>
+      <p>Pastikan waktu ini bebas daripada gangguan seperti televisyen atau permainan. Jadikan ia sebagai &apos;sacred time&apos; yang anak-anak nantikan.</p>
 
       {/* Section 2 */}
       <h2 id="section-2" className="text-2xl font-bold text-primary dark:text-emerald-400 mt-12 mb-4 flex items-center gap-2 group scroll-mt-24">
@@ -67,7 +80,7 @@ export function ArticleContent() {
         </div>
         <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-100 dark:border-gray-700">
           <h4 className="font-bold text-primary mb-2">Rak Kecil</h4>
-          <p className="text-sm">Untuk simpan Al-Quran, Rehal dan buku iqra'.</p>
+          <p className="text-sm">Untuk simpan Al-Quran, Rehal dan buku iqra&apos;.</p>
         </div>
         <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-100 dark:border-gray-700">
           <h4 className="font-bold text-primary mb-2">Hiasan Dinding</h4>
@@ -75,7 +88,7 @@ export function ArticleContent() {
         </div>
       </div>
 
-      <p>Biarkan anak membantu menghias sudut ini - ia memberi 'sense of ownership' dan mereka akan lebih excited untuk belajar di situ.</p>
+      <p>Biarkan anak membantu menghias sudut ini - ia memberi &apos;sense of ownership&apos; dan mereka akan lebih excited untuk belajar di situ.</p>
 
       <figure className="my-8">
         <div className="relative aspect-video w-full rounded-xl overflow-hidden shadow-md">
@@ -95,10 +108,10 @@ export function ArticleContent() {
       <h3 className="text-xl font-semibold mt-6 mb-3 text-gray-800 dark:text-gray-200">a) Gamifikasi</h3>
       <ul className="list-disc pl-5 space-y-2 mb-6 text-gray-700 dark:text-gray-300">
         <li>
-          Buat <strong>'star chart'</strong> - beri bintang untuk setiap sesi berjaya
+          Buat <strong>&apos;star chart&apos;</strong> - beri bintang untuk setiap sesi berjaya
         </li>
         <li>Hadiah kecil selepas capai target (contoh: 20 bintang)</li>
-        <li>Sistem 'level up' seperti dalam games</li>
+        <li>Sistem &apos;level up&apos; seperti dalam games</li>
       </ul>
 
       <h3 className="text-xl font-semibold mt-6 mb-3 text-gray-800 dark:text-gray-200">b) Multimedia</h3>
@@ -117,16 +130,16 @@ export function ArticleContent() {
         <span className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 text-emerald-800 text-sm font-bold">4</span>
         Berikan Pujian dan Galakan yang Spesifik
       </h2>
-      <p>Anak-anak berkembang dengan galakan positif. Daripada hanya kata "Bagus!", cuba lebih spesifik:</p>
+      <p>Anak-anak berkembang dengan galakan positif. Daripada hanya kata &quot;Bagus!&quot;, cuba lebih spesifik:</p>
 
       <div className="grid md:grid-cols-2 gap-4 my-6">
         <div className="p-4 bg-red-50 dark:bg-red-900/10 rounded-lg border border-red-100">
           <span className="text-red-600 font-bold block mb-2">❌ Kurang efektif:</span>
-          <p>"Bagus!"</p>
+          <p>&quot;Bagus!&quot;</p>
         </div>
         <div className="p-4 bg-emerald-50 dark:bg-emerald-900/10 rounded-lg border border-emerald-100">
           <span className="text-emerald-600 font-bold block mb-2">✅ Lebih efektif:</span>
-          <p>"MasyaAllah, bacaan huruf 'qaf' awak dah sangat betul hari ni! Mesti awak dah practice kan?"</p>
+          <p>&quot;MasyaAllah, bacaan huruf &apos;qaf&apos; awak dah sangat betul hari ni! Mesti awak dah practice kan?&quot;</p>
         </div>
       </div>
 

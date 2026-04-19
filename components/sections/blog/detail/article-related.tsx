@@ -2,16 +2,17 @@
 
 import { BlogCard } from "../blog-card";
 import { BlogArticle } from "../blog-card";
-import blogArticles from "../../data/blog-articles.json";
 
 interface ArticleRelatedProps {
   currentSlug: string;
+  articles: BlogArticle[];
 }
 
-export function ArticleRelated({ currentSlug }: ArticleRelatedProps) {
+export function ArticleRelated({ currentSlug, articles }: ArticleRelatedProps) {
   // Filter out current article and take 3
-  // In a real app we might filter by category
-  const related = (blogArticles as BlogArticle[]).filter((a) => a.slug !== currentSlug).slice(0, 3);
+  const related = articles.filter((a) => a.slug !== currentSlug).slice(0, 3);
+
+  if (related.length === 0) return null;
 
   return (
     <div className="py-12 border-t border-gray-100 dark:border-gray-800">

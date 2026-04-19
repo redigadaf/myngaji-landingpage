@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import articlesData from "@/components/sections/data/blog-articles.json";
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase/client";
 import { BlogHero } from "@/components/sections/blog/blog-hero";
 import { FeaturedArticle } from "@/components/sections/blog/featured-article";
 import { BlogCategoryFilter } from "@/components/sections/blog/blog-category-filter";
@@ -23,13 +23,95 @@ const getCategories = (articles: BlogArticle[]) => {
 };
 
 export default function BlogPage() {
+  const [allArticles, setAllArticles] = useState<BlogArticle[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  
   const [activeCategory, setActiveCategory] = useState("Semua");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6; // Grid size: 3 cols x 2 rows roughly? or just 6
+  const itemsPerPage = 6;
 
-  // Ensure type safety
-  const allArticles: BlogArticle[] = articlesData as BlogArticle[];
+  useEffect(() => {
+    const fetchArticles = async () => {
+      setIsLoading(true);
+      try {
+        const { data, error } = await supabase
+          .from("blog_posts")
+          .select(`
+            id,
+            title,
+            slug,
+            excerpt,
+            content_html,
+            reading_time,
+            is_featured,
+            published_at,
+            media:media_assets(url),
+            category:blog_categories(name),
+            author:teachers(nama, image_url, display_role, bio)
+          `)
+          .eq("status", "published")
+          .order("published_at", { ascending: false });
+
+        if (error) {
+          console.error("Supabase error:", error);
+          throw error;
+        }
+
+        if (data) {
+          // Define expected shape from the supabase query
+          interface SupabasePost {
+            id: string;
+            title: string;
+            slug: string;
+            excerpt: string | null;
+            content_html: string | null;
+            reading_time: string | null;
+            is_featured: boolean;
+            published_at: string;
+            media: { url: string } | null;
+            category: { name: string } | null;
+            author: {
+              nama: string;
+              image_url: string | null;
+              display_role: string | null;
+              bio: string | null;
+            } | null;
+          }
+
+          const mappedArticles: BlogArticle[] = (data as unknown as SupabasePost[]).map((post) => {
+            return {
+              id: post.id,
+              title: post.title,
+              slug: post.slug,
+              category: post.category?.name || "Uncategorized",
+              excerpt: post.excerpt || "",
+              content: post.content_html || "",
+              author: {
+                name: post.author?.nama || "Unknown",
+                avatar: post.author?.image_url || "/assets/placeholder-user.jpg",
+                role: post.author?.display_role || "Penulis",
+                bio: post.author?.bio || "",
+              },
+              date: post.published_at,
+              readingTime: post.reading_time || "5 min",
+              image: post.media?.url || "/assets/placeholder.jpg",
+              featured: post.is_featured || false,
+            };
+          });
+          
+          setAllArticles(mappedArticles);
+        }
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : String(err);
+        console.error("Error fetching articles:", errorMessage);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchArticles();
+  }, []);
 
   // Filter Logic
   const filteredArticles = allArticles.filter((article) => {
@@ -38,13 +120,8 @@ export default function BlogPage() {
     return matchesCategory && matchesSearch;
   });
 
-  // Featured Article (Always the one marked featured, or the first one)
+  // Featured Article
   const featuredArticle = allArticles.find((a) => a.featured) || allArticles[0];
-
-  // Articles to show in grid (exclude featured if needed, but usually we keep it or just filter)
-  // Let's exclude the featured article from the main grid if it's the first page and "Semua" is selected?
-  // Or just show all. Let's just show all for simplicity, or maybe exclude featured to avoid duplication if user wants.
-  // Prompt doesn't strictly say exclude.
 
   const displayArticles = filteredArticles;
 
@@ -53,7 +130,7 @@ export default function BlogPage() {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedArticles = displayArticles.slice(startIndex, startIndex + itemsPerPage);
 
-  // Popular articles for sidebar (arbitrary pick: top 5 by ID for now, usually by views)
+  // Popular articles for sidebar
   const popularArticles = allArticles.slice(0, 5);
 
   const categories = getCategories(allArticles);
@@ -63,42 +140,53 @@ export default function BlogPage() {
     <main className="min-h-screen bg-gray-50 dark:bg-gray-950">
       <BlogHero onSearch={setSearchQuery} />
 
-      {/* Featured Section - Only show on first page and when viewing "Semua" for best UX? 
-          Or always show? Prompt structure implies it's a fixed section. 
-          Let's keep it at the top always for now. 
-      */}
-      <FeaturedArticle article={featuredArticle} />
-
-      <BlogCategoryFilter
-        categories={categoryNames}
-        activeCategory={activeCategory}
-        onCategoryChange={(cat) => {
-          setActiveCategory(cat);
-          setCurrentPage(1); // Reset to page 1 on filter change
-        }}
-      />
-
-      <div className="container mx-auto px-4 py-12">
-        <div className="flex flex-col gap-12 lg:flex-row">
-          {/* Main Content */}
-          <div className="flex-1">
-            <div className="mb-6 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-primary dark:text-white">{activeCategory === "Semua" ? "Artikel Terkini" : `Artikel: ${activeCategory}`}</h2>
-              <span className="text-sm text-gray-500">
-                Menunjukkan {paginatedArticles.length} daripada {displayArticles.length} artikel
-              </span>
-            </div>
-
-            {/* Passing key forces the component to remount and re-trigger animations when data changes */}
-            <BlogList key={`${activeCategory}-${searchQuery}-${currentPage}`} articles={paginatedArticles} />
-
-            {displayArticles.length > itemsPerPage && <BlogPagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />}
-          </div>
-
-          {/* Sidebar */}
-          <BlogSidebar popularArticles={popularArticles} categories={categories} />
+      {isLoading ? (
+        <div className="flex justify-center items-center py-20 min-h-[50vh]">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
         </div>
-      </div>
+      ) : (
+        <>
+          {featuredArticle && <FeaturedArticle article={featuredArticle} />}
+
+          <BlogCategoryFilter
+            categories={categoryNames}
+            activeCategory={activeCategory}
+            onCategoryChange={(cat) => {
+              setActiveCategory(cat);
+              setCurrentPage(1); // Reset to page 1 on filter change
+            }}
+          />
+
+          <div className="container mx-auto px-4 py-12">
+            <div className="flex flex-col gap-12 lg:flex-row">
+              {/* Main Content */}
+              <div className="flex-1">
+                <div className="mb-6 flex items-center justify-between">
+                  <h2 className="text-2xl font-bold text-primary dark:text-white">{activeCategory === "Semua" ? "Artikel Terkini" : `Artikel: ${activeCategory}`}</h2>
+                  <span className="text-sm text-gray-500">
+                    Menunjukkan {paginatedArticles.length} daripada {displayArticles.length} artikel
+                  </span>
+                </div>
+
+                {/* Passing key forces the component to remount and re-trigger animations when data changes */}
+                {paginatedArticles.length > 0 ? (
+                  <>
+                    <BlogList key={`${activeCategory}-${searchQuery}-${currentPage}`} articles={paginatedArticles} />
+                    {displayArticles.length > itemsPerPage && <BlogPagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />}
+                  </>
+                ) : (
+                  <div className="text-center py-12 text-gray-500">
+                    Tiada artikel dijumpai. Cuba carian atau kategori lain.
+                  </div>
+                )}
+              </div>
+
+              {/* Sidebar */}
+              <BlogSidebar popularArticles={popularArticles} categories={categories} />
+            </div>
+          </div>
+        </>
+      )}
     </main>
   );
 }
