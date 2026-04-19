@@ -14,11 +14,31 @@ import { ReadingProgress } from "@/components/sections/blog/detail/reading-progr
 import { ChevronRight, Home } from "lucide-react";
 import { Metadata } from "next";
 
+interface SupabaseArticleResponse {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  content_html: string | null;
+  reading_time: string | null;
+  published_at: string;
+  category_id: string;
+  media: { url: string } | null;
+  category: { name: string } | null;
+  author: {
+    nama: string;
+    image_url: string | null;
+    display_role: string | null;
+    bio: string | null;
+  } | null;
+}
+
 async function getArticle(slug: string) {
   const { data, error } = await supabase
     .from("blog_posts")
     .select(`
-      id, title, slug, excerpt, content_html, reading_time, image_url, published_at, category_id,
+      id, title, slug, excerpt, content_html, reading_time, published_at, category_id,
+      media:media_assets(url),
       category:blog_categories(name),
       author:teachers(nama, image_url, display_role, bio)
     `)
@@ -27,26 +47,27 @@ async function getArticle(slug: string) {
 
   if (error || !data) return null;
 
-  const cat = Array.isArray(data.category) ? data.category[0] : data.category;
-  const auth = Array.isArray(data.author) ? data.author[0] : data.author;
+  const post = data as unknown as SupabaseArticleResponse;
+  const cat = Array.isArray(post.category) ? post.category[0] : post.category;
+  const auth = Array.isArray(post.author) ? post.author[0] : post.author;
 
   return {
-    id: data.id,
-    title: data.title,
-    slug: data.slug,
-    categoryId: data.category_id,
+    id: post.id,
+    title: post.title,
+    slug: post.slug,
+    categoryId: post.category_id,
     category: cat?.name || "Uncategorized",
-    excerpt: data.excerpt || "",
-    content: data.content_html,
+    excerpt: post.excerpt || "",
+    content: post.content_html || "",
     author: {
       name: auth?.nama || "Unknown",
       avatar: auth?.image_url || "/assets/placeholder-user.jpg",
-      role: auth?.display_role,
-      bio: auth?.bio,
+      role: auth?.display_role || undefined,
+      bio: auth?.bio || undefined,
     },
-    date: data.published_at,
-    readingTime: data.reading_time || "5 min",
-    image: data.image_url || "/assets/placeholder.jpg",
+    date: post.published_at,
+    readingTime: post.reading_time || "5 min",
+    image: post.media?.url || "/assets/placeholder.jpg",
   };
 }
 
@@ -109,7 +130,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   // Find prev/next articles simply by date or id, here we do a basic query
   const { data: navigationData } = await supabase
     .from("blog_posts")
-    .select(`id, title, slug, excerpt, image_url, category:blog_categories(name), author:teachers(nama, image_url, display_role, bio), reading_time, published_at, is_featured`)
+    .select(`id, title, slug, excerpt, media:media_assets(url), category:blog_categories(name), author:teachers(nama, image_url, display_role, bio), reading_time, published_at, is_featured`)
     .eq("status", "published")
     .order("published_at", { ascending: false });
     
@@ -117,7 +138,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   let nextArticle: { title: string; slug: string } | undefined = undefined;
   
   if (navigationData) {
-    const navItems = navigationData as NavigationPost[];
+    const navItems = navigationData as unknown as SupabaseArticleResponse[];
     const currentIndex = navItems.findIndex((a) => a.slug === slug);
     if (currentIndex > 0) {
       const p = navItems[currentIndex - 1];
@@ -195,13 +216,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         {/* Bottom Related Section */}
         <ArticleRelated 
           currentSlug={article.slug} 
-          articles={(navigationData as NavigationPost[] || []).map((p) => {
+          articles={(navigationData as unknown as SupabaseArticleResponse[] || []).map((p) => {
             const pCat = Array.isArray(p.category) ? p.category[0] : p.category;
             const pAuth = Array.isArray(p.author) ? p.author[0] : p.author;
             return {
               id: p.id, title: p.title, slug: p.slug, category: pCat?.name || "", 
               excerpt: p.excerpt || "", date: p.published_at, readingTime: p.reading_time || "5m", 
-              image: p.image_url || "", featured: p.is_featured,
+              image: p.media?.url || "/assets/placeholder.jpg", featured: false,
               content: "",
               author: { name: pAuth?.nama || "", avatar: pAuth?.image_url || "" }
             };
