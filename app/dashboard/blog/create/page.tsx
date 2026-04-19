@@ -11,14 +11,22 @@ import { Save, Image as ImageIcon, Loader2 } from "lucide-react";
 export default function CreateBlogPost() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [categories, setCategories] = useState<{id: string, name: string}[]>([]);
-  const [authors, setAuthors] = useState<{id: string, nama: string}[]>([]);
+  const [categories, setCategories] = useState<{id: string, name: string}[]>([
+    { id: "1", name: "Tips Ibu Bapa" },
+    { id: "2", name: "Tajwid" },
+    { id: "3", name: "Hafazan" },
+    { id: "4", name: "Al-Quran" }
+  ]);
+  const [authors, setAuthors] = useState<{id: string, nama: string}[]>([
+    { id: "1", nama: "Ustazah Siti Sarah" },
+    { id: "2", nama: "Ustaz Muhammad Amirul" }
+  ]);
 
   const [formData, setFormData] = useState({
     title: "",
     slug: "",
-    category_id: "",
-    author_id: "",
+    category_id: "1",
+    author_id: "1",
     excerpt: "",
     content_html: "",
     reading_time: "5 min",
@@ -26,28 +34,6 @@ export default function CreateBlogPost() {
     status: "published",
     is_featured: false,
   });
-
-  useEffect(() => {
-    // Fetch categories and authors for the dropdowns
-    const fetchOptions = async () => {
-      const [catRes, authRes] = await Promise.all([
-        supabase.from("blog_categories").select("id, name"),
-        supabase.from("teachers").select("id, nama").order("nama")
-      ]);
-
-      if (catRes.data) setCategories(catRes.data);
-      if (authRes.data) setAuthors(authRes.data);
-
-      if (catRes.data && catRes.data.length > 0) {
-        setFormData(prev => ({ ...prev, category_id: catRes.data[0].id }));
-      }
-      if (authRes.data && authRes.data.length > 0) {
-        setFormData(prev => ({ ...prev, author_id: authRes.data[0].id }));
-      }
-    };
-
-    fetchOptions();
-  }, []);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const title = e.target.value;
@@ -75,24 +61,14 @@ export default function CreateBlogPost() {
     e.preventDefault();
     setIsSubmitting(true);
 
+    // Simulated Save
     try {
-      const { data, error } = await supabase
-        .from("blog_posts")
-        .insert([
-          {
-            ...formData,
-            content_json: {}, // Fallback empty json since we rely on content_html
-            published_at: new Date().toISOString()
-          }
-        ])
-        .select();
-
-      if (error) throw error;
+      await new Promise(resolve => setTimeout(resolve, 1500));
       
-      alert("Artikel berjaya disimpan!");
-      // router.push("/dashboard/blog"); // Can uncomment later when list exists
+      console.log("Simulated Save Data:", formData);
+      alert("Artikel berjaya disimpan (Simulasi)! Data telah dicetak ke konsol.");
       
-      // Reset form or redirect
+      // Reset form
       setFormData(prev => ({
         ...prev,
         title: "",
@@ -102,9 +78,7 @@ export default function CreateBlogPost() {
       }));
       
     } catch (error: unknown) {
-      console.error(error);
-      const errorMessage = error instanceof Error ? error.message : "Ralat tidak diketahui";
-      alert("Ralat menyimpan artikel: " + errorMessage);
+      alert("Ralat simulasi.");
     } finally {
       setIsSubmitting(false);
     }
