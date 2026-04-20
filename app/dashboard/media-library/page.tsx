@@ -11,7 +11,13 @@ import { MediaListView } from "./components/media-list-view";
 export default function MediaLibraryPage() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [mediaList, setMediaList] = useState<MediaType[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+
+  // Filter media based on search query
+  const filteredMediaList = mediaList.filter(media => 
+    media.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const loadMedia = useCallback(async (showLoading = true) => {
     if (showLoading) setIsLoading(true);
@@ -49,7 +55,12 @@ export default function MediaLibraryPage() {
   return (
     <div className="max-w-7xl mx-auto pb-12 font-sans">
       <MediaHeader onRefresh={loadMedia} />
-      <MediaToolbar viewMode={viewMode} setViewMode={setViewMode} />
+      <MediaToolbar 
+        viewMode={viewMode} 
+        setViewMode={setViewMode} 
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+      />
       
       {isLoading ? (
         <div className="py-20 flex items-center justify-center text-gray-400 font-bold text-lg">
@@ -58,10 +69,16 @@ export default function MediaLibraryPage() {
             Memuatkan Pustaka Media...
           </div>
         </div>
-      ) : viewMode === "grid" ? (
-        <MediaGridView mediaList={mediaList} onRefresh={loadMedia} />
+      ) : filteredMediaList.length > 0 ? (
+        viewMode === "grid" ? (
+          <MediaGridView mediaList={filteredMediaList} onRefresh={loadMedia} />
+        ) : (
+          <MediaListView mediaList={filteredMediaList} onRefresh={loadMedia} />
+        )
       ) : (
-        <MediaListView mediaList={mediaList} onRefresh={loadMedia} />
+        <div className="py-20 text-center">
+          <p className="text-gray-400 font-medium">Tiada media ditemui untuk carian &quot;{searchQuery}&quot;</p>
+        </div>
       )}
     </div>
   );
