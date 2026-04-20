@@ -1,242 +1,95 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase/client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useRouter } from "next/navigation";
-import { Save, Image as ImageIcon, Loader2 } from "lucide-react";
+import { useState } from "react";
+import { EditorHeader } from "@/components/sections/dashboard/blog-editor/EditorHeader";
+import { TitleSection } from "@/components/sections/dashboard/blog-editor/TitleSection";
+import { ExcerptSection } from "@/components/sections/dashboard/blog-editor/ExcerptSection";
+import { ImageSection } from "@/components/sections/dashboard/blog-editor/ImageSection";
+import { EditorField } from "@/components/sections/dashboard/blog-editor/EditorField";
+import { RelatedArticlesSection } from "@/components/sections/dashboard/blog-editor/RelatedArticlesSection";
+import { PublishSidebar } from "@/components/sections/dashboard/blog-editor/PublishSidebar";
 
 export default function CreateBlogPost() {
-  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [categories, setCategories] = useState<{id: string, name: string}[]>([
-    { id: "1", name: "Tips Ibu Bapa" },
-    { id: "2", name: "Tajwid" },
-    { id: "3", name: "Hafazan" },
-    { id: "4", name: "Al-Quran" }
-  ]);
-  const [authors, setAuthors] = useState<{id: string, nama: string}[]>([
-    { id: "1", nama: "Ustazah Siti Sarah" },
-    { id: "2", nama: "Ustaz Muhammad Amirul" }
-  ]);
-
   const [formData, setFormData] = useState({
     title: "",
-    slug: "",
-    category_id: "1",
-    author_id: "1",
     excerpt: "",
+    status: "Draft",
     content_html: "",
-    reading_time: "5 min",
-    image_url: "",
-    status: "published",
-    is_featured: false,
+    aiSummary: "",
+    is_public: true,
+    is_pinned: false
   });
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const title = e.target.value;
-    // Auto generate slug
-    const slug = title
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)+/g, "");
-    
-    setFormData(prev => ({ ...prev, title, slug }));
+  const handleUpdate = (field: string, value: string | boolean) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value, type } = e.target;
-    
-    if (type === 'checkbox') {
-      const checked = (e.target as HTMLInputElement).checked;
-      setFormData(prev => ({ ...prev, [name]: checked }));
-    } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handlePublish = async () => {
     setIsSubmitting(true);
-
-    // Simulated Save
-    try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      console.log("Simulated Save Data:", formData);
-      alert("Artikel berjaya disimpan (Simulasi)! Data telah dicetak ke konsol.");
-      
-      // Reset form
-      setFormData(prev => ({
-        ...prev,
-        title: "",
-        slug: "",
-        excerpt: "",
-        content_html: "",
-      }));
-      
-    } catch (error: unknown) {
-      alert("Ralat simulasi.");
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Logic will go here
+    console.log("Publishing article...", formData);
+    await new Promise(r => setTimeout(r, 1000));
+    setIsSubmitting(false);
   };
 
   return (
-    <div className="max-w-4xl mx-auto pb-12">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Tulis Artikel Baru</h1>
-        <p className="text-gray-500 mt-2">Bina artikel blog untuk platform MyNgaji menggunakan format HTML.</p>
-      </div>
+    <div className="min-h-screen bg-[#FDFDFD] dark:bg-gray-950 font-sans tracking-tight">
+      <EditorHeader 
+        status={formData.status}
+        onPreview={() => console.log("Preview")}
+        onSaveDraft={() => console.log("Save Draft")}
+        onPublish={handlePublish}
+      />
 
-      <form onSubmit={handleSubmit} className="space-y-8 bg-white dark:bg-gray-900 p-6 md:p-8 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          
-          <div className="space-y-4 md:col-span-2">
-            <div className="space-y-2">
-              <Label htmlFor="title">Tajuk Artikel</Label>
-              <Input 
-                id="title" 
-                name="title" 
-                placeholder="Contoh: 7 Tips Mengajar Anak Mengaji" 
-                value={formData.title}
-                onChange={handleTitleChange}
-                required
-              />
+      <div className="max-w-full mx-auto px-8 py-8">
+        <div className="flex gap-12">
+          <div className="flex-1 space-y-6">
+            <div className="mb-4">
+              <h1 className="text-[32px] font-black text-gray-900 dark:text-white mb-2 leading-none">Editor Article</h1>
+              <p className="text-gray-500 text-[16px]">Sediakan kandungan ilmiah yang berkualiti untuk pembaca MyNgaji.</p>
             </div>
-          </div>
-
-          <div className="space-y-2 md:col-span-2">
-            <Label htmlFor="slug">Slug (URL)</Label>
-            <Input 
-              id="slug" 
-              name="slug" 
-              value={formData.slug}
-              onChange={handleChange}
-              className="bg-gray-50 dark:bg-gray-800 text-gray-500"
-              required
+            
+            <TitleSection 
+              value={formData.title} 
+              onChange={(val) => handleUpdate("title", val)} 
             />
-          </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="category_id">Kategori</Label>
-            <select 
-              id="category_id" 
-              name="category_id" 
-              value={formData.category_id}
-              onChange={handleChange}
-              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              required
-            >
-              {categories.map(cat => (
-                 <option key={cat.id} value={cat.id}>{cat.name}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="author_id">Penulis (Tenaga Pengajar)</Label>
-            <select 
-              id="author_id" 
-              name="author_id" 
-              value={formData.author_id}
-              onChange={handleChange}
-              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              required
-            >
-              {authors.map(auth => (
-                 <option key={auth.id} value={auth.id}>{auth.nama}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="space-y-2 md:col-span-2">
-            <Label htmlFor="excerpt">Ringkasan (Excerpt)</Label>
-            <textarea
-              id="excerpt"
-              name="excerpt"
-              rows={3}
-              value={formData.excerpt}
-              onChange={handleChange}
-              placeholder="Tuliskan ringkasan 2-3 ayat tentang artikel ini..."
-              className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-              required
+            <ExcerptSection 
+              value={formData.excerpt} 
+              onChange={(val) => handleUpdate("excerpt", val)} 
             />
-          </div>
 
-          <div className="space-y-2 md:col-span-2">
-            <Label htmlFor="content_html">Kandungan Utama (HTML)</Label>
-            <textarea
-              id="content_html"
-              name="content_html"
-              rows={15}
+            <ImageSection />
+
+            <EditorField 
+              label="AI Summary" 
+              placeholder="Hasilkan ringkasan berbantuan AI di sini..." 
+              value={formData.aiSummary}
+              onChange={(val) => handleUpdate("aiSummary", val)}
+            />
+
+            <EditorField 
+              label="Article Content" 
+              placeholder="Mula menulis kandungan artikel anda..." 
+              minHeight="min-h-[500px]" 
               value={formData.content_html}
-              onChange={handleChange}
-              placeholder="<h2>Tajuk Sub</h2><p>Perenggan pertama...</p>"
-              className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 font-mono"
-              required
+              onChange={(val) => handleUpdate("content_html", val)}
             />
+
+            <RelatedArticlesSection />
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="image_url">URL Gambar Utama</Label>
-            <div className="relative">
-              <ImageIcon className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-              <Input 
-                id="image_url" 
-                name="image_url" 
-                placeholder="/assets/blog/gambar1.webp" 
-                value={formData.image_url}
-                onChange={handleChange}
-                className="pl-9"
-              />
-            </div>
-            <p className="text-xs text-gray-500 mt-1">Masukkan path local atau URL penuh gambar.</p>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="reading_time">Masa Membaca</Label>
-            <Input 
-              id="reading_time" 
-              name="reading_time" 
-              placeholder="Contoh: 5 min" 
-              value={formData.reading_time}
-              onChange={handleChange}
-            />
-          </div>
-          
-          <div className="space-y-2 md:col-span-2 border-t border-gray-100 dark:border-gray-800 pt-6 mt-4">
-             <div className="flex items-center space-x-2">
-                <input 
-                  type="checkbox" 
-                  id="is_featured" 
-                  name="is_featured" 
-                  checked={formData.is_featured}
-                  onChange={handleChange}
-                  className="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                />
-                <Label htmlFor="is_featured" className="cursor-pointer font-normal">
-                  Jadikan sebagai Artikel Pilihan (Featured)
-                </Label>
-              </div>
-          </div>
+          <PublishSidebar 
+            status={formData.status}
+            isPublic={formData.is_public}
+            isPinned={formData.is_pinned}
+            onStatusChange={(val) => handleUpdate("status", val)}
+            onPublicToggle={(val) => handleUpdate("is_public", val)}
+            onPinnedToggle={(val) => handleUpdate("is_pinned", val)}
+          />
         </div>
-
-        <div className="flex justify-end gap-3 pt-6 border-t border-gray-100 dark:border-gray-800">
-          <Button type="button" variant="outline" onClick={() => router.back()}>
-            Batal
-          </Button>
-          <Button type="submit" disabled={isSubmitting} className="bg-emerald-600 hover:bg-emerald-700 text-white min-w-[120px]">
-            {isSubmitting ? (
-              <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Menyimpan...</>
-            ) : (
-              <><Save className="mr-2 h-4 w-4" /> Simpan Artikel</>
-            )}
-          </Button>
-        </div>
-      </form>
+      </div>
     </div>
   );
 }
