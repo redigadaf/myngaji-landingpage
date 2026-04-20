@@ -11,10 +11,10 @@ import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
 import * as TextAlignModule from "@tiptap/extension-text-align";
 import Placeholder from "@tiptap/extension-placeholder";
-import Table from "@tiptap/extension-table";
-import TableRow from "@tiptap/extension-table-row";
-import TableCell from "@tiptap/extension-table-cell";
-import TableHeader from "@tiptap/extension-table-header";
+import { Table } from "@tiptap/extension-table";
+import { TableRow } from "@tiptap/extension-table-row";
+import { TableCell } from "@tiptap/extension-table-cell";
+import { TableHeader } from "@tiptap/extension-table-header";
 
 const TextAlign = ((TextAlignModule as Record<string, unknown>)["TextAlign"] || (TextAlignModule as Record<string, unknown>)["default"]) as { configure: (options: Record<string, unknown>) => AnyExtension };
 import { 
