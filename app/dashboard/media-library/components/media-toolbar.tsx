@@ -4,9 +4,11 @@ import { Input } from "@/components/ui/input";
 interface MediaToolbarProps {
   viewMode: "grid" | "list";
   setViewMode: (mode: "grid" | "list") => void;
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
 }
 
-export function MediaToolbar({ viewMode, setViewMode }: MediaToolbarProps) {
+export function MediaToolbar({ viewMode, setViewMode, searchQuery, setSearchQuery }: MediaToolbarProps) {
   return (
     <div className="mb-8 rounded-2xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-3 shadow-sm flex items-center justify-between gap-4">
       {/* Search */}
@@ -15,7 +17,9 @@ export function MediaToolbar({ viewMode, setViewMode }: MediaToolbarProps) {
         <Input 
           type="text"
           placeholder="Cari imej berdasarkan nama..."
-          className="pl-12 h-12 rounded-xl bg-gray-50/50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-800 focus-visible:ring-primary/20 text-gray-700 dark:text-gray-200"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="pl-12 h-12 rounded-xl bg-gray-50/50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-800 focus:border-primary focus-visible:border-primary !outline-none focus-visible:!ring-0 focus-visible:!ring-offset-0 transition-all text-gray-700 dark:text-gray-200"
         />
       </div>
 

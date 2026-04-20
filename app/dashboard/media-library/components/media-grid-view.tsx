@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { 
   MoreHorizontal, 
@@ -6,10 +6,14 @@ import {
   Copy, 
   Eye, 
   Download, 
-  Trash2 
+  Trash2,
+  CheckCircle2
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { MediaType } from "../data";
 import { MediaDetailsModal } from "./media-details-modal";
+import { MediaToast } from "./media-toast";
+import { DeleteConfirmationModal } from "./delete-confirmation-modal";
 import { deleteMediaAsset } from "../lib/media-services";
 
 interface MediaGridViewProps {
@@ -20,10 +24,71 @@ interface MediaGridViewProps {
 export function MediaGridView({ mediaList, onRefresh }: MediaGridViewProps) {
   const [activeDropdownId, setActiveDropdownId] = useState<string | null>(null);
   const [selectedMedia, setSelectedMedia] = useState<MediaType | null>(null);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const handleCopy = (url: string) => {
+    navigator.clipboard.writeText(url);
+    setToastMessage("Pautan berjaya disalin!");
+    setActiveDropdownId(null);
+    setTimeout(() => setToastMessage(null), 3000);
+  };
+
+  const [mediaToDelete, setMediaToDelete] = useState<MediaType | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    if (!mediaToDelete || !mediaToDelete.storage_path) return;
+    
+    setIsDeleting(true);
+    try {
+      if (mediaToDelete.storage_path) {
+        await deleteMediaAsset(mediaToDelete.id, mediaToDelete.storage_path);
+        setToastMessage("Media berjaya dihapuskan!");
+        if (onRefresh) onRefresh();
+        setTimeout(() => setToastMessage(null), 3000);
+      }
+    } catch (err) {
+      alert("Gagal memadam fail.");
+    } finally {
+      setIsDeleting(false);
+      setMediaToDelete(null);
+    }
+  };
+
+  const handleDownload = async (url: string, title: string) => {
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = `${title.replace(/\s+/g, '-').toLowerCase()}`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (err) {
+      console.error("Gagal memuat turun:", err);
+      // Fallback to open in new tab if fetch fails
+      window.open(url, '_blank');
+    }
+  };
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
       
+      {/* Toast Notification Component */}
+      <MediaToast message={toastMessage} />
+
+      {/* Delete Confirmation Modal Component */}
+      <DeleteConfirmationModal 
+        isOpen={!!mediaToDelete}
+        onClose={() => setMediaToDelete(null)}
+        onConfirm={handleDelete}
+        title={mediaToDelete?.title || ""}
+        isDeleting={isDeleting}
+      />
+
       {/* 1. Backdrop for Dropdown */}
       {activeDropdownId !== null && (
         <div 
@@ -66,7 +131,10 @@ export function MediaGridView({ mediaList, onRefresh }: MediaGridViewProps) {
               <button 
                 title="Salin Pautan"
                 className="p-3.5 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white transition-colors"
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleCopy(media.url);
+                }}
               >
                 <Copy className="h-5 w-5" />
               </button>
@@ -108,9 +176,8 @@ export function MediaGridView({ mediaList, onRefresh }: MediaGridViewProps) {
                       className="w-full flex items-center gap-3 px-4 py-2.5 text-[14px] font-medium text-gray-700 hover:bg-gray-50 hover:text-primary dark:text-gray-200 dark:hover:bg-gray-800 transition-colors"
                       onClick={(e) => {
                         e.stopPropagation();
-                        navigator.clipboard.writeText(media.url);
+                        handleCopy(media.url);
                         setActiveDropdownId(null);
-                        alert("Pautan telah disalin ke papan klip!");
                       }}
                     >
                       <Copy className="h-4 w-4" />
@@ -120,7 +187,7 @@ export function MediaGridView({ mediaList, onRefresh }: MediaGridViewProps) {
                       className="w-full flex items-center gap-3 px-4 py-2.5 text-[14px] font-medium text-gray-700 hover:bg-gray-50 hover:text-primary dark:text-gray-200 dark:hover:bg-gray-800 transition-colors"
                       onClick={(e) => {
                         e.stopPropagation();
-                        window.open(media.url, '_blank');
+                        handleDownload(media.url, media.title);
                         setActiveDropdownId(null);
                       }}
                     >
@@ -130,18 +197,9 @@ export function MediaGridView({ mediaList, onRefresh }: MediaGridViewProps) {
                     <div className="h-px w-full bg-gray-100 dark:bg-gray-800 my-1"></div>
                     <button 
                       className="w-full flex items-center gap-3 px-4 py-2.5 text-[14px] font-bold text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors"
-                      onClick={async (e) => {
+                      onClick={(e) => {
                         e.stopPropagation();
-                        if (confirm("Adakah anda pasti mahu memadam imej ini secara kekal? Tindakan ini tidak boleh diundur.")) {
-                          try {
-                            if (media.storage_path) {
-                              await deleteMediaAsset(media.id, media.storage_path);
-                              if (onRefresh) onRefresh();
-                            }
-                          } catch (err) {
-                            alert("Gagal memadam fail.");
-                          }
-                        }
+                        setMediaToDelete(media);
                         setActiveDropdownId(null);
                       }}
                     >

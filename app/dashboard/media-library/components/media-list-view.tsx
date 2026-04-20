@@ -1,11 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Eye, MoreHorizontal, Copy, Download, Trash2, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MediaType } from "../data";
 import { MediaDetailsModal } from "./media-details-modal";
+import { MediaToast } from "./media-toast";
+import { DeleteConfirmationModal } from "./delete-confirmation-modal";
 import { deleteMediaAsset } from "../lib/media-services";
 
 interface MediaListViewProps {
@@ -17,6 +20,8 @@ export function MediaListView({ mediaList, onRefresh }: MediaListViewProps) {
   const [activeDropdownId, setActiveDropdownId] = useState<string | null>(null);
   const [selectedMedia, setSelectedMedia] = useState<MediaType | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [mediaToDelete, setMediaToDelete] = useState<MediaType | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleCopyLink = (url: string) => {
     navigator.clipboard.writeText(url);
@@ -24,18 +29,55 @@ export function MediaListView({ mediaList, onRefresh }: MediaListViewProps) {
     setTimeout(() => setToastMessage(null), 3000);
   };
 
+  const handleDelete = async () => {
+    if (!mediaToDelete || !mediaToDelete.storage_path) return;
+    
+    setIsDeleting(true);
+    try {
+      await deleteMediaAsset(mediaToDelete.id, mediaToDelete.storage_path);
+      setToastMessage("Media berjaya dihapuskan!");
+      if (onRefresh) onRefresh();
+      setTimeout(() => setToastMessage(null), 3000);
+    } catch (err) {
+      alert("Gagal memadam fail.");
+    } finally {
+      setIsDeleting(false);
+      setMediaToDelete(null);
+    }
+  };
+
+  const handleDownload = async (url: string, title: string) => {
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = `${title.replace(/\s+/g, '-').toLowerCase()}`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (err) {
+      console.error("Gagal memuat turun:", err);
+      window.open(url, '_blank');
+    }
+  };
+
   return (
     <div className="flex flex-col rounded-2xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm overflow-visible relative">
       
-      {/* 0. Toast Notification */}
-      {toastMessage && (
-        <div className="fixed top-6 right-6 z-[100] animate-in fade-in slide-in-from-top-4 duration-300">
-          <div className="bg-primary text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 font-bold text-sm border border-white/20 backdrop-blur-md">
-            <div className="h-2 w-2 rounded-full bg-secondary animate-pulse" />
-            {toastMessage}
-          </div>
-        </div>
-      )}
+      {/* Toast Notification Component */}
+      <MediaToast message={toastMessage} />
+
+      {/* Delete Confirmation Modal Component */}
+      <DeleteConfirmationModal 
+        isOpen={!!mediaToDelete}
+        onClose={() => setMediaToDelete(null)}
+        onConfirm={handleDelete}
+        title={mediaToDelete?.title || ""}
+        isDeleting={isDeleting}
+      />
 
       {/* 1. Media Detail Modal Component */}
       <MediaDetailsModal 
@@ -136,21 +178,10 @@ export function MediaListView({ mediaList, onRefresh }: MediaListViewProps) {
                 {activeDropdownId === media.id && (
                   <div className="absolute right-0 top-full mt-2 w-[180px] rounded-xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-xl z-50 py-2 animate-in fade-in zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=closed]:zoom-out-95 scale-100">
                     <button 
-                      onClick={() => {
-                        setSelectedMedia(media);
-                        setActiveDropdownId(null);
-                      }}
-                      className="w-full flex items-center gap-3 px-4 py-2.5 text-[14px] font-medium text-gray-700 hover:bg-gray-50 hover:text-primary dark:text-gray-200 dark:hover:bg-gray-800 transition-colors"
-                    >
-                      <Info className="h-4 w-4" />
-                      Lihat Butiran
-                    </button>
-                    <button 
                       className="w-full flex items-center gap-3 px-4 py-2.5 text-[14px] font-medium text-gray-700 hover:bg-gray-50 hover:text-primary dark:text-gray-200 dark:hover:bg-gray-800 transition-colors"
                       onClick={() => {
-                        navigator.clipboard.writeText(media.url);
+                        handleCopyLink(media.url);
                         setActiveDropdownId(null);
-                        alert("Pautan telah disalin!");
                       }}
                     >
                       <Copy className="h-4 w-4" />
@@ -158,8 +189,9 @@ export function MediaListView({ mediaList, onRefresh }: MediaListViewProps) {
                     </button>
                     <button 
                       className="w-full flex items-center gap-3 px-4 py-2.5 text-[14px] font-medium text-gray-700 hover:bg-gray-50 hover:text-primary dark:text-gray-200 dark:hover:bg-gray-800 transition-colors"
-                      onClick={() => {
-                        window.open(media.url, '_blank');
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDownload(media.url, media.title);
                         setActiveDropdownId(null);
                       }}
                     >
@@ -169,17 +201,8 @@ export function MediaListView({ mediaList, onRefresh }: MediaListViewProps) {
                     <div className="h-px bg-gray-100 dark:bg-gray-800 my-1 mx-2" />
                     <button 
                       className="w-full flex items-center gap-3 px-4 py-2.5 text-[14px] font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
-                      onClick={async () => {
-                        if (confirm("Adakah anda pasti mahu memadam imej ini secara kekal?")) {
-                          try {
-                            if (media.storage_path) {
-                              await deleteMediaAsset(media.id, media.storage_path);
-                              if (onRefresh) onRefresh();
-                            }
-                          } catch (err) {
-                            alert("Gagal memadam fail.");
-                          }
-                        }
+                      onClick={() => {
+                        setMediaToDelete(media);
                         setActiveDropdownId(null);
                       }}
                     >
