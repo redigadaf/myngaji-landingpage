@@ -60,6 +60,7 @@ export default function CreateBlogPost() {
               onChange={(val) => handleUpdate("excerpt", val)} 
             />
 
+
             <ImageSection />
 
             <EditorField 
