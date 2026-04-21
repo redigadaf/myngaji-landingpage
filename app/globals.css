@@ -125,7 +125,17 @@
   }
 }
 
-/* Custom Utilities if needed */
+/* Custom Utilities */
 .font-figtree {
   font-family: var(--font-figtree), sans-serif;
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
