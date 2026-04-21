@@ -33,7 +33,7 @@ export function DashboardSidebar() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
-  const [teacherData, setTeacherData] = useState<{ image_url?: string; nama?: string } | null>(null);
+  const [teacherData, setTeacherData] = useState<{ image_url?: string; nama?: string }>({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,15 +41,24 @@ export function DashboardSidebar() {
       setUser(user);
 
       if (user) {
+        // Ambil image_url dari tabel teachers
         const { data: teacher } = await supabase
           .from("teachers")
-          .select("image_url, nama")
+          .select("image_url")
           .eq("account_id", user.id)
           .single();
-        
-        if (teacher) {
-          setTeacherData(teacher);
-        }
+
+        // Ambil nama dari tabel accounts
+        const { data: account } = await supabase
+          .from("accounts")
+          .select("nama")
+          .eq("id", user.id)
+          .single();
+
+        setTeacherData({
+          image_url: teacher?.image_url ?? undefined,
+          nama: account?.nama ?? undefined,
+        });
       }
     };
     fetchData();
@@ -60,7 +69,7 @@ export function DashboardSidebar() {
     router.push("/login");
   };
 
-  const displayName = teacherData?.nama || user?.user_metadata?.full_name || user?.email?.split("@")[0] || "Admin";
+  const displayName = teacherData.nama || user?.user_metadata?.full_name || user?.email?.split("@")[0] || "Admin";
   const userInitial = displayName.charAt(0).toUpperCase();
 
   return (
@@ -146,7 +155,7 @@ export function DashboardSidebar() {
               >
                 <div className="p-4 flex items-center gap-3 bg-gray-50/50 dark:bg-gray-800/20 rounded-[1.5rem] mb-2">
                   <div className="h-12 w-12 rounded-[1rem] bg-gradient-to-br from-primary to-primary/40 overflow-hidden flex items-center justify-center text-xl font-black text-white shadow-lg flex-shrink-0 border-2 border-white">
-                    {teacherData?.image_url ? (
+                    {teacherData.image_url ? (
                       <img src={teacherData.image_url} alt={displayName} className="h-full w-full object-cover" />
                     ) : (
                       userInitial
@@ -190,7 +199,7 @@ export function DashboardSidebar() {
             {!isOpen && <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />}
             
             <div className="h-12 w-12 rounded-[1.2rem] bg-gradient-to-br from-white/30 to-white/5 overflow-hidden flex items-center justify-center text-xl font-black text-white shadow-xl flex-shrink-0 relative z-10 border border-white/20">
-              {teacherData?.image_url ? (
+              {teacherData.image_url ? (
                 <img src={teacherData.image_url} alt={displayName} className="h-full w-full object-cover" />
               ) : (
                 userInitial
