@@ -6,12 +6,13 @@ import { useRouter } from "next/navigation";
 
 interface EditorHeaderProps {
   status: string;
+  isSubmitting?: boolean;
   onPreview: () => void;
   onSaveDraft: () => void;
   onPublish: () => void;
 }
 
-export function EditorHeader({ status, onPreview, onSaveDraft, onPublish }: EditorHeaderProps) {
+export function EditorHeader({ status, isSubmitting = false, onPreview, onSaveDraft, onPublish }: EditorHeaderProps) {
   const router = useRouter();
 
   return (
@@ -35,18 +36,18 @@ export function EditorHeader({ status, onPreview, onSaveDraft, onPublish }: Edit
       </div>
 
       <div className="flex items-center gap-3">
-        <Button variant="ghost" onClick={onPreview} className="text-gray-500 hover:text-primary hover:bg-[#17838F]/20 rounded-xl transition-all duration-200 gap-2">
+        <Button variant="ghost" onClick={onPreview} disabled={isSubmitting} className="text-gray-500 hover:text-primary hover:bg-[#17838F]/20 rounded-xl transition-all duration-200 gap-2">
           <Eye className="h-4 w-4" />
           <span className="text-[14px] font-bold uppercase tracking-tight">Preview</span>
         </Button>
         <div className="h-4 w-px bg-gray-100 dark:border-gray-800 mx-1" />
-        <Button variant="ghost" onClick={onSaveDraft} className="text-gray-500 hover:text-primary hover:bg-[#17838F]/20 rounded-xl transition-all duration-200 gap-2">
+        <Button variant="ghost" onClick={onSaveDraft} disabled={isSubmitting} className="text-gray-500 hover:text-primary hover:bg-[#17838F]/20 rounded-xl transition-all duration-200 gap-2">
           <Save className="h-4 w-4" />
-          <span className="text-[14px] font-bold uppercase tracking-tight">Save Draft</span>
+          <span className="text-[14px] font-bold uppercase tracking-tight">{isSubmitting ? "Menyimpan..." : "Save Draft"}</span>
         </Button>
-        <Button onClick={onPublish} className="bg-primary hover:bg-[#126b75] text-white gap-2 px-6 rounded-xl shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:scale-105 transition-all duration-300">
+        <Button onClick={onPublish} disabled={isSubmitting} className="bg-primary hover:bg-[#126b75] text-white gap-2 px-6 rounded-xl shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:scale-105 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed disabled:scale-100">
           <Send className="h-4 w-4" />
-          <span className="text-[14px] font-bold uppercase tracking-tight">Publish</span>
+          <span className="text-[14px] font-bold uppercase tracking-tight">{isSubmitting ? "Menghantar..." : "Publish"}</span>
         </Button>
       </div>
     </div>

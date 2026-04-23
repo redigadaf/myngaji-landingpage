@@ -5,36 +5,51 @@ import { PublishSection } from "./sidebar-sections/PublishSection";
 import { MetadataSection } from "./sidebar-sections/MetadataSection";
 import { SEOSection } from "./sidebar-sections/SEOSection";
 
+interface Category {
+  id: string;
+  name: string;
+  slug: string;
+}
+
 interface PublishSidebarProps {
+  // Publish tab
   status: string;
   isPublic: boolean;
   isPinned: boolean;
+  onStatusChange: (status: string) => void;
+  onPublicToggle: (value: boolean) => void;
+  onPinnedToggle: (value: boolean) => void;
+  // Metadata tab
+  authorName: string;
+  categories: Category[] | null;
+  availableTags: { id: string; name: string }[];
+  categoryId: string;
+  readingTime: number;
+  isFeatured: boolean;
+  tags: string[];
+  onCategoryChange: (value: string) => void;
+  onReadingTimeChange: (value: number) => void;
+  onFeaturedToggle: (value: boolean) => void;
+  onTagsChange: (value: string[]) => void;
+  // SEO tab
   slug: string;
   metaTitle: string;
   metaDescription: string;
   featuredImage: string;
-  onStatusChange: (status: string) => void;
-  onPublicToggle: (value: boolean) => void;
-  onPinnedToggle: (value: boolean) => void;
+  focusKeywords: string[];
   onSlugChange: (value: string) => void;
   onMetaTitleChange: (value: string) => void;
   onMetaDescriptionChange: (value: string) => void;
+  onFocusKeywordsChange: (value: string[]) => void;
 }
 
 export function PublishSidebar({ 
-  status, 
-  isPublic, 
-  isPinned, 
-  slug,
-  metaTitle,
-  metaDescription,
-  featuredImage,
-  onStatusChange, 
-  onPublicToggle, 
-  onPinnedToggle,
-  onSlugChange,
-  onMetaTitleChange,
-  onMetaDescriptionChange
+  status, isPublic, isPinned,
+  onStatusChange, onPublicToggle, onPinnedToggle,
+  authorName, categories, availableTags, categoryId, readingTime, isFeatured, tags,
+  onCategoryChange, onReadingTimeChange, onFeaturedToggle, onTagsChange,
+  slug, metaTitle, metaDescription, featuredImage, focusKeywords,
+  onSlugChange, onMetaTitleChange, onMetaDescriptionChange, onFocusKeywordsChange,
 }: PublishSidebarProps) {
   const [activeTab, setActiveTab] = useState("Publish");
 
@@ -71,7 +86,19 @@ export function PublishSidebar({
             onPinnedToggle={onPinnedToggle}
           />
         ) : activeTab === "Metadata" ? (
-          <MetadataSection />
+          <MetadataSection 
+            authorName={authorName}
+            categories={categories}
+            availableTags={availableTags}
+            categoryId={categoryId}
+            readingTime={readingTime}
+            isFeatured={isFeatured}
+            tags={tags}
+            onCategoryChange={onCategoryChange}
+            onReadingTimeChange={onReadingTimeChange}
+            onFeaturedToggle={onFeaturedToggle}
+            onTagsChange={onTagsChange}
+          />
         ) : (
           <SEOSection 
             slug={slug} 
@@ -81,6 +108,8 @@ export function PublishSidebar({
             metaDescription={metaDescription}
             onMetaDescriptionChange={onMetaDescriptionChange}
             featuredImage={featuredImage}
+            focusKeywords={focusKeywords}
+            onFocusKeywordsChange={onFocusKeywordsChange}
           />
         )}
       </div>

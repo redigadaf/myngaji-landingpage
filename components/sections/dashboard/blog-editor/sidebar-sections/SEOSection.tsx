@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -9,9 +10,11 @@ interface SEOSectionProps {
   metaTitle: string;
   metaDescription: string;
   featuredImage: string;
+  focusKeywords: string[];
   onSlugChange: (value: string) => void;
   onMetaTitleChange: (value: string) => void;
   onMetaDescriptionChange: (value: string) => void;
+  onFocusKeywordsChange: (value: string[]) => void;
 }
 
 export function SEOSection({ 
@@ -19,10 +22,26 @@ export function SEOSection({
   metaTitle, 
   metaDescription, 
   featuredImage,
+  focusKeywords,
   onSlugChange, 
   onMetaTitleChange,
-  onMetaDescriptionChange
+  onMetaDescriptionChange,
+  onFocusKeywordsChange,
 }: SEOSectionProps) {
+  const [kwInput, setKwInput] = useState("");
+
+  const handleKwKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" || e.key === ",") {
+      e.preventDefault();
+      const trimmed = kwInput.trim().replace(/,$/, "");
+      if (trimmed && !focusKeywords.includes(trimmed)) {
+        onFocusKeywordsChange([...focusKeywords, trimmed]);
+      }
+      setKwInput("");
+    } else if (e.key === "Backspace" && kwInput === "" && focusKeywords.length) {
+      onFocusKeywordsChange(focusKeywords.slice(0, -1));
+    }
+  };
   return (
     <div className="space-y-8">
       {/* URL Slug */}
@@ -102,13 +121,24 @@ export function SEOSection({
 
       {/* Focus Keywords */}
       <div className="space-y-2">
-        <Label className="text-[13px] font-semibold uppercase text-gray-500 tracking-[0.1em]">Focus Keywords</Label>
-        <input 
-          type="text" 
-          placeholder="Add keywords..." 
-          className="w-full h-11 bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl px-4 text-[13px] font-medium outline-none focus:border-primary/30 transition-all"
-        />
-        <p className="text-[11px] text-gray-400">Target keywords. Press Enter to add.</p>
+        <Label className="text-[13px] font-bold uppercase text-gray-400 tracking-[0.1em] ml-1">Focus Keywords</Label>
+        <div className="min-h-12 bg-gray-50/50 dark:bg-gray-900/50 border border-gray-100 dark:border-gray-800 rounded-2xl px-4 py-2 flex flex-wrap gap-2 items-center focus-within:border-[#17838F]/30 focus-within:ring-4 focus-within:ring-[#17838F]/5 transition-all">
+          {focusKeywords.map((kw) => (
+            <span key={kw} className="inline-flex items-center gap-1.5 bg-[#17838F]/10 text-[#17838F] text-[12px] font-bold px-3 py-1 rounded-full">
+              {kw}
+              <button onClick={() => onFocusKeywordsChange(focusKeywords.filter(k => k !== kw))} className="hover:text-red-500 transition-colors leading-none">×</button>
+            </span>
+          ))}
+          <input
+            type="text"
+            value={kwInput}
+            onChange={(e) => setKwInput(e.target.value)}
+            onKeyDown={handleKwKeyDown}
+            placeholder={focusKeywords.length ? "" : "Cth: tajwid, hafaz... (Enter)"}
+            className="flex-1 min-w-[100px] bg-transparent text-[14px] font-medium outline-none text-gray-800 dark:text-gray-200 placeholder:text-gray-400"
+          />
+        </div>
+        <p className="text-[11px] text-gray-400 px-1">Enter atau koma untuk tambah keyword.</p>
       </div>
 
       <div className="h-px bg-gray-100 dark:bg-gray-800 my-2" />

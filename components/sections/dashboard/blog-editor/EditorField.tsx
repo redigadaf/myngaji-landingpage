@@ -25,19 +25,24 @@ import {
   BetweenVerticalStart, BetweenVerticalEnd, BetweenHorizontalStart, BetweenHorizontalEnd, Merge, Split, Eraser, Table2
 } from "lucide-react";
 import { Label } from "@/components/ui/label";
+import { MediaPickerModal } from "../media-library/MediaPickerModal";
+
 
 interface EditorFieldProps {
   label: string;
-  placeholder: string;
+  placeholder?: string;
   minHeight?: string;
-  value: string;
-  onChange: (value: string) => void;
+  value?: string;
+  onChange?: (value: string) => void;
+  onChangeJSON?: (json: Record<string, unknown>) => void;
   className?: string;
 }
 
-export function EditorField({ label, placeholder, minHeight = "min-h-[150px]", value, onChange, className }: EditorFieldProps) {
+export function EditorField({ label, placeholder, minHeight = "min-h-[150px]", value, onChange, onChangeJSON, className }: EditorFieldProps) {
   const [, setUpdateNonce] = useState(0);
   const [showClearConfirm, setShowClearConfirm] = useState(false);
+  const [showMediaPicker, setShowMediaPicker] = useState(false);
+  const [pickerMode, setPickerMode] = useState<"image" | "link">("image");
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [
@@ -52,7 +57,12 @@ export function EditorField({ label, placeholder, minHeight = "min-h-[150px]", v
       Link.configure({
         openOnClick: false,
       }),
-      Image,
+      Image.configure({
+        inline: true,
+        HTMLAttributes: {
+          class: "editor-inline-image",
+        },
+      }),
       Highlight.configure({ multicolor: true }),
       Subscript,
       Superscript,
@@ -65,12 +75,10 @@ export function EditorField({ label, placeholder, minHeight = "min-h-[150px]", v
     ],
     content: value,
     onUpdate: ({ editor }) => {
-      onChange(editor.getHTML());
+      if (onChange) onChange(editor.getHTML());
+      if (onChangeJSON) onChangeJSON(editor.getJSON());
     },
-    onTransaction: () => {
-      // Force re-render to update toolbar button states immediately
-      setUpdateNonce((n) => n + 1);
-    },
+    onSelectionUpdate: () => setUpdateNonce((curr) => curr + 1),
     editorProps: {
       attributes: {
         class: `focus:outline-none prose prose-sm dark:prose-invert max-w-none p-8 min-h-[150px] text-[16px] leading-relaxed font-sans cursor-text`,
@@ -83,7 +91,19 @@ export function EditorField({ label, placeholder, minHeight = "min-h-[150px]", v
   }
 
   return (
-    <div className={`bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-[24px] p-8 shadow-sm font-sans ${className || ""}`}>
+    <div className={`bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-[24px] p-8 shadow-sm font-sans relative ${className || ""}`}>
+      <MediaPickerModal 
+        isOpen={showMediaPicker}
+        mode={pickerMode}
+        onClose={() => setShowMediaPicker(false)}
+        onSelect={(media) => {
+          if (pickerMode === "image") {
+            editor.chain().focus().setImage({ src: media.url }).run();
+          } else {
+            editor.chain().focus().setLink({ href: media.url }).run();
+          }
+        }}
+      />
       <div className="space-y-4">
         <Label className="text-[16px] font-semibold uppercase text-gray-500 tracking-[0.1em]">{label}</Label>
         
@@ -232,8 +252,13 @@ export function EditorField({ label, placeholder, minHeight = "min-h-[150px]", v
 
               <ToolbarButton 
                 onClick={() => {
-                  const url = window.prompt("Masukkan URL Pautan:");
-                  if (url) editor.chain().focus().setLink({ href: url }).run();
+                  const url = window.prompt("Masukkan URL Pautan luaran:\n(Atau biarkan KOSONG dan tekan OK untuk pilih fail dari Media Library)");
+                  if (url) {
+                    editor.chain().focus().setLink({ href: url }).run();
+                  } else if (url === "") {
+                    setPickerMode("link");
+                    setShowMediaPicker(true);
+                  }
                 }}
                 active={editor.isActive("link")}
                 icon={<LinkIcon className="h-5 w-5" />} 
@@ -241,8 +266,8 @@ export function EditorField({ label, placeholder, minHeight = "min-h-[150px]", v
               />
               <ToolbarButton 
                 onClick={() => {
-                  const url = window.prompt("Pilih imej (Masukkan URL):");
-                  if (url) editor.chain().focus().setImage({ src: url }).run();
+                  setPickerMode("image");
+                  setShowMediaPicker(true);
                 }}
                 icon={<ImageIcon className="h-5 w-5" />} 
                 title="Media Library"
@@ -343,6 +368,18 @@ export function EditorField({ label, placeholder, minHeight = "min-h-[150px]", v
         .ProseMirror p {
           margin-top: 0.5rem;
           margin-bottom: 0.5rem;
+          clear: both;
+        }
+        /* Inline Image Styles - Force Overrides */
+        .ProseMirror img {
+          max-width: 250px !important;
+          width: 250px !important;
+          height: auto !important;
+          border-radius: 12px !important;
+          display: inline-block !important;
+          float: left !important;
+          margin: 0.5rem 1.5rem 0.5rem 0 !important;
+          box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
         }
         /* Table Styles */
         .ProseMirror table {
