@@ -51,13 +51,13 @@ export function DashboardSidebar() {
         // Ambil nama dari tabel accounts
         const { data: account } = await supabase
           .from("accounts")
-          .select("nama")
+          .select("full_name")
           .eq("id", user.id)
           .single();
 
         setTeacherData({
           image_url: teacher?.image_url ?? undefined,
-          nama: account?.nama ?? undefined,
+          nama: account?.full_name ?? undefined,
         });
       }
     };

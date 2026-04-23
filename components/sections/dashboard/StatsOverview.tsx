@@ -1,3 +1,7 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase/client";
 import { FileText, CheckCircle2, Pencil, Eye } from "lucide-react";
 
 interface StatCardProps {
@@ -21,31 +25,67 @@ function StatCard({ label, value, icon, iconBg, iconColor }: StatCardProps) {
 }
 
 export function StatsOverview() {
+  const [statsData, setStatsData] = useState({
+    total: 0,
+    published: 0,
+    draft: 0,
+    views: 0
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchStats() {
+      try {
+        // 1. Fetch counts
+        const { data: posts, error } = await supabase
+          .from('blog_posts')
+          .select('status, view_count');
+
+        if (error) throw error;
+
+        if (posts) {
+          const total = posts.length;
+          const published = posts.filter(p => p.status === 'published').length;
+          const draft = posts.filter(p => p.status === 'draft').length;
+          const views = posts.reduce((acc, p) => acc + (p.view_count || 0), 0);
+
+          setStatsData({ total, published, draft, views });
+        }
+      } catch (error) {
+        console.error("Error fetching stats:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchStats();
+  }, []);
+
   const stats = [
     {
       label: "Total Articles",
-      value: "6",
+      value: loading ? "..." : statsData.total.toString(),
       icon: <FileText className="h-6 w-6" />,
       iconBg: "bg-primary/10",
       iconColor: "text-primary"
     },
     {
       label: "Published",
-      value: "6",
+      value: loading ? "..." : statsData.published.toString(),
       icon: <CheckCircle2 className="h-6 w-6" />,
       iconBg: "bg-emerald-50 dark:bg-emerald-900/20",
       iconColor: "text-emerald-600 dark:text-emerald-400"
     },
     {
       label: "Draft",
-      value: "0",
+      value: loading ? "..." : statsData.draft.toString(),
       icon: <Pencil className="h-6 w-6" />,
       iconBg: "bg-amber-50 dark:bg-amber-900/20",
       iconColor: "text-amber-600 dark:text-amber-400"
     },
     {
       label: "Total Views",
-      value: "302",
+      value: loading ? "..." : statsData.views.toLocaleString(),
       icon: <Eye className="h-6 w-6" />,
       iconBg: "bg-secondary/20 dark:bg-secondary/10",
       iconColor: "text-secondary"
