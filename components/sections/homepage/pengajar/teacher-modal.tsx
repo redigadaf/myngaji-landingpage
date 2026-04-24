@@ -2,18 +2,10 @@ import React from "react";
 import Image from "next/image";
 import { X, GraduationCap, User } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
-
-type TeacherType = {
-    id: number;
-    name: string;
-    role: string;
-    experience: string;
-    image: string;
-    bio: string;
-};
+import { TeacherFromAPI } from "@/hooks/useTeachers";
 
 interface TeacherModalProps {
-    teacher: TeacherType | null;
+    teacher: TeacherFromAPI | null;
     onClose: () => void;
 }
 
@@ -66,8 +58,8 @@ export function TeacherModal({ teacher, onClose }: TeacherModalProps) {
                                     {/* The Teacher Image */}
                                     <div className="relative w-full h-[95%] z-10 pl-4 pr-6 pt-10">
                                         <Image
-                                            src={teacher.image}
-                                            alt={teacher.name}
+                                            src={teacher.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(teacher.full_name)}&background=17838F&color=fff`}
+                                            alt={teacher.full_name}
                                             fill
                                             className="object-contain object-bottom drop-shadow-[0_10px_35px_rgba(0,0,0,0.4)]"
                                             draggable={false}
@@ -83,7 +75,7 @@ export function TeacherModal({ teacher, onClose }: TeacherModalProps) {
                                 <div className="relative flex flex-col justify-center px-8 py-10 md:px-12 md:py-16 md:w-[55%] bg-white">
                                     <div className="mb-8">
                                         <h3 className="text-3xl md:text-4xl font-black uppercase text-slate-800 tracking-tight leading-none mb-4">
-                                            {teacher.name}
+                                            {teacher.full_name}
                                         </h3>
                                         {/* Role Badge with pulsing dot */}
                                         <span className="inline-flex items-center gap-2.5 rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-sm font-bold text-primary shadow-sm">
@@ -91,7 +83,7 @@ export function TeacherModal({ teacher, onClose }: TeacherModalProps) {
                                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                                                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
                                             </span>
-                                            {teacher.role}
+                                            {teacher.display_role}
                                         </span>
                                     </div>
 

@@ -31,8 +31,9 @@ export function PainPoints({ data }: PainPointsProps) {
     offset: ["start start", "end end"]
   });
 
-  const empathyOpacity = useTransform(scrollYProgress, [0.8, 0.9], [0, 1]);
-  const empathyY = useTransform(scrollYProgress, [0.8, 0.9], [20, 0]);
+  const empathyOpacity = useTransform(scrollYProgress, [0.7, 0.85], [0, 1]);
+  const empathyY = useTransform(scrollYProgress, [0.7, 0.85], [40, 0]);
+  const scrollHintOpacity = useTransform(scrollYProgress, [0, 0.05], [1, 0]);
 
   return (
     <section ref={containerRef} className="relative bg-[#fafaf9] border-t border-stone-200 pb-20">
@@ -189,6 +190,33 @@ export function PainPoints({ data }: PainPointsProps) {
               </div>
             </div>
           </div>
+
+          {/* Floating Scroll Indicator */}
+          <motion.div 
+            style={{ opacity: scrollHintOpacity }}
+            className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 pointer-events-none"
+          >
+            <span className="text-[10px] font-black tracking-[0.2em] text-primary uppercase">Teruskan Scroll</span>
+            <motion.div
+              animate={{ y: [0, 4, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              className="w-5 h-9 border-2 border-[#17838F]/60 rounded-full flex justify-center p-1.5"
+            >
+              <motion.div
+                animate={{ 
+                  y: [0, 16],
+                  opacity: [0, 1, 0]
+                }}
+                transition={{ 
+                  duration: 1.8, 
+                  repeat: Infinity, 
+                  ease: [0.4, 0, 0.2, 1],
+                  times: [0, 0.5, 1]
+                }}
+                className="w-1 h-2 bg-primary rounded-full"
+              />
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </section>

@@ -32,11 +32,20 @@ export function PerformanceAnalytics() {
           const total = posts.reduce((acc, p) => acc + (p.view_count || 0), 0);
           setTotalViews(total);
           
-          // Since we don't have a history table, we simulate a distribution
-          // but we'll base it on the actual total views and post dates.
-          // For now, let's create a representative curve if total > 0.
-          const mockPoints = [20, 45, 30, 60, 85, 40, 55]; // Example curve shapes
-          const points = total === 0 ? [0, 0, 0, 0, 0, 0, 0] : mockPoints.map(p => (p / 100) * total);
+          // Determine point count based on range
+          let pointCount = 7;
+          if (timeRange === "30 Hari Lalu") pointCount = 15;
+          if (timeRange === "3 Bulan Lalu") pointCount = 13;
+          if (timeRange === "Hari Ini") pointCount = 15; // By hour
+          
+          // Generate realistic mock curve
+          const points = [];
+          for (let i = 0; i < pointCount; i++) {
+            // Sinusoidal mock data with some randomness
+            const base = Math.sin((i / pointCount) * Math.PI) * 50 + 20;
+            const random = Math.random() * 30;
+            points.push(total === 0 ? 0 : (base + random) / (pointCount * 50) * total);
+          }
           
           setViewData(points.map((v, i) => ({ 
             date: i.toString(), 
@@ -72,6 +81,31 @@ export function PerformanceAnalytics() {
     if (!chartPath) return "";
     return `${chartPath} L150,100 L0,100 Z`;
   }, [chartPath]);
+
+  const xAxisLabels = useMemo(() => {
+    const now = new Date();
+    const formatter = new Intl.DateTimeFormat('ms-MY', { day: 'numeric', month: 'short' });
+    
+    const formatDate = (daysAgo: number) => {
+      const d = new Date();
+      d.setDate(now.getDate() - daysAgo);
+      return formatter.format(d);
+    };
+
+    if (timeRange === "7 Hari Lalu") {
+      // 7 labels (one each day)
+      return Array.from({ length: 7 }, (_, i) => i === 6 ? "Hari Ini" : formatDate(7 - i));
+    }
+    if (timeRange === "30 Hari Lalu") {
+      // 15 labels (one every 2 days)
+      return Array.from({ length: 15 }, (_, i) => i === 14 ? "Hari Ini" : formatDate(30 - (i * 2)));
+    }
+    if (timeRange === "3 Bulan Lalu") {
+      // 13 labels (one every 7 days)
+      return Array.from({ length: 13 }, (_, i) => i === 12 ? "Hari Ini" : formatDate(84 - (i * 7)));
+    }
+    return ["Awal", "Pertengahan", "Hari Ini"];
+  }, [timeRange]);
 
   return (
     <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-3xl p-8 shadow-sm flex flex-col h-full relative">
@@ -159,22 +193,34 @@ export function PerformanceAnalytics() {
         </div>
 
         {/* X-Axis Labels */}
-        <div className="absolute bottom-[-24px] left-0 right-0 flex justify-between text-[10px] font-bold text-gray-400 uppercase tracking-tight">
-          {timeRange === "Hari Ini" ? (
-            <>
-              <span>7:00 PG</span>
-              <span>10:00 PG</span>
-              <span>1:00 PTG</span>
-              <span>4:00 PTG</span>
-              <span>7:00 PTG</span>
-            </>
-          ) : (
-            <>
-              <span>Awal</span>
-              <span>Pertengahan</span>
-              <span>Hari Ini</span>
-            </>
-          )}
+        <div className="absolute bottom-[-24px] left-0 right-0 h-4 text-[10px] font-bold text-gray-400 uppercase tracking-tight">
+          {(() => {
+            const labels = timeRange === "Hari Ini" 
+              ? ["7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM"]
+              : xAxisLabels;
+              
+            return labels.map((label, idx) => {
+              const isFirst = idx === 0;
+              const isLast = idx === labels.length - 1;
+              const isMiddle = Math.abs(idx - Math.floor(labels.length / 2)) < 1;
+              const showOnMobile = isFirst || isLast || isMiddle;
+              const showOnTablet = idx % 2 === 0 || isLast;
+              
+              return (
+                <span 
+                  key={idx}
+                  className={`absolute whitespace-nowrap 
+                    ${isFirst ? 'left-0' : isLast ? 'right-0' : 'transform -translate-x-1/2'}
+                    ${!showOnMobile ? 'hidden md:block' : ''}
+                    ${!showOnTablet ? 'md:hidden lg:block' : ''}
+                  `}
+                  style={!isFirst && !isLast ? { left: `${(idx / (labels.length - 1)) * 100}%` } : {}}
+                >
+                  {label}
+                </span>
+              );
+            });
+          })()}
         </div>
       </div>
 

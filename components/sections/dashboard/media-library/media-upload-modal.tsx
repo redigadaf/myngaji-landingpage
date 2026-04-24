@@ -4,7 +4,7 @@ import { useState } from "react";
 import { X, Upload, FileUp, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { uploadMediaAsset } from "../lib/media-services";
+import { uploadMediaAsset } from "../../../../app/dashboard/media-library/lib/media-services";
 
 interface MediaUploadModalProps {
   isOpen: boolean;

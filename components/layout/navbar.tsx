@@ -49,7 +49,7 @@ export function Navbar() {
     };
   }, [open]);
 
-  if (pathname.startsWith("/dashboard") || pathname === "/login") {
+  if (pathname.startsWith("/dashboard") || pathname === "/login" || pathname === "/pendaftaran") {
     return null;
   }
 
@@ -102,7 +102,7 @@ export function Navbar() {
 
         {/* CTA Button */}
         <div className="hidden md:block">
-          <Link href="#">
+          <Link href="/pendaftaran">
             <ShinyButton className={cn("inline-flex items-center gap-2 px-6 py-2.5 transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]", scrolled ? "!rounded-full" : "!rounded-xl")}>
               Daftar Kelas Percubaan
               <ArrowRight className="w-4 h-4 ml-2 inline-block" />
@@ -176,7 +176,7 @@ export function Navbar() {
             ))}
 
             <div className="mt-6 flex justify-start">
-              <Link href="#" onClick={() => setOpen(false)}>
+              <Link href="/pendaftaran" onClick={() => setOpen(false)}>
                 <ShinyButton className="inline-flex items-center justify-center !px-8 !py-4 rounded-full text-base font-extrabold shadow-lg hover:shadow-xl translate-y-0">
                   Daftar Kelas Percubaan
                   <ArrowRight className="w-4 h-4 ml-2 inline-block" />

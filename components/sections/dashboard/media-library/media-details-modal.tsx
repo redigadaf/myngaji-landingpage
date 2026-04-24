@@ -2,9 +2,9 @@ import { useState } from "react";
 import Image from "next/image";
 import { X, Pencil, Info, Maximize2, Calendar, Copy, Check, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MediaType } from "../data";
+import { MediaType } from "../../../../app/dashboard/media-library/data";
 import { Button } from "@/components/ui/button";
-import { updateMediaTitle } from "../lib/media-services";
+import { updateMediaTitle } from "../../../../app/dashboard/media-library/lib/media-services";
 
 interface MediaDetailsModalProps {
   media: MediaType | null;

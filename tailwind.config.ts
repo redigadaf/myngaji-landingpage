@@ -1,5 +1,8 @@
 import type { Config } from "tailwindcss";
-// Force reload
+// Force reload - 2026-04-24T18:27:10+07:00
+
+import tailwindAnimate from "tailwindcss-animate";
+import typography from "@tailwindcss/typography";
 
 const config: Config = {
   darkMode: ["class"],
@@ -82,6 +85,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
+  plugins: [tailwindAnimate, typography],
 };
 export default config;

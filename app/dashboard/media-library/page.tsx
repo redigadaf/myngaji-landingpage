@@ -3,10 +3,10 @@
 import { useState, useEffect, useCallback } from "react";
 import { MediaType } from "./data";
 import { fetchMediaAssets } from "./lib/media-services";
-import { MediaHeader } from "./components/media-header";
-import { MediaToolbar } from "./components/media-toolbar";
-import { MediaGridView } from "./components/media-grid-view";
-import { MediaListView } from "./components/media-list-view";
+import { MediaHeader } from "../../../components/sections/dashboard/media-library/media-header";
+import { MediaToolbar } from "../../../components/sections/dashboard/media-library/media-toolbar";
+import { MediaGridView } from "../../../components/sections/dashboard/media-library/media-grid-view";
+import { MediaListView } from "../../../components/sections/dashboard/media-library/media-list-view";
 
 export default function MediaLibraryPage() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");

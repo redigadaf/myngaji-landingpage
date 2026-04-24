@@ -1,11 +1,12 @@
-"use client";
-
+import { supabase } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { Eye, MoreHorizontal, Pencil, Copy, Trash2, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Article } from "./types";
 import { motion, AnimatePresence } from "framer-motion";
+import { DeleteConfirmModal } from "./DeleteConfirmModal";
 
 interface GridViewProps {
   articles: Article[];
@@ -22,7 +23,10 @@ export function GridView({ articles }: GridViewProps) {
 }
 
 function ArticleCard({ article }: { article: Article }) {
+  const router = useRouter();
   const [showMenu, setShowMenu] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   // Close menu when clicking outside
@@ -37,6 +41,65 @@ function ArticleCard({ article }: { article: Article }) {
     }
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showMenu]);
+
+  const handleAction = async (action: string) => {
+    setShowMenu(false);
+    
+    switch (action) {
+      case "view":
+        window.open(`/blog/${article.slug}`, "_blank");
+        break;
+      case "edit":
+        router.push(`/dashboard/blog/edit/${article.id}`);
+        break;
+      case "duplicate":
+        try {
+          const { data: original } = await supabase.from("blog_posts").select("*").eq("id", article.id).single();
+          if (original) {
+            // Use Object entries to filter out internal fields instead of 'delete' with 'any' casting
+            const rest = Object.fromEntries(
+              Object.entries(original).filter(([key]) => 
+                !["id", "created_at", "updated_at", "published_at"].includes(key)
+              )
+            );
+
+            const { error } = await supabase.from("blog_posts").insert({
+              ...rest,
+              title: `${article.title} (Salinan)`,
+              slug: `${article.slug}-copy-${Math.floor(Math.random() * 1000)}`,
+              status: "draft",
+              view_count: 0,
+            });
+            if (error) throw error;
+            router.refresh();
+            window.location.reload();
+          }
+        } catch (err) {
+          console.error("Duplicate error:", err);
+          alert("Gagal menduplikasi artikel.");
+        }
+        break;
+      case "delete":
+        setShowDeleteModal(true);
+        break;
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    setIsDeleting(true);
+    try {
+      const { error } = await supabase.from("blog_posts").delete().eq("id", article.id);
+      if (error) throw error;
+      router.refresh();
+      window.location.reload();
+    } catch (err) {
+      console.error("Delete error:", err);
+      alert("Gagal memadam artikel.");
+    } finally {
+      setIsDeleting(false);
+      setShowDeleteModal(false);
+    }
+  };
 
   return (
     <div className="group bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-[16px] p-4 shadow-sm hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 flex flex-col h-full items-stretch">
@@ -130,7 +193,11 @@ function ArticleCard({ article }: { article: Article }) {
 
       {/* Action Buttons */}
       <div className="flex gap-2 relative">
-        <Button variant="outline" className="flex-1 h-[48px] rounded-xl border-gray-100 dark:border-gray-800 hover:border-primary/20 hover:bg-primary/5 group/btn transition-all">
+        <Button 
+          onClick={() => handleAction("view")}
+          variant="outline" 
+          className="flex-1 h-[48px] rounded-xl border-gray-100 dark:border-gray-800 hover:border-primary/20 hover:bg-primary/5 group/btn transition-all"
+        >
           <div className="flex items-center justify-center gap-2">
             <Eye className="h-4 w-4 text-gray-400 group-hover/btn:text-primary transition-colors" />
             <span className="text-[14px] font-bold text-gray-600 dark:text-gray-300 group-hover/btn:text-primary transition-colors">Preview</span>
@@ -156,17 +223,26 @@ function ArticleCard({ article }: { article: Article }) {
                 className="absolute bottom-full right-0 mb-2 w-[190px] bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl shadow-2xl shadow-black/10 p-2 z-[100] backdrop-blur-xl"
               >
                 <div className="space-y-1">
-                  <DropdownItem onClick={() => setShowMenu(false)} icon={<ExternalLink className="h-4 w-4" />} label="View Article" />
-                  <DropdownItem onClick={() => setShowMenu(false)} icon={<Pencil className="h-4 w-4" />} label="Edit Article" />
-                  <DropdownItem onClick={() => setShowMenu(false)} icon={<Copy className="h-4 w-4" />} label="Duplicate" />
+                  <DropdownItem onClick={() => handleAction("view")} icon={<ExternalLink className="h-4 w-4" />} label="View Article" />
+                  <DropdownItem onClick={() => handleAction("edit")} icon={<Pencil className="h-4 w-4" />} label="Edit Article" />
+                  <DropdownItem onClick={() => handleAction("duplicate")} icon={<Copy className="h-4 w-4" />} label="Duplicate" />
                   <div className="h-px bg-gray-50 dark:bg-gray-800 my-1" />
-                  <DropdownItem onClick={() => setShowMenu(false)} icon={<Trash2 className="h-4 w-4" />} label="Delete Article" variant="danger" />
+                  <DropdownItem onClick={() => handleAction("delete")} icon={<Trash2 className="h-4 w-4" />} label="Delete Article" variant="danger" />
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
       </div>
+
+      <DeleteConfirmModal 
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={handleConfirmDelete}
+        title="Padam Artikel?"
+        itemName={article.title}
+        isDeleting={isDeleting}
+      />
     </div>
   );
 }

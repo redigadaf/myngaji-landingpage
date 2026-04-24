@@ -10,11 +10,11 @@ import {
   CheckCircle2
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MediaType } from "../data";
+import { MediaType } from "../../../../app/dashboard/media-library/data";
 import { MediaDetailsModal } from "./media-details-modal";
 import { MediaToast } from "./media-toast";
 import { DeleteConfirmationModal } from "./delete-confirmation-modal";
-import { deleteMediaAsset } from "../lib/media-services";
+import { deleteMediaAsset } from "../../../../app/dashboard/media-library/lib/media-services";
 
 interface MediaGridViewProps {
   mediaList: MediaType[];

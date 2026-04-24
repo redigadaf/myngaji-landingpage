@@ -1,19 +1,52 @@
+import { supabase } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
-import { MoreVertical, Eye, Pencil, Copy, Trash2, ExternalLink } from "lucide-react";
+import { MoreVertical, Pencil, Copy, Trash2, ExternalLink } from "lucide-react";
 import { Article } from "./types";
 import { motion, AnimatePresence } from "framer-motion";
+import { DeleteConfirmModal } from "./DeleteConfirmModal";
+
+interface DropdownItemProps {
+  onClick: () => void;
+  icon: React.ReactNode;
+  label: string;
+  variant?: "default" | "danger";
+}
+
+function DropdownItem({ onClick, icon, label, variant = "default" }: DropdownItemProps) {
+  return (
+    <button
+      onClick={onClick}
+      className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-[13px] font-medium transition-colors ${
+        variant === "danger"
+          ? "text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20"
+          : "text-gray-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800"
+      }`}
+    >
+      {icon}
+      {label}
+    </button>
+  );
+}
 
 interface ListViewProps {
   articles: Article[];
 }
 
 export function ListView({ articles }: ListViewProps) {
+  const router = useRouter();
   const [activeMenuId, setActiveMenuId] = useState<string | number | null>(null);
+  const [menuCoords, setMenuCoords] = useState({ top: 0, left: 0 });
+  const [mounted, setMounted] = useState(false);
+  const [articleToDelete, setArticleToDelete] = useState<Article | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   // Close menu when clicking outside
   useEffect(() => {
+    setMounted(true);
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setActiveMenuId(null);
@@ -25,13 +58,74 @@ export function ListView({ articles }: ListViewProps) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [activeMenuId]);
 
+  const handleAction = async (action: string, article: Article) => {
+    setActiveMenuId(null);
+    
+    switch (action) {
+      case "view":
+        window.open(`/blog/${article.slug}`, "_blank");
+        break;
+      case "edit":
+        router.push(`/dashboard/blog/edit/${article.id}`);
+        break;
+      case "duplicate":
+        try {
+          const { data: original } = await supabase.from("blog_posts").select("*").eq("id", article.id).single();
+          if (original) {
+            // Use destructuring to omit internal fields instead of 'delete' with 'any' casting
+            const rest = Object.fromEntries(
+              Object.entries(original).filter(([key]) => 
+                !["id", "created_at", "updated_at", "published_at"].includes(key)
+              )
+            );
+
+            const { error } = await supabase.from("blog_posts").insert({
+              ...rest,
+              title: `${article.title} (Salinan)`,
+              slug: `${article.slug}-copy-${Math.floor(Math.random() * 1000)}`,
+              status: "draft",
+              view_count: 0,
+            });
+            if (error) throw error;
+            router.refresh();
+            window.location.reload();
+          }
+        } catch (err) {
+          console.error("Duplicate error:", err);
+          alert("Gagal menduplikasi artikel.");
+        }
+        break;
+      case "delete":
+        setArticleToDelete(article);
+        break;
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!articleToDelete) return;
+    setIsDeleting(true);
+    try {
+      const { error } = await supabase.from("blog_posts").delete().eq("id", articleToDelete.id);
+      if (error) throw error;
+      router.refresh();
+      window.location.reload();
+    } catch (err) {
+      console.error("Delete error:", err);
+      alert("Gagal memadam artikel.");
+    } finally {
+      setIsDeleting(false);
+      setArticleToDelete(null);
+    }
+  };
+
   return (
-    <div className="overflow-x-auto scrollbar-none pb-24 px-1">
+    <div className="overflow-x-auto scrollbar-none pb-12 px-1">
       <div className="min-w-[1240px] px-1">
         <table className="w-full border-collapse">
           <thead>
             <tr className="border-b border-gray-50 dark:border-gray-800">
               <th className="py-4 pl-4 text-left text-[11px] font-black uppercase text-gray-400 tracking-widest w-[450px]">Tajuk Artikel</th>
+
               <th className="py-4 px-4 text-left text-[11px] font-black uppercase text-gray-400 tracking-widest w-[160px]">Kategori</th>
               <th className="py-4 px-4 text-left text-[11px] font-black uppercase text-gray-400 tracking-widest w-[180px]">Penulis</th>
               <th className="py-4 px-4 text-center text-[11px] font-black uppercase text-gray-400 tracking-widest w-[120px]">Status</th>
@@ -106,7 +200,14 @@ export function ListView({ articles }: ListViewProps) {
                 <td className="py-3.5 pr-4 text-right">
                   <div className="relative flex justify-end" ref={activeMenuId === article.id ? menuRef : null}>
                     <button 
-                      onClick={() => setActiveMenuId(activeMenuId === article.id ? null : article.id)}
+                      onClick={(e) => {
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        setMenuCoords({ 
+                          top: rect.bottom + 8, // slight margin
+                          left: rect.right - 180 // width of dropdown is 180px, align right edge
+                        });
+                        setActiveMenuId(activeMenuId === article.id ? null : article.id);
+                      }}
                       className={`p-2 transition-all rounded-lg border ${
                         activeMenuId === article.id 
                           ? 'bg-primary/10 border-primary/20 text-primary' 
@@ -116,25 +217,34 @@ export function ListView({ articles }: ListViewProps) {
                       <MoreVertical className="h-4 w-4" />
                     </button>
 
-                    <AnimatePresence>
-                      {activeMenuId === article.id && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                          transition={{ duration: 0.2, ease: "easeOut" }}
-                          className="absolute top-full right-0 mt-2 w-[180px] bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl shadow-2xl shadow-black/10 p-2 z-[100] backdrop-blur-xl"
-                        >
-                          <div className="space-y-1">
-                            <DropdownItem onClick={() => setActiveMenuId(null)} icon={<ExternalLink className="h-4 w-4" />} label="View Article" />
-                            <DropdownItem onClick={() => setActiveMenuId(null)} icon={<Pencil className="h-4 w-4" />} label="Edit Article" />
-                            <DropdownItem onClick={() => setActiveMenuId(null)} icon={<Copy className="h-4 w-4" />} label="Duplicate" />
-                            <div className="h-px bg-gray-50 dark:bg-gray-800 my-1" />
-                            <DropdownItem onClick={() => setActiveMenuId(null)} icon={<Trash2 className="h-4 w-4" />} label="Delete Article" variant="danger" />
+                    {mounted && typeof document !== "undefined" && createPortal(
+                      <AnimatePresence>
+                        {activeMenuId === article.id && (
+                          <div 
+                            className="fixed z-[100]" 
+                            style={{ top: `${menuCoords.top}px`, left: `${menuCoords.left}px` }}
+                            ref={menuRef} // To catch clicks outside
+                          >
+                            <motion.div
+                              initial={{ opacity: 0, y: -5, scale: 0.95 }}
+                              animate={{ opacity: 1, y: 0, scale: 1 }}
+                              exit={{ opacity: 0, y: -5, scale: 0.95 }}
+                              transition={{ duration: 0.2, ease: "easeOut" }}
+                              className="w-[180px] bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl shadow-xl shadow-black/10 p-2 backdrop-blur-xl"
+                            >
+                              <div className="space-y-1">
+                                <DropdownItem onClick={() => handleAction("view", article)} icon={<ExternalLink className="h-4 w-4" />} label="View Article" />
+                                <DropdownItem onClick={() => handleAction("edit", article)} icon={<Pencil className="h-4 w-4" />} label="Edit Article" />
+                                <DropdownItem onClick={() => handleAction("duplicate", article)} icon={<Copy className="h-4 w-4" />} label="Duplicate" />
+                                <div className="h-px bg-gray-50 dark:bg-gray-800 my-1" />
+                                <DropdownItem onClick={() => handleAction("delete", article)} icon={<Trash2 className="h-4 w-4" />} label="Delete Article" variant="danger" />
+                              </div>
+                            </motion.div>
                           </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                        )}
+                      </AnimatePresence>,
+                      document.body
+                    )}
                   </div>
                 </td>
               </tr>
@@ -142,23 +252,17 @@ export function ListView({ articles }: ListViewProps) {
           </tbody>
         </table>
       </div>
+
+      <DeleteConfirmModal 
+        isOpen={!!articleToDelete}
+        onClose={() => setArticleToDelete(null)}
+        onConfirm={handleConfirmDelete}
+        title="Padam Artikel?"
+        itemName={articleToDelete?.title || ""}
+        isDeleting={isDeleting}
+      />
     </div>
   );
 }
 
-function DropdownItem({ icon, label, onClick, variant = "default" }: { icon: React.ReactNode, label: string, onClick: () => void, variant?: "default" | "danger" }) {
-  return (
-    <button 
-      onClick={onClick}
-      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-bold transition-all ${
-        variant === "danger" 
-          ? "text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" 
-          : "text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-primary"
-      }`}
-    >
-      <span className={variant === "danger" ? "text-red-400" : "text-gray-400"}>{icon}</span>
-      {label}
-    </button>
-  );
-}
 

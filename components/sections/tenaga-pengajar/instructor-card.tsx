@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Award, GraduationCap } from "lucide-react";
-import teachersData from "@/app/(pages)/tenaga-pengajar/data/data-guru.json";
+import { Award } from "lucide-react";
+import { TeacherFromAPI } from "@/hooks/useTeachers";
 
-const InstructorCard = ({ teacher, index }: { teacher: (typeof teachersData)[0]; index: number }) => {
+const InstructorCard = ({ teacher, index }: { teacher: TeacherFromAPI; index: number }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -24,7 +24,12 @@ const InstructorCard = ({ teacher, index }: { teacher: (typeof teachersData)[0];
           }}
         />
 
-        <Image src={teacher.image} alt={teacher.name} fill className="object-cover mt-6 object-top drop-shadow-[0_10px_10px_rgba(0,0,0,0.15)] group-hover:scale-110 transition-transform duration-500" />
+        <Image 
+          src={teacher.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(teacher.full_name)}&background=17838F&color=fff`} 
+          alt={teacher.full_name} 
+          fill 
+          className="object-cover mt-6 object-top drop-shadow-[0_10px_10px_rgba(0,0,0,0.15)] group-hover:scale-110 transition-transform duration-500" 
+        />
 
         {/* Floating Badge */}
         <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-sm flex items-center gap-1.5 border border-white/50">
@@ -36,8 +41,8 @@ const InstructorCard = ({ teacher, index }: { teacher: (typeof teachersData)[0];
       <div className="relative p-6 -mt-12">
         <div className="bg-white rounded-2xl p-4 shadow-lg border border-slate-50 relative z-10 mx-2">
           <div className="text-center mb-3">
-            <h3 className="text-xl font-bold text-slate-800 mb-1">{teacher.name}</h3>
-            <span className="inline-block px-3 py-1 bg-teal-50 text-primary text-xs font-bold rounded-lg uppercase tracking-wider">{teacher.role}</span>
+            <h3 className="text-xl font-bold text-slate-800 mb-1">{teacher.full_name}</h3>
+            <span className="inline-block px-3 py-1 bg-teal-50 text-primary text-xs font-bold rounded-lg uppercase tracking-wider">{teacher.display_role}</span>
           </div>
 
           <div className="space-y-3">
