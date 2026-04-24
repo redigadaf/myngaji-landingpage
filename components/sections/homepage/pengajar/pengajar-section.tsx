@@ -2,21 +2,18 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import Image from "next/image";
-import { GraduationCap, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { animate } from "framer-motion";
 import { TeacherModal } from "./teacher-modal";
-import { GradualSpacing } from "@/components/ui/gradual-spacing";
 import ScrollFloat from "@/components/scroll-float";
-import teachersData from "@/app/(pages)/tenaga-pengajar/data/data-guru.json";
+import { useTeachers, TeacherFromAPI } from "@/hooks/useTeachers";
 
 /* ─── single card ────────────────────────────────────────── */
 function TeacherCard({
     teacher,
-    index,
     onClick,
 }: {
-    teacher: (typeof teachersData)[0];
-    index: number;
+    teacher: TeacherFromAPI;
     onClick: () => void;
 }) {
     return (
@@ -35,8 +32,8 @@ function TeacherCard({
                 }}
             />
             <Image
-                src={teacher.image}
-                alt={teacher.name}
+                src={teacher.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(teacher.full_name)}&background=17838F&color=fff`}
+                alt={teacher.full_name}
                 fill
                 className="object-cover object-center scale-100 group-hover/card:scale-105 transition-transform duration-700 ease-out"
                 draggable={false}
@@ -66,7 +63,7 @@ function TeacherCard({
                 <div className="translate-y-6 group-hover/card:-translate-y-2 transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]">
 
                     <p className="text-[12px] md:text-xs font-black uppercase tracking-wider leading-tight text-white group-hover/card:text-amber-400 transition-colors duration-300 drop-shadow-md">
-                        {teacher.name}
+                        {teacher.full_name}
                     </p>
 
                     {/* decorative underline that stretches */}
@@ -75,7 +72,7 @@ function TeacherCard({
                     {/* Role - Hidden by default, reveals on hover */}
                     <div className="overflow-hidden">
                         <p className="text-[10px] sm:text-[11px] font-medium leading-snug text-slate-200 translate-y-full opacity-0 group-hover/card:translate-y-0 group-hover/card:opacity-100 transition-all duration-500 delay-75">
-                            {teacher.role}
+                            {teacher.display_role}
                         </p>
                     </div>
 
@@ -88,27 +85,29 @@ function TeacherCard({
     );
 }
 
-/* ─── constants ─────────────────────────────────────────── */
-const CARD_WIDTH = 220; // Changed to match new card width (was 200)
-const CARD_GAP = 16; /* gap-4 = 1rem = 16px */
-const SET_SIZE = teachersData.length;
-const SET_WIDTH = SET_SIZE * (CARD_WIDTH + CARD_GAP);
-
 /* ─── main section ───────────────────────────────────────── */
 export function PengajarSection() {
+    const { teachers, loading, error } = useTeachers();
     const scrollRef = useRef<HTMLDivElement>(null);
-    const [selectedTeacher, setSelectedTeacher] = useState<(typeof teachersData)[0] | null>(null);
+    const [selectedTeacher, setSelectedTeacher] = useState<TeacherFromAPI | null>(null);
+
+    const CARD_WIDTH = 220;
+    const CARD_GAP = 16;
+    const SET_SIZE = teachers.length;
+    const SET_WIDTH = SET_SIZE * (CARD_WIDTH + CARD_GAP);
 
     // Gandakan data supaya array jadi panjang (5 set)
     const duplicatedTeachers = [
-        ...teachersData,
-        ...teachersData,
-        ...teachersData,
-        ...teachersData,
-        ...teachersData,
+        ...teachers,
+        ...teachers,
+        ...teachers,
+        ...teachers,
+        ...teachers,
     ];
 
     useEffect(() => {
+        if (loading || teachers.length === 0) return;
+
         const el = scrollRef.current;
         if (!el) return;
 
@@ -132,7 +131,7 @@ export function PengajarSection() {
 
         el.addEventListener("scroll", handleScroll, { passive: true });
         return () => el.removeEventListener("scroll", handleScroll);
-    }, []);
+    }, [loading, teachers.length, SET_WIDTH]);
 
     const scrollByAmount = (dir: 1 | -1) => {
         if (!scrollRef.current) return;
@@ -220,24 +219,33 @@ export function PengajarSection() {
                     </button>
 
                     {/* scrollable container – native scroll, hidden scrollbar, vertical locked */}
-                    <div
-                        ref={scrollRef}
-                        className="flex gap-4 overflow-x-auto overflow-y-hidden px-12 py-8 -my-8 touch-pan-x [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]"
-                        style={{
-                            scrollbarWidth: "none",
-                            msOverflowStyle: "none",
-                            WebkitOverflowScrolling: "touch",
-                        }}
-                    >
-                        {duplicatedTeachers.map((teacher, i) => (
-                            <TeacherCard
-                                key={`${teacher.id}-${i}`}
-                                teacher={teacher}
-                                index={i}
-                                onClick={() => setSelectedTeacher(teacher)}
-                            />
-                        ))}
-                    </div>
+                    {loading ? (
+                        <div className="flex gap-4 overflow-hidden px-12 py-8 animate-pulse">
+                            {[...Array(6)].map((_, i) => (
+                                <div key={i} className="flex-shrink-0 rounded-[2rem] bg-slate-200" style={{ width: 220, height: 320 }} />
+                            ))}
+                        </div>
+                    ) : error ? (
+                        <div className="text-center py-20 text-red-500 font-bold w-full">{error}</div>
+                    ) : (
+                        <div
+                            ref={scrollRef}
+                            className="flex gap-4 overflow-x-auto overflow-y-hidden px-12 py-8 -my-8 touch-pan-x [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]"
+                            style={{
+                                scrollbarWidth: "none",
+                                msOverflowStyle: "none",
+                                WebkitOverflowScrolling: "touch",
+                            }}
+                        >
+                            {duplicatedTeachers.map((teacher, i) => (
+                                <TeacherCard
+                                    key={`${teacher.id}-${i}`}
+                                    teacher={teacher}
+                                    onClick={() => setSelectedTeacher(teacher)}
+                                />
+                            ))}
+                        </div>
+                    )}
                 </div>
 
             </div>

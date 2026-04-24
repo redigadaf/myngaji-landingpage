@@ -26,9 +26,7 @@ export default function KelasKafaPage() {
       <Proof data={kelas.proof} />
       <Offer 
         data={kelas.offer}
-        packageName={kelas.offerConfig.packageName}
-        packageDesc={kelas.offerConfig.packageDesc}
-        featureList={kelas.offer.features}
+        category="kafa"
       />
       <Closing data={kelas.closing} />
       <FAQ data={kelas.faqs} categoryName={kelas.header.titlePart2} />

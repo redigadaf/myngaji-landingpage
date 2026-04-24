@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, use } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { EditorHeader } from "@/components/sections/dashboard/blog-editor/EditorHeader";
@@ -23,8 +23,8 @@ interface FormData {
   slug: string;
   metaTitle: string;
   metaDescription: string;
-  featuredImage: string; // The public URL
-  featuredImageId: string; // The UUID from media_assets
+  featuredImage: string;
+  featuredImageId: string;
   excerpt: string;
   status: string;
   content_html: string;
@@ -32,22 +32,43 @@ interface FormData {
   aiSummary: string;
   is_public: boolean;
   is_pinned: boolean;
-  // Metadata tab
   category_id: string;
   reading_time: number;
   is_featured: boolean;
-  tags: string[];  // raw tag names
-  // SEO tab
+  tags: string[];
   focus_keywords: string[];
 }
 
-export default function CreateBlogPost() {
+interface BlogPostWithRelations {
+  id: string;
+  title: string | null;
+  slug: string | null;
+  meta_title: string | null;
+  meta_description: string | null;
+  excerpt: string | null;
+  status: string;
+  content_html: string | null;
+  content_json: Record<string, unknown> | null;
+  ai_summary: string | null;
+  is_public: boolean | null;
+  is_pinned: boolean | null;
+  category_id: string | null;
+  reading_time: string | number | null;
+  is_featured: boolean | null;
+  focus_keywords: string[] | null;
+  media_assets: { id: string; url: string } | null;
+  blog_post_tags: { blog_tags: { name: string } | null }[];
+  teachers: { id: string; accounts: { full_name: string } | null } | null;
+}
+
+export default function EditBlogPost({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [categories, setCategories] = useState<Category[] | null>(null);
   const [availableTags, setAvailableTags] = useState<{ id: string; name: string }[]>([]);
-  const [authorId, setAuthorId] = useState<string | null>(null);
   const [authorName, setAuthorName] = useState<string>("");
 
   const [formData, setFormData] = useState<FormData>({
@@ -71,113 +92,89 @@ export default function CreateBlogPost() {
     focus_keywords: [],
   });
 
-  const [isSlugManuallyEdited, setIsSlugManuallyEdited] = useState(false);
-  const [isMetaTitleManuallyEdited, setIsMetaTitleManuallyEdited] = useState(false);
-  const [isMetaDescriptionManuallyEdited, setIsMetaDescriptionManuallyEdited] = useState(false);
-
-  // ─── Fetch bootstrap data ──────────────────────────────
+  // ─── Fetch bootstrap data & Article ──────────────────────────────
   useEffect(() => {
-    const bootstrap = async () => {
-      // 1. Get current user & find their teacher_id
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        // Fetch full_name from accounts table for display
-        const { data: account } = await supabase
-          .from("accounts")
-          .select("full_name")
-          .eq("id", user.id)
-          .single();
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const [catsRes, tagsRes] = await Promise.all([
+          supabase.from("blog_categories").select("id, name, slug").order("name"),
+          supabase.from("blog_tags").select("id, name").order("name")
+        ]);
         
-        const displayName = account?.full_name || user.user_metadata?.full_name || user.email || "";
+        if (catsRes.data) setCategories(catsRes.data);
+        if (tagsRes.data) setAvailableTags(tagsRes.data);
 
-        if (user.email) {
-          const { data: teacher } = await supabase
-            .from("teachers")
-            .select("id, name")
-            .eq("email", user.email)
-            .single();
-            
-          if (teacher) {
-            setAuthorId(teacher.id);
-            setAuthorName(displayName);
-          } else {
-            setAuthorName(displayName);
-            // Fallback: if logged-in user is not in teachers table, pick the first available teacher
-            // to satisfy the NOT NULL constraint on author_id
-            const { data: fallbackTeacher } = await supabase
-              .from("teachers")
-              .select("id")
-              .limit(1)
-              .single();
-            if (fallbackTeacher) {
-              setAuthorId(fallbackTeacher.id);
-            }
+        const { data, error: blogError } = await supabase
+          .from("blog_posts")
+          .select(`
+            *,
+            media_assets ( id, url ),
+            blog_post_tags ( blog_tags ( name ) ),
+            teachers ( id, accounts ( full_name ) )
+          `)
+          .eq("id", id)
+          .single();
+
+        if (blogError) throw blogError;
+        const b = data as unknown as BlogPostWithRelations;
+        
+        if (b) {
+          const postTags = b.blog_post_tags?.map((t) => t.blog_tags?.name).filter(Boolean) as string[] || [];
+          
+          setFormData({
+            title: b.title || "",
+            slug: b.slug || "",
+            metaTitle: b.meta_title || b.title || "",
+            metaDescription: b.meta_description || b.excerpt || "",
+            featuredImage: b.media_assets?.url || "",
+            featuredImageId: b.media_assets?.id || "",
+            excerpt: b.excerpt || "",
+            status: b.status.charAt(0).toUpperCase() + b.status.slice(1).toLowerCase(),
+            content_html: b.content_html || "",
+            content_json: b.content_json || null,
+            aiSummary: b.ai_summary || "",
+            is_public: b.is_public ?? true,
+            is_pinned: b.is_pinned || false,
+            category_id: b.category_id || "",
+            reading_time: parseInt((b.reading_time || "5").toString()) || 5,
+            is_featured: b.is_featured || false,
+            tags: postTags,
+            focus_keywords: b.focus_keywords || [],
+          });
+
+          if (b.teachers) {
+            setAuthorName(b.teachers.accounts?.full_name || "");
           }
         }
+      } catch (err) {
+        console.error("Error fetching article:", err);
+        setSubmitError("Gagal memuatkan artikel.");
+      } finally {
+        setLoading(false);
       }
-
-      // 2. Fetch categories
-      const { data: cats, error: catsError } = await supabase
-        .from("blog_categories")
-        .select("id, name, slug")
-        .order("name");
-      if (catsError) console.error("[blog_categories] fetch error:", catsError);
-      if (cats) {
-        setCategories(cats);
-        if (cats.length > 0) {
-          setFormData(prev => ({ ...prev, category_id: cats[0].id }));
-        }
-      }
-      // 3. Fetch tags
-      const { data: tagsList } = await supabase.from("blog_tags").select("id, name").order("name");
-      if (tagsList) setAvailableTags(tagsList);
     };
-    bootstrap();
-  }, []);
+    fetchData();
+  }, [id]);
 
   // ─── Slug helper ──────────────────────────────────────
   const slugify = (text: string) =>
     text.toLowerCase().replace(/[^\w ]+/g, "").replace(/ +/g, "-");
 
   // ─── Unified update handler ────────────────────────────
-  const handleUpdate = useCallback((field: string, value: string | boolean | number | string[] | Record<string, unknown> | null) => {
+  const handleUpdate = useCallback(<K extends keyof FormData>(field: K, value: FormData[K]) => {
     setFormData(prev => {
       const updated = { ...prev, [field]: value };
-
-      // Re-sync if cleared
-      if (field === "slug" && value === "") {
-        setIsSlugManuallyEdited(false);
-        updated.slug = slugify(prev.title);
-      }
-      if (field === "metaTitle" && value === "") {
-        setIsMetaTitleManuallyEdited(false);
-        updated.metaTitle = prev.title;
-      }
-      if (field === "metaDescription" && value === "") {
-        setIsMetaDescriptionManuallyEdited(false);
-        updated.metaDescription = prev.excerpt;
-      }
-
-      // Auto-generate from title
-      if (field === "title") {
-        if (!isSlugManuallyEdited) updated.slug = slugify(value as string);
-        if (!isMetaTitleManuallyEdited) updated.metaTitle = value as string;
-      }
-      // Auto-generate meta description from excerpt
-      if (field === "excerpt" && !isMetaDescriptionManuallyEdited) {
-        updated.metaDescription = value as string;
-      }
-
+      if (field === "slug" && !value) (updated as FormData).slug = slugify(prev.title);
       return updated;
     });
-
-    if (field === "slug" && value !== "") setIsSlugManuallyEdited(true);
-    if (field === "metaTitle" && value !== "") setIsMetaTitleManuallyEdited(true);
-    if (field === "metaDescription" && value !== "") setIsMetaDescriptionManuallyEdited(true);
-  }, [isSlugManuallyEdited, isMetaTitleManuallyEdited, isMetaDescriptionManuallyEdited]);
+  }, []);
 
   // ─── Handle tags upsert ───────────────────────────────
   const upsertTags = async (postId: string, tagNames: string[]) => {
+    // Basic implementation: delete existing post tags and insert new ones
+    await supabase.from("blog_post_tags").delete().eq("post_id", postId);
+    
     if (!tagNames.length) return;
 
     for (const rawName of tagNames) {
@@ -185,15 +182,14 @@ export default function CreateBlogPost() {
       if (!name) continue;
       const tagSlug = slugify(name);
 
-      // Upsert tag
       const { data: tag, error: tagError } = await supabase
         .from("blog_tags")
         .upsert({ name, slug: tagSlug }, { onConflict: "slug" })
         .select("id")
         .single();
-        
+
       if (tagError) {
-        console.error("Error upserting tag in create:", tagError);
+        console.error("Error upserting tag:", tagError);
       }
 
       if (tag) {
@@ -202,7 +198,7 @@ export default function CreateBlogPost() {
           .insert({ post_id: postId, tag_id: tag.id });
           
         if (linkError) {
-          console.error("Error inserting blog_post_tags in create:", linkError);
+          console.error("Error inserting blog_post_tags:", linkError);
         }
       }
     }
@@ -210,24 +206,16 @@ export default function CreateBlogPost() {
 
   // ─── Submit handler ───────────────────────────────────
   const handlePublish = async () => {
-    if (!formData.title.trim()) {
-      setSubmitError("Tajuk artikel tidak boleh kosong.");
-      return;
-    }
-    if (!formData.slug.trim()) {
-      setSubmitError("URL slug tidak boleh kosong.");
-      return;
-    }
-
+    if (!formData.title.trim()) return setSubmitError("Tajuk artikel kosong.");
     setIsSubmitting(true);
     setSubmitError(null);
 
     try {
       const isPublishing = formData.status === "Published";
 
-      const { data: post, error } = await supabase
+      const { error } = await supabase
         .from("blog_posts")
-        .insert({
+        .update({
           title: formData.title,
           slug: formData.slug,
           excerpt: formData.excerpt || null,
@@ -235,58 +223,54 @@ export default function CreateBlogPost() {
           content_json: formData.content_json || null,
           ai_summary: formData.aiSummary || null,
           media_id: formData.featuredImageId || null,
-          author_id: authorId || null,
           category_id: formData.category_id || null,
           reading_time: `${formData.reading_time} min`,
           is_featured: formData.is_featured,
           is_public: formData.is_public,
           is_pinned: formData.is_pinned,
           status: formData.status.toLowerCase(),
-          published_at: isPublishing ? new Date().toISOString() : null,
+          updated_at: new Date().toISOString(),
+          published_at: isPublishing ? (formData.status === "Published" ? new Date().toISOString() : null) : null,
           meta_title: formData.metaTitle || null,
           meta_description: formData.metaDescription || null,
           focus_keywords: formData.focus_keywords.length ? formData.focus_keywords : null,
         })
-        .select("id")
-        .single();
+        .eq("id", id);
 
       if (error) throw error;
 
-      // Upsert tags
-      if (post && formData.tags.length) {
-        await upsertTags(post.id, formData.tags);
-      }
+      await upsertTags(id, formData.tags);
 
-      // Redirect to blog list on success
       router.refresh();
       router.push("/dashboard");
     } catch (err: unknown) {
-      console.error("Publish error:", err);
-      const errorObj = err as { message?: string };
-      const msg = errorObj?.message || "Terdapat ralat. Cuba lagi.";
-      setSubmitError(msg);
+      setSubmitError(err instanceof Error ? err.message : "Gagal menyimpan perubahan.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleSaveDraft = () => {
-    handleUpdate("status", "Draft");
-    setTimeout(() => handlePublish(), 50);
-  };
+  if (loading) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-white dark:bg-gray-950">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+          <p className="text-gray-500 font-bold">Memuatkan artikel...</p>
+        </div>
+      </div>
+    );
+  }
 
-  // ─── Render ───────────────────────────────────────────
   return (
     <div className="h-screen bg-[#FDFDFD] dark:bg-gray-950 font-sans tracking-tight flex flex-col overflow-hidden">
       <EditorHeader 
         status={formData.status}
         isSubmitting={isSubmitting}
-        onPreview={() => console.log("Preview")}
-        onSaveDraft={handleSaveDraft}
+        onPreview={() => window.open(`/blog/${formData.slug}`, "_blank")}
+        onSaveDraft={() => { handleUpdate("status", "Draft"); setTimeout(handlePublish, 50); }}
         onPublish={handlePublish}
       />
 
-      {/* Submit error banner */}
       {submitError && (
         <div className="mx-8 mt-4 px-5 py-3 bg-red-50 border border-red-200 rounded-2xl text-red-600 text-[14px] font-medium flex items-center justify-between">
           <span>{submitError}</span>
@@ -296,24 +280,15 @@ export default function CreateBlogPost() {
 
       <div className="flex-1 overflow-hidden">
         <div className="h-full flex gap-12 px-8 py-8 max-w-full">
-          {/* Main Content Area */}
           <div className="flex-1 h-full overflow-y-auto pr-4 scrollbar-hide">
             <div className="space-y-6 pb-20">
               <div className="mb-4">
-                <h1 className="text-[32px] font-black text-gray-900 dark:text-white mb-2 leading-none">Editor Article</h1>
-                <p className="text-gray-500 text-[16px]">Sediakan kandungan ilmiah yang berkualiti untuk pembaca MyNgaji.</p>
+                <h1 className="text-[32px] font-black text-gray-900 dark:text-white mb-2 leading-none">Kemaskini Artikel</h1>
+                <p className="text-gray-500 text-[16px]">Edit kandungan artikel terpilih dangan editor premium MyNgaji.</p>
               </div>
               
-              <TitleSection 
-                value={formData.title} 
-                onChange={(val) => handleUpdate("title", val)} 
-              />
-
-              <ExcerptSection 
-                value={formData.excerpt} 
-                onChange={(val) => handleUpdate("excerpt", val)} 
-              />
-
+              <TitleSection value={formData.title} onChange={(val) => handleUpdate("title", val)} />
+              <ExcerptSection value={formData.excerpt} onChange={(val) => handleUpdate("excerpt", val)} />
               <ImageSection 
                 value={formData.featuredImage} 
                 onChange={(url, id) => {
@@ -321,28 +296,19 @@ export default function CreateBlogPost() {
                   handleUpdate("featuredImageId", id);
                 }} 
               />
-
-              <EditorField 
-                label="AI Summary" 
-                placeholder="Hasilkan ringkasan berbantuan AI di sini..." 
-                value={formData.aiSummary}
-                onChange={(val) => handleUpdate("aiSummary", val)}
-              />
-
+              <EditorField label="AI Summary" placeholder="..." value={formData.aiSummary} onChange={(val) => handleUpdate("aiSummary", val)} />
               <EditorField 
                 label="Article Content" 
-                placeholder="Mula menulis kandungan artikel anda..." 
+                placeholder="..." 
                 minHeight="min-h-[500px]" 
                 value={formData.content_html}
                 onChange={(val) => handleUpdate("content_html", val)}
                 onChangeJSON={(json) => handleUpdate("content_json", json)}
               />
-
               <RelatedArticlesSection />
             </div>
           </div>
 
-          {/* Sidebar Area */}
           <div className="w-[340px] h-full overflow-y-auto pr-1 pb-20 transition-all custom-scrollbar">
             <PublishSidebar 
               status={formData.status}
@@ -352,7 +318,6 @@ export default function CreateBlogPost() {
               metaTitle={formData.metaTitle}
               metaDescription={formData.metaDescription}
               featuredImage={formData.featuredImage}
-              // Metadata
               authorName={authorName}
               categories={categories}
               categoryId={formData.category_id}
@@ -360,9 +325,7 @@ export default function CreateBlogPost() {
               readingTime={formData.reading_time}
               isFeatured={formData.is_featured}
               tags={formData.tags}
-              // SEO
               focusKeywords={formData.focus_keywords}
-              // Handlers
               onStatusChange={(val) => handleUpdate("status", val)}
               onPublicToggle={(val) => handleUpdate("is_public", val)}
               onPinnedToggle={(val) => handleUpdate("is_pinned", val)}

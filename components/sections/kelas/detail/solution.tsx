@@ -114,6 +114,9 @@ export function Solution({ data, iconMap = defaultIconMap }: SolutionProps) {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={() => {
+                document.getElementById('daftar-sekarang')?.scrollIntoView({ behavior: 'smooth' });
+              }}
               className="bg-primary text-white px-10 py-5 rounded-2xl font-black text-lg shadow-xl shadow-primary/20 flex items-center gap-3 transition-all group"
             >
               Daftar Sekarang

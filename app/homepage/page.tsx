@@ -10,6 +10,7 @@ import { KelebihanSection } from "@/components/sections/homepage/kelebihan-secti
 import { ContentSocialMedia } from "@/components/sections/homepage/content-socialmedia-section";
 import { GaleriSection } from "@/components/sections/homepage/galeri-section";
 import { PengajarSection } from "@/components/sections/homepage/pengajar/pengajar-section";
+import { FloatingWhatsApp } from "@/components/ui/floating-whatsapp";
 
 export default function Home() {
   return (
@@ -24,6 +25,7 @@ export default function Home() {
       <FAQSection />
       <CtaSection />
       <FooterSection />
+      <FloatingWhatsApp />
     </main>
   );
 }

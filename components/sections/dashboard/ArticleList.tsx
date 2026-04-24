@@ -60,6 +60,7 @@ export function ArticleList() {
         interface RawBlogData {
           id: string;
           title: string;
+          slug: string;
           status: string;
           published_at: string | null;
           created_at: string;
@@ -74,6 +75,7 @@ export function ArticleList() {
 
         const mapped: Article[] = (data as unknown as RawBlogData[]).map((b) => ({
           id: b.id,
+          slug: b.slug,
           title: b.title,
           category: b.blog_categories?.name || "Uncategorized",
           author: b.teachers?.accounts?.full_name || "Admin",

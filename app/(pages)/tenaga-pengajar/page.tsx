@@ -1,12 +1,14 @@
 "use client";
 
 import { FooterSection } from "@/components/layout/footer-section";
-import PageHeader from "@/app/(pages)/tenaga-pengajar/components/page-header";
-import InstructorCard from "@/app/(pages)/tenaga-pengajar/components/instructor-card";
-import CTASection from "@/app/(pages)/tenaga-pengajar/components/cta-section";
-import teachersData from "@/app/(pages)/tenaga-pengajar/data/data-guru.json";
+import PageHeader from "@/components/sections/tenaga-pengajar/page-header";
+import InstructorCard from "@/components/sections/tenaga-pengajar/instructor-card";
+import CTASection from "@/components/sections/tenaga-pengajar/cta-section";
+import { useTeachers } from "@/hooks/useTeachers";
 
 export default function TenagaPengajarPage() {
+  const { teachers, loading, error } = useTeachers();
+
   return (
     <main className="min-h-screen bg-white font-figtree">
       <PageHeader />
@@ -21,11 +23,29 @@ export default function TenagaPengajarPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-            {teachersData.map((teacher, index) => (
-              <InstructorCard key={teacher.id} teacher={teacher} index={index} />
-            ))}
-          </div>
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 animate-pulse">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="h-96 bg-slate-200 rounded-3xl" />
+              ))}
+            </div>
+          ) : error ? (
+            <div className="text-center py-20">
+              <p className="text-red-500 font-bold mb-4">{error}</p>
+              <button 
+                onClick={() => window.location.reload()} 
+                className="px-6 py-2 bg-primary text-white rounded-full font-bold"
+              >
+                Cuba Lagi
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+              {teachers.map((teacher, index) => (
+                <InstructorCard key={teacher.id} teacher={teacher} index={index} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

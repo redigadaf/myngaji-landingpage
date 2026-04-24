@@ -63,7 +63,7 @@ export function HeroSection() {
 
           {/* CTA Button */}
           <div>
-            <Link href="#">
+            <Link href="/pendaftaran">
               <ShinyButton className="inline-flex items-center justify-center !px-8 !py-4 rounded-full text-base font-extrabold shadow-lg hover:shadow-xl translate-y-0">Daftar Kelas Percubaan</ShinyButton>
             </Link>
           </div>

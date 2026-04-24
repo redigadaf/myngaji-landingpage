@@ -57,6 +57,9 @@ export function Closing({ data }: ClosingProps) {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={() => {
+                    document.getElementById('daftar-sekarang')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
                   className="bg-white text-primary px-8 py-4 rounded-xl font-black text-lg shadow-xl hover:shadow-2xl transition-all flex items-center gap-2 w-full sm:w-auto justify-center"
                 >
                   Daftar Sekarang
@@ -66,6 +69,9 @@ export function Closing({ data }: ClosingProps) {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={() => {
+                    window.open('https://wa.me/601111000000', '_blank'); // Replace with real number later
+                  }}
                   className="bg-primary border-2 border-white/30 text-white px-8 py-4 rounded-xl font-black text-lg hover:bg-white/10 transition-all flex items-center gap-2 w-full sm:w-auto justify-center"
                 >
                   Tanya Dulu
