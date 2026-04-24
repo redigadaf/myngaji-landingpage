@@ -33,7 +33,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/external/:path*",
-        destination: `${process.env.NEXT_PUBLIC_API_URL}/:path*`,
+        destination: `${process.env.NEXT_PUBLIC_API_URL || 'https://dashboard.myngaji.com/api/public/v1'}/:path*`,
       },
     ];
   },
