@@ -37,6 +37,12 @@ interface FormData {
   is_featured: boolean;
   tags: string[];
   focus_keywords: string[];
+  related_posts_ids: string[];
+}
+
+interface PinnedArticle {
+  id: string;
+  title: string;
 }
 
 interface BlogPostWithRelations {
@@ -56,6 +62,7 @@ interface BlogPostWithRelations {
   reading_time: string | number | null;
   is_featured: boolean | null;
   focus_keywords: string[] | null;
+  related_posts_ids: string[] | null;
   media_assets: { id: string; url: string } | null;
   blog_post_tags: { blog_tags: { name: string } | null }[];
   teachers: { id: string; accounts: { full_name: string } | null } | null;
@@ -70,6 +77,7 @@ export default function EditBlogPost({ params }: { params: Promise<{ id: string 
   const [categories, setCategories] = useState<Category[] | null>(null);
   const [availableTags, setAvailableTags] = useState<{ id: string; name: string }[]>([]);
   const [authorName, setAuthorName] = useState<string>("");
+  const [currentPinned, setCurrentPinned] = useState<PinnedArticle | null>(null);
 
   const [formData, setFormData] = useState<FormData>({
     title: "",
@@ -90,6 +98,7 @@ export default function EditBlogPost({ params }: { params: Promise<{ id: string 
     is_featured: false,
     tags: [],
     focus_keywords: [],
+    related_posts_ids: [],
   });
 
   // ─── Fetch bootstrap data & Article ──────────────────────────────
@@ -104,6 +113,16 @@ export default function EditBlogPost({ params }: { params: Promise<{ id: string 
         
         if (catsRes.data) setCategories(catsRes.data);
         if (tagsRes.data) setAvailableTags(tagsRes.data);
+
+        // Fetch current pinned article for exclusive check
+        const { data: pinnedData } = await supabase
+          .from("blog_posts")
+          .select("id, title")
+          .eq("is_pinned", true)
+          .neq("id", id) // Find OTHER pinned article
+          .limit(1)
+          .single();
+        if (pinnedData) setCurrentPinned(pinnedData);
 
         const { data, error: blogError } = await supabase
           .from("blog_posts")
@@ -141,6 +160,7 @@ export default function EditBlogPost({ params }: { params: Promise<{ id: string 
             is_featured: b.is_featured || false,
             tags: postTags,
             focus_keywords: b.focus_keywords || [],
+            related_posts_ids: b.related_posts_ids || [],
           });
 
           if (b.teachers) {
@@ -211,7 +231,41 @@ export default function EditBlogPost({ params }: { params: Promise<{ id: string 
     setSubmitError(null);
 
     try {
+      // Handle Exclusive Pinning: If this is pinned, unpin all others first
+      if (formData.is_pinned) {
+        const { error: unpinError } = await supabase
+          .from("blog_posts")
+          .update({ is_pinned: false })
+          .eq("is_pinned", true)
+          .neq("id", id); // Avoid unpinning self if already pinned
+        
+        if (unpinError) {
+          console.error("Error unpinning other articles:", unpinError);
+        }
+      }
+
       const isPublishing = formData.status === "Published";
+
+      // Auto-extract TOC items from content_html
+      let extractedTOC: { id: string; title: string; level: number }[] = [];
+      if (typeof window !== "undefined" && formData.content_html) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(formData.content_html, "text/html");
+        const headings = doc.querySelectorAll("h2, h3");
+        extractedTOC = Array.from(headings).map((h) => {
+          const text = h.textContent?.trim() || "";
+          const slug = text
+            .toLowerCase()
+            .replace(/[^\w\s-]/g, "")
+            .replace(/\s+/g, "-")
+            .replace(/^-+|-+$/g, "");
+          return {
+            id: slug,
+            title: text,
+            level: parseInt(h.tagName.substring(1)),
+          };
+        });
+      }
 
       const { error } = await supabase
         .from("blog_posts")
@@ -225,6 +279,7 @@ export default function EditBlogPost({ params }: { params: Promise<{ id: string 
           media_id: formData.featuredImageId || null,
           category_id: formData.category_id || null,
           reading_time: `${formData.reading_time} min`,
+          toc_items: extractedTOC.length > 0 ? extractedTOC : [],
           is_featured: formData.is_featured,
           is_public: formData.is_public,
           is_pinned: formData.is_pinned,
@@ -233,7 +288,8 @@ export default function EditBlogPost({ params }: { params: Promise<{ id: string 
           published_at: isPublishing ? (formData.status === "Published" ? new Date().toISOString() : null) : null,
           meta_title: formData.metaTitle || null,
           meta_description: formData.metaDescription || null,
-          focus_keywords: formData.focus_keywords.length ? formData.focus_keywords : null,
+          focus_keywords: formData.focus_keywords.length ? formData.focus_keywords : [],
+          related_posts_ids: formData.related_posts_ids.length ? formData.related_posts_ids : [],
         })
         .eq("id", id);
 
@@ -284,7 +340,35 @@ export default function EditBlogPost({ params }: { params: Promise<{ id: string 
             <div className="space-y-6 pb-20">
               <div className="mb-4">
                 <h1 className="text-[32px] font-black text-gray-900 dark:text-white mb-2 leading-none">Kemaskini Artikel</h1>
-                <p className="text-gray-500 text-[16px]">Edit kandungan artikel terpilih dangan editor premium MyNgaji.</p>
+                <p className="text-gray-500 text-[16px] mb-8">Edit kandungan artikel terpilih dangan editor premium MyNgaji.</p>
+
+                {/* Quick Design Guide for Authors */}
+                <div className="bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-900/30 rounded-3xl p-6 flex gap-5 items-start mb-8 shadow-sm">
+                  <div className="bg-amber-500 text-white p-3 rounded-2xl shrink-0 shadow-lg shadow-amber-500/20">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m14.83 4.93-4.24 4.24"/><path d="m4.93 14.83 4.24 4.24"/></svg>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-amber-900 dark:text-amber-100 text-[15px] mb-2 uppercase tracking-wider">Aturan Format Kandungan MyNgaji:</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
+                       <div className="flex items-center gap-2 text-xs text-amber-800 dark:text-amber-300 font-medium">
+                         <div className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                         <span><strong>Heading 2:</strong> Poin Utama (Nombor muncul automatik)</span>
+                       </div>
+                       <div className="flex items-center gap-2 text-xs text-amber-800 dark:text-amber-300 font-medium">
+                         <div className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                         <span><strong>Heading 3:</strong> Sub-topik / Perincian Poin</span>
+                       </div>
+                       <div className="flex items-center gap-2 text-xs text-amber-800 dark:text-amber-300 font-medium">
+                         <div className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                         <span><strong>Blockquote:</strong> Poin Penting atau <strong>Kesimpulan</strong></span>
+                       </div>
+                       <div className="flex items-center gap-2 text-xs text-amber-800 dark:text-amber-300 font-medium">
+                         <div className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                         <span><strong>Imej:</strong> Masukkan dari Media Library (Auto-Rounded)</span>
+                       </div>
+                    </div>
+                  </div>
+                </div>
               </div>
               
               <TitleSection value={formData.title} onChange={(val) => handleUpdate("title", val)} />
@@ -305,7 +389,11 @@ export default function EditBlogPost({ params }: { params: Promise<{ id: string 
                 onChange={(val) => handleUpdate("content_html", val)}
                 onChangeJSON={(json) => handleUpdate("content_json", json)}
               />
-              <RelatedArticlesSection />
+              <RelatedArticlesSection 
+                value={formData.related_posts_ids} 
+                onChange={(val) => handleUpdate("related_posts_ids", val)} 
+                excludeId={id}
+              />
             </div>
           </div>
 
@@ -337,6 +425,7 @@ export default function EditBlogPost({ params }: { params: Promise<{ id: string 
               onFeaturedToggle={(val) => handleUpdate("is_featured", val)}
               onTagsChange={(val) => handleUpdate("tags", val)}
               onFocusKeywordsChange={(val) => handleUpdate("focus_keywords", val)}
+              currentPinned={currentPinned}
             />
           </div>
         </div>

@@ -53,6 +53,7 @@ export function ArticleList() {
           blog_categories ( name ),
           teachers ( image_url, accounts ( full_name ) )
         `)
+        .order('is_pinned', { ascending: false })
         .order('created_at', { ascending: false });
 
       if (data) {

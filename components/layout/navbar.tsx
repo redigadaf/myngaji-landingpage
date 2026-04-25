@@ -49,7 +49,12 @@ export function Navbar() {
     };
   }, [open]);
 
-  if (pathname.startsWith("/dashboard") || pathname === "/login" || pathname === "/pendaftaran") {
+  if (
+    pathname.startsWith("/dashboard") || 
+    pathname === "/login" || 
+    pathname === "/pendaftaran" ||
+    (pathname.startsWith("/blog/") && pathname !== "/blog")
+  ) {
     return null;
   }
 

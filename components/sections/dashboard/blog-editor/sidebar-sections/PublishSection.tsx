@@ -1,7 +1,7 @@
 "use client";
 
 import { Label } from "@/components/ui/label";
-import { FileEdit, CheckCircle2 } from "lucide-react";
+import { FileEdit, CheckCircle2, AlertCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -12,6 +12,7 @@ interface PublishSectionProps {
   onPublicToggle: (value: boolean) => void;
   isPinned: boolean;
   onPinnedToggle: (value: boolean) => void;
+  currentPinned?: { id: string, title: string } | null;
 }
 
 export function PublishSection({ 
@@ -20,7 +21,8 @@ export function PublishSection({
   isPublic, 
   onPublicToggle, 
   isPinned, 
-  onPinnedToggle 
+  onPinnedToggle,
+  currentPinned
 }: PublishSectionProps) {
   const statuses = [
     { label: "Draft", value: "Draft", icon: FileEdit, activeColor: "text-amber-600 bg-amber-50 dark:bg-amber-900/20" },
@@ -101,6 +103,19 @@ export function PublishSection({
               />
             </button>
           </div>
+
+          {/* Pinned Warning */}
+          {isPinned && currentPinned && (
+            <div className="flex gap-2 p-3 bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-900/20 rounded-xl mt-2 animate-in fade-in slide-in-from-top-2">
+              <AlertCircle className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
+              <div className="space-y-1">
+                <p className="text-[11px] font-bold text-amber-800 dark:text-amber-200 leading-tight">PINNED EXCLUSIVE</p>
+                <p className="text-[10px] text-amber-700/80 dark:text-amber-300/80 leading-relaxed">
+                  Menanda artikel ini akan automatik <span className="font-bold underline">menyah-pin</span> artikel: <span className="italic">&quot;{currentPinned.title}&quot;</span>.
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>
