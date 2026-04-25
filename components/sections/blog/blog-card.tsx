@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Calendar, Clock, User, ArrowRight } from "lucide-react";
+import { Calendar, Clock, User, ArrowRight, Pin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
@@ -25,6 +25,7 @@ export interface BlogArticle {
   readingTime: string;
   image: string;
   featured: boolean;
+  pinned?: boolean;
 }
 
 interface BlogCardProps {
@@ -60,6 +61,15 @@ export function BlogCard({ article }: BlogCardProps) {
               {article.category}
             </Badge>
           </div>
+
+          {article.pinned && (
+            <div className="absolute right-3 top-3">
+              <Badge className="bg-primary/90 text-white backdrop-blur-sm shadow-sm border-none flex items-center gap-1 px-2 py-0.5">
+                <Pin className="h-3 w-3 fill-white" />
+                <span className="text-[10px] font-black uppercase tracking-wider">Pinned</span>
+              </Badge>
+            </div>
+          )}
         </div>
 
         <CardContent className="flex-1 p-5">

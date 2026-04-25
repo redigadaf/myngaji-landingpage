@@ -39,6 +39,12 @@ interface FormData {
   tags: string[];  // raw tag names
   // SEO tab
   focus_keywords: string[];
+  related_posts_ids: string[];
+}
+
+interface PinnedArticle {
+  id: string;
+  title: string;
 }
 
 export default function CreateBlogPost() {
@@ -49,6 +55,7 @@ export default function CreateBlogPost() {
   const [availableTags, setAvailableTags] = useState<{ id: string; name: string }[]>([]);
   const [authorId, setAuthorId] = useState<string | null>(null);
   const [authorName, setAuthorName] = useState<string>("");
+  const [currentPinned, setCurrentPinned] = useState<PinnedArticle | null>(null);
 
   const [formData, setFormData] = useState<FormData>({
     title: "",
@@ -69,6 +76,7 @@ export default function CreateBlogPost() {
     is_featured: false,
     tags: [],
     focus_keywords: [],
+    related_posts_ids: [],
   });
 
   const [isSlugManuallyEdited, setIsSlugManuallyEdited] = useState(false);
@@ -131,6 +139,15 @@ export default function CreateBlogPost() {
       // 3. Fetch tags
       const { data: tagsList } = await supabase.from("blog_tags").select("id, name").order("name");
       if (tagsList) setAvailableTags(tagsList);
+
+      // 4. Check if any article is already pinned
+      const { data: pinned } = await supabase
+        .from("blog_posts")
+        .select("id, title")
+        .eq("is_pinned", true)
+        .limit(1)
+        .single();
+      if (pinned) setCurrentPinned(pinned);
     };
     bootstrap();
   }, []);
@@ -223,7 +240,41 @@ export default function CreateBlogPost() {
     setSubmitError(null);
 
     try {
+      // Handle Exclusive Pinning: If this is pinned, unpin all others first
+      if (formData.is_pinned) {
+        const { error: unpinError } = await supabase
+          .from("blog_posts")
+          .update({ is_pinned: false })
+          .eq("is_pinned", true);
+        
+        if (unpinError) {
+          console.error("Error unpinning other articles:", unpinError);
+          // We continue anyway, the latest update will override
+        }
+      }
+
       const isPublishing = formData.status === "Published";
+
+      // Auto-extract TOC items from content_html
+      let extractedTOC: { id: string; title: string; level: number }[] = [];
+      if (typeof window !== "undefined" && formData.content_html) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(formData.content_html, "text/html");
+        const headings = doc.querySelectorAll("h2, h3");
+        extractedTOC = Array.from(headings).map((h) => {
+          const text = h.textContent?.trim() || "";
+          const slug = text
+            .toLowerCase()
+            .replace(/[^\w\s-]/g, "")
+            .replace(/\s+/g, "-")
+            .replace(/^-+|-+$/g, "");
+          return {
+            id: slug,
+            title: text,
+            level: parseInt(h.tagName.substring(1)),
+          };
+        });
+      }
 
       const { data: post, error } = await supabase
         .from("blog_posts")
@@ -238,6 +289,7 @@ export default function CreateBlogPost() {
           author_id: authorId || null,
           category_id: formData.category_id || null,
           reading_time: `${formData.reading_time} min`,
+          toc_items: extractedTOC.length > 0 ? extractedTOC : [],
           is_featured: formData.is_featured,
           is_public: formData.is_public,
           is_pinned: formData.is_pinned,
@@ -245,7 +297,8 @@ export default function CreateBlogPost() {
           published_at: isPublishing ? new Date().toISOString() : null,
           meta_title: formData.metaTitle || null,
           meta_description: formData.metaDescription || null,
-          focus_keywords: formData.focus_keywords.length ? formData.focus_keywords : null,
+          focus_keywords: formData.focus_keywords.length ? formData.focus_keywords : [],
+          related_posts_ids: formData.related_posts_ids.length ? formData.related_posts_ids : [],
         })
         .select("id")
         .single();
@@ -301,7 +354,35 @@ export default function CreateBlogPost() {
             <div className="space-y-6 pb-20">
               <div className="mb-4">
                 <h1 className="text-[32px] font-black text-gray-900 dark:text-white mb-2 leading-none">Editor Article</h1>
-                <p className="text-gray-500 text-[16px]">Sediakan kandungan ilmiah yang berkualiti untuk pembaca MyNgaji.</p>
+                <p className="text-gray-500 text-[16px] mb-6">Sediakan kandungan ilmiah yang berkualiti untuk pembaca MyNgaji.</p>
+
+                {/* Quick Design Guide for Authors */}
+                <div className="bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-900/30 rounded-3xl p-6 flex gap-5 items-start mb-8 shadow-sm">
+                  <div className="bg-amber-500 text-white p-3 rounded-2xl shrink-0 shadow-lg shadow-amber-500/20">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m14.83 4.93-4.24 4.24"/><path d="m4.93 14.83 4.24 4.24"/></svg>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-amber-900 dark:text-amber-100 text-[15px] mb-2 uppercase tracking-wider">Aturan Format Kandungan MyNgaji:</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
+                       <div className="flex items-center gap-2 text-xs text-amber-800 dark:text-amber-300 font-medium">
+                         <div className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                         <span><strong>Heading 2:</strong> Poin Utama (Nombor muncul automatik)</span>
+                       </div>
+                       <div className="flex items-center gap-2 text-xs text-amber-800 dark:text-amber-300 font-medium">
+                         <div className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                         <span><strong>Heading 3:</strong> Sub-topik / Perincian Poin</span>
+                       </div>
+                       <div className="flex items-center gap-2 text-xs text-amber-800 dark:text-amber-300 font-medium">
+                         <div className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                         <span><strong>Blockquote:</strong> Poin Penting atau <strong>Kesimpulan</strong></span>
+                       </div>
+                       <div className="flex items-center gap-2 text-xs text-amber-800 dark:text-amber-300 font-medium">
+                         <div className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                         <span><strong>Imej:</strong> Masukkan dari Media Library (Auto-Rounded)</span>
+                       </div>
+                    </div>
+                  </div>
+                </div>
               </div>
               
               <TitleSection 
@@ -338,7 +419,10 @@ export default function CreateBlogPost() {
                 onChangeJSON={(json) => handleUpdate("content_json", json)}
               />
 
-              <RelatedArticlesSection />
+              <RelatedArticlesSection 
+                value={formData.related_posts_ids} 
+                onChange={(val) => handleUpdate("related_posts_ids", val)} 
+              />
             </div>
           </div>
 
@@ -374,6 +458,8 @@ export default function CreateBlogPost() {
               onFeaturedToggle={(val) => handleUpdate("is_featured", val)}
               onTagsChange={(val) => handleUpdate("tags", val)}
               onFocusKeywordsChange={(val) => handleUpdate("focus_keywords", val)}
+              // Pass current pinned info for UI feedback
+              currentPinned={currentPinned}
             />
           </div>
         </div>

@@ -41,6 +41,7 @@ interface PublishSidebarProps {
   onMetaTitleChange: (value: string) => void;
   onMetaDescriptionChange: (value: string) => void;
   onFocusKeywordsChange: (value: string[]) => void;
+  currentPinned?: { id: string, title: string } | null;
 }
 
 export function PublishSidebar({ 
@@ -50,6 +51,7 @@ export function PublishSidebar({
   onCategoryChange, onReadingTimeChange, onFeaturedToggle, onTagsChange,
   slug, metaTitle, metaDescription, featuredImage, focusKeywords,
   onSlugChange, onMetaTitleChange, onMetaDescriptionChange, onFocusKeywordsChange,
+  currentPinned,
 }: PublishSidebarProps) {
   const [activeTab, setActiveTab] = useState("Publish");
 
@@ -84,6 +86,7 @@ export function PublishSidebar({
             onPublicToggle={onPublicToggle}
             isPinned={isPinned}
             onPinnedToggle={onPinnedToggle}
+            currentPinned={currentPinned}
           />
         ) : activeTab === "Metadata" ? (
           <MetadataSection 

@@ -30,6 +30,39 @@ export function MediaUploadModal({ isOpen, onClose, onSuccess }: MediaUploadModa
     onClose();
   };
 
+  const convertToWebP = (file: File): Promise<File> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext("2d");
+          if (!ctx) {
+            reject(new Error("Gagal mendapatkan context kanvas"));
+            return;
+          }
+          ctx.drawImage(img, 0, 0);
+          canvas.toBlob((blob) => {
+            if (blob) {
+              const newFileName = file.name.replace(/\.[^/.]+$/, "") + ".webp";
+              const webpFile = new File([blob], newFileName, { type: "image/webp" });
+              resolve(webpFile);
+            } else {
+              reject(new Error("Gagal menukar ke WebP"));
+            }
+          }, "image/webp", 0.9);
+        };
+        img.onerror = () => reject(new Error("Imej gagal dimuatkan"));
+        img.src = e.target?.result as string;
+      };
+      reader.onerror = () => reject(new Error("Gagal membaca fail"));
+      reader.readAsDataURL(file);
+    });
+  };
+
   const handleUpload = async () => {
     if (selectedFiles.length === 0) return;
     
@@ -37,7 +70,17 @@ export function MediaUploadModal({ isOpen, onClose, onSuccess }: MediaUploadModa
       setIsUploading(true);
       
       for (const file of selectedFiles) {
-        await uploadMediaAsset(file);
+        // Convert to WebP sebelum upload
+        let fileToUpload = file;
+        if (file.type.startsWith("image/") && file.type !== "image/webp") {
+          try {
+            fileToUpload = await convertToWebP(file);
+          } catch (err) {
+            console.warn("Gagal menukar ke WebP, meneruskan dengan fail asal:", err);
+          }
+        }
+        
+        await uploadMediaAsset(fileToUpload);
       }
       
       setShowSuccessToast(true);
