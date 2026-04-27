@@ -107,7 +107,7 @@ export function Navbar() {
 
         {/* CTA Button */}
         <div className="hidden md:block">
-          <Link href="/pendaftaran">
+          <Link href="https://dashboard.myngaji.com/daftar-trial" target="_blank" rel="noopener noreferrer">
             <ShinyButton className={cn("inline-flex items-center gap-2 px-6 py-2.5 transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]", scrolled ? "!rounded-full" : "!rounded-xl")}>
               Daftar Kelas Percubaan
               <ArrowRight className="w-4 h-4 ml-2 inline-block" />
@@ -181,8 +181,8 @@ export function Navbar() {
             ))}
 
             <div className="mt-6 flex justify-start">
-              <Link href="/pendaftaran" onClick={() => setOpen(false)}>
-                <ShinyButton className="inline-flex items-center justify-center !px-8 !py-4 rounded-full text-base font-extrabold shadow-lg hover:shadow-xl translate-y-0">
+              <Link href="https://dashboard.myngaji.com/daftar-trial" target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)}>
+                <ShinyButton className="inline-flex items-center justify-center !px-8 !py-4 rounded-full text-base font-extrabold shadow-lg hover:shadow-xl translate-y-0 text-white">
                   Daftar Kelas Percubaan
                   <ArrowRight className="w-4 h-4 ml-2 inline-block" />
                 </ShinyButton>

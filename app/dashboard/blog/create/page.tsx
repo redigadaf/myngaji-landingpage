@@ -195,6 +195,46 @@ export default function CreateBlogPost() {
     if (field === "metaDescription" && value !== "") setIsMetaDescriptionManuallyEdited(true);
   }, [isSlugManuallyEdited, isMetaTitleManuallyEdited, isMetaDescriptionManuallyEdited]);
 
+  // ─── Add Categoriy/Tag handlers ───────────────────────
+  const handleAddCategory = async (name: string) => {
+    try {
+      const slug = slugify(name);
+      const { data, error } = await supabase
+        .from("blog_categories")
+        .insert({ name, slug })
+        .select()
+        .single();
+      
+      if (error) throw error;
+      if (data) {
+        setCategories(prev => prev ? [...prev, data].sort((a, b) => a.name.localeCompare(b.name)) : [data]);
+        handleUpdate("category_id", data.id);
+      }
+    } catch (err) {
+      console.error("Error adding category:", err);
+      setSubmitError("Gagal menambah kategori baru.");
+    }
+  };
+
+  const handleAddTag = async (name: string) => {
+    try {
+      const slug = slugify(name);
+      const { data, error } = await supabase
+        .from("blog_tags")
+        .insert({ name, slug })
+        .select()
+        .single();
+      
+      if (error) throw error;
+      if (data) {
+        setAvailableTags(prev => [...prev, { id: data.id, name: data.name }].sort((a, b) => a.name.localeCompare(b.name)));
+      }
+    } catch (err) {
+      console.error("Error adding tag:", err);
+      // Even if database fail, the tag is already in formData.tags list locally
+    }
+  };
+
   // ─── Handle tags upsert ───────────────────────────────
   const upsertTags = async (postId: string, tagNames: string[]) => {
     if (!tagNames.length) return;
@@ -461,6 +501,8 @@ export default function CreateBlogPost() {
               onReadingTimeChange={(val) => handleUpdate("reading_time", val)}
               onFeaturedToggle={(val) => handleUpdate("is_featured", val)}
               onTagsChange={(val) => handleUpdate("tags", val)}
+              onAddCategory={handleAddCategory}
+              onAddTag={handleAddTag}
               onFocusKeywordsChange={(val) => handleUpdate("focus_keywords", val)}
               // Pass current pinned info for UI feedback
               currentPinned={currentPinned}

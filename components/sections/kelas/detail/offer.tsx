@@ -21,7 +21,7 @@ export function Offer({
   category = "alquran"
 }: OfferProps) {
   const [target, setTarget] = useState<"adult" | "kid">(category === "kafa" ? "kid" : "adult");
-  const [type, setType] = useState<"full" | "trial">("full");
+  const [type] = useState<"trial">("trial");
 
   // Price adjustment logic (fictional for now based on data)
   const displayPrice = type === "trial" ? "FREE" : data.price;
@@ -88,22 +88,6 @@ export function Offer({
                       </button>
                     </div>
                   )}
-
-                  {/* Type Toggle */}
-                  <div className="flex bg-black/10 backdrop-blur-sm p-1 rounded-xl border border-white/10">
-                    <button 
-                      onClick={() => setType("full")}
-                      className={`px-4 py-2 rounded-lg text-xs font-black transition-all ${type === "full" ? "bg-secondary text-primary shadow-lg" : "text-white/60 hover:text-white"}`}
-                    >
-                      PENDAFTARAN PENUH
-                    </button>
-                    <button 
-                      onClick={() => setType("trial")}
-                      className={`px-4 py-2 rounded-lg text-xs font-black transition-all ${type === "trial" ? "bg-secondary text-primary shadow-lg" : "text-white/60 hover:text-white"}`}
-                    >
-                      PERCUBAAN
-                    </button>
-                  </div>
                 </div>
 
                 <div className="mb-8">
@@ -111,13 +95,13 @@ export function Offer({
                     Kelas {category === "alquran" ? "Al-Quran" : category === "arab" ? "Bahasa Arab" : category === "hafazan" ? "Hafazan" : "KAFA"}
                   </h3>
                   <p className="text-white/60 font-medium text-sm">
-                    Bimbingan {target === "adult" ? "Dewasa" : "Kanak-kanak"} — {type === "full" ? "Pendaftaran Terus & Modul Lengkap" : "Sesi Pengenalan & Penilaian Percuma"}
+                    Bimbingan {target === "adult" ? "Dewasa" : "Kanak-kanak"} — Sesi Pengenalan & Penilaian Percuma
                   </p>
                 </div>
                 
                 <div className="flex flex-col gap-1 mb-10">
                   <span className="text-white/50 text-xs font-bold uppercase tracking-widest">
-                    {type === "trial" ? "Tawaran Terhad" : "Yuran Bulanan"}
+                    Tawaran Terhad
                   </span>
                   <div className="flex items-baseline gap-2">
                     <AnimatePresence mode="wait">
@@ -146,9 +130,34 @@ export function Offer({
                   ))}
                 </ul>
 
-                <Button className="w-full py-8 rounded-2xl text-lg font-black bg-white text-primary hover:bg-stone-50 shadow-2xl shadow-black/20 group transition-all border-none">
-                  {type === "full" ? "Daftar Sekarang" : "Tempah Slot Percubaan"}
-                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <Button 
+                  asChild
+                  className="w-full py-8 rounded-2xl text-lg font-black bg-white text-primary hover:bg-stone-50 shadow-2xl shadow-black/20 group transition-all border-none"
+                >
+                  <a 
+                    href={
+                      category === "alquran"
+                        ? target === "adult"
+                          ? "https://dashboard.myngaji.com/daftar-trial?package_id=e409608d-41a7-4564-9686-0d16fbe1e01c"
+                          : "https://dashboard.myngaji.com/daftar-trial?package_id=b5503e9f-a8c5-43c1-9a4f-84eb6bf7c205"
+                        : category === "arab"
+                          ? target === "adult"
+                            ? "https://dashboard.myngaji.com/daftar-trial?package_id=58187b22-05cd-40b6-a7fa-640181bbfad7"
+                            : "https://dashboard.myngaji.com/daftar-trial?package_id=b5f45fd0-a3dc-48b2-971f-d4f5f038a382"
+                          : category === "kafa"
+                            ? "https://dashboard.myngaji.com/daftar-trial?package_id=d60a251f-6ddb-4a33-ae0f-4bf9088bb6b9"
+                            : category === "hafazan"
+                              ? target === "adult"
+                                ? "https://dashboard.myngaji.com/daftar-trial?package_id=773910d7-29a6-4c4b-b4d1-e559d8ff6f1b"
+                                : "https://dashboard.myngaji.com/daftar-trial?package_id=117cfbb5-c20c-456d-86a2-ff07737f270c"
+                              : "https://dashboard.myngaji.com/daftar-trial"
+                    }
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Tempah Slot Percubaan
+                    <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </a>
                 </Button>
               </div>
             </div>
@@ -158,10 +167,10 @@ export function Offer({
               <div>
                 <h4 className="text-sm font-black text-stone-900 uppercase tracking-widest mb-6 flex items-center gap-2">
                   <Gift className="w-4 h-4 text-secondary" />
-                  Bonus {type === "full" ? "Eksklusif" : "Penyertaan"}
+                  Bonus Penyertaan
                 </h4>
                 <div className="space-y-4 mb-10">
-                  {(type === "full" ? data.bonuses : ["Sesi Penilaian 1-ke-1", "Analisa Bacaan Tahap Semasa", "Khidmat Nasihat Modul"]).map((bonus, i) => (
+                  {["Sesi Penilaian 1-ke-1", "Analisa Bacaan Tahap Semasa", "Khidmat Nasihat Modul"].map((bonus, i) => (
                     <motion.div 
                       key={bonus}
                       initial={{ opacity: 0, x: 20 }}
@@ -184,7 +193,7 @@ export function Offer({
                   <div>
                     <h5 className="text-xs font-black text-stone-900 uppercase tracking-wider mb-1">Status Pengambilan</h5>
                     <p className="text-stone-500 text-[11px] leading-relaxed font-bold">
-                      {type === "trial" ? "Tawaran trial sah untuk 7 hari pertama pendaftaran bulan ini sahaja." : data.urgency}
+                      Tawaran trial sah untuk 7 hari pertama pendaftaran bulan ini sahaja.
                     </p>
                   </div>
                 </div>

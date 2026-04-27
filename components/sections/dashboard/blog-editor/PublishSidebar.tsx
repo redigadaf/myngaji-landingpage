@@ -31,6 +31,8 @@ interface PublishSidebarProps {
   onReadingTimeChange: (value: number) => void;
   onFeaturedToggle: (value: boolean) => void;
   onTagsChange: (value: string[]) => void;
+  onAddCategory?: (name: string) => void;
+  onAddTag?: (name: string) => void;
   // SEO tab
   slug: string;
   metaTitle: string;
@@ -49,6 +51,7 @@ export function PublishSidebar({
   onStatusChange, onPublicToggle, onPinnedToggle,
   authorName, categories, availableTags, categoryId, readingTime, isFeatured, tags,
   onCategoryChange, onReadingTimeChange, onFeaturedToggle, onTagsChange,
+  onAddCategory, onAddTag,
   slug, metaTitle, metaDescription, featuredImage, focusKeywords,
   onSlugChange, onMetaTitleChange, onMetaDescriptionChange, onFocusKeywordsChange,
   currentPinned,
@@ -101,6 +104,8 @@ export function PublishSidebar({
             onReadingTimeChange={onReadingTimeChange}
             onFeaturedToggle={onFeaturedToggle}
             onTagsChange={onTagsChange}
+            onAddCategory={onAddCategory}
+            onAddTag={onAddTag}
           />
         ) : (
           <SEOSection 

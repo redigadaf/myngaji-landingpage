@@ -24,6 +24,8 @@ interface MetadataSectionProps {
   onReadingTimeChange: (value: number) => void;
   onFeaturedToggle: (value: boolean) => void;
   onTagsChange: (value: string[]) => void;
+  onAddCategory?: (name: string) => void;
+  onAddTag?: (name: string) => void;
 }
 
 export function MetadataSection({
@@ -38,8 +40,11 @@ export function MetadataSection({
   onReadingTimeChange,
   onFeaturedToggle,
   onTagsChange,
+  onAddCategory,
+  onAddTag,
 }: MetadataSectionProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [catSearch, setCatSearch] = useState("");
   const [tagInput, setTagInput] = useState("");
   const [showTagDropdown, setShowTagDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -79,6 +84,13 @@ export function MetadataSection({
   const filteredTags = availableTags.filter((t) => 
     !tags.includes(t.name) && t.name.toLowerCase().includes(tagInput.toLowerCase())
   );
+
+  const filteredCategories = categories?.filter(c => 
+    c.name.toLowerCase().includes(catSearch.toLowerCase())
+  ) || [];
+
+  const exactCatMatch = categories?.find(c => c.name.toLowerCase() === catSearch.toLowerCase());
+  const exactTagMatch = availableTags.find(t => t.name.toLowerCase() === tagInput.toLowerCase());
 
   return (
     <div className="space-y-6">
@@ -131,26 +143,61 @@ export function MetadataSection({
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
                   className="absolute top-full left-0 right-0 mt-2 z-50 bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] overflow-hidden p-1.5"
                 >
-                  <div className="max-h-[300px] overflow-y-auto scrollbar-hide py-1">
-                    {categories.map((cat) => {
-                      const isSelected = categoryId === cat.id;
-                      return (
-                        <button
-                          key={cat.id}
-                          onClick={() => { onCategoryChange(cat.id); setIsOpen(false); }}
-                          className={cn(
-                            "w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-300 text-left",
-                            isSelected
-                              ? "bg-[#17838F]/10 text-primary"
-                              : "text-gray-600 dark:text-gray-400 hover:bg-[#17838F]/5 hover:text-primary"
-                          )}
-                        >
-                          <span className="text-[13px] font-bold">{cat.name}</span>
-                          {isSelected && <Check className="h-4 w-4" />}
-                        </button>
-                      );
-                    })}
+                  {/* Search Input for Category */}
+                  <div className="px-1 pt-1 pb-2">
+                    <div className="relative">
+                      <input 
+                        type="text"
+                        value={catSearch}
+                        onChange={(e) => setCatSearch(e.target.value)}
+                        placeholder="Cari atau tambah kategori..."
+                        className="w-full h-10 px-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl text-[13px] font-bold outline-none border border-transparent focus:border-primary/20 transition-all"
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                    </div>
                   </div>
+
+                  <div className="max-h-[250px] overflow-y-auto scrollbar-hide py-1">
+                    {filteredCategories.length > 0 ? (
+                      filteredCategories.map((cat) => {
+                        const isSelected = categoryId === cat.id;
+                        return (
+                          <button
+                            key={cat.id}
+                            onClick={() => { onCategoryChange(cat.id); setIsOpen(false); setCatSearch(""); }}
+                            className={cn(
+                              "w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-300 text-left",
+                              isSelected
+                                ? "bg-[#17838F]/10 text-primary"
+                                : "text-gray-600 dark:text-gray-400 hover:bg-[#17838F]/5 hover:text-primary"
+                            )}
+                          >
+                            <span className="text-[13px] font-bold">{cat.name}</span>
+                            {isSelected && <Check className="h-4 w-4" />}
+                          </button>
+                        );
+                      })
+                    ) : (
+                      <p className="px-4 py-3 text-[13px] text-gray-400 font-medium">Tiada kategori dijumpai</p>
+                    )}
+                  </div>
+
+                  {/* Add New Category Option */}
+                  {catSearch.trim() && !exactCatMatch && (
+                    <div className="mt-1 pt-1 border-t border-gray-100 dark:border-gray-800">
+                      <button
+                        onClick={() => {
+                          if (onAddCategory) onAddCategory(catSearch.trim());
+                          setCatSearch("");
+                          setIsOpen(false);
+                        }}
+                        className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-primary hover:bg-primary/5 transition-all text-left"
+                      >
+                        <div className="w-5 h-5 rounded-lg bg-primary/10 flex items-center justify-center font-bold text-sm">+</div>
+                        <span className="text-[13px] font-bold">Tambah &quot;{catSearch.trim()}&quot;</span>
+                      </button>
+                    </div>
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>
@@ -160,12 +207,22 @@ export function MetadataSection({
 
       {/* Tags — multi-value input */}
       <div className="space-y-2 relative">
-        <Label className="text-[13px] font-bold uppercase text-gray-400 tracking-[0.1em] ml-1">Tags</Label>
-        <div className="min-h-12 bg-gray-50/50 dark:bg-gray-900/50 border border-gray-100 dark:border-gray-800 rounded-2xl px-4 py-2 flex flex-wrap gap-2 items-center focus-within:border-[#17838F]/30 focus-within:ring-4 focus-within:ring-[#17838F]/5 transition-all">
+        <Label className="text-[13px] font-bold uppercase text-gray-400 tracking-[0.15em] ml-1">Tags</Label>
+        <div 
+          className={cn(
+            "min-h-12 flex flex-wrap gap-2 items-center px-5 py-2.5 bg-gray-50 dark:bg-gray-900/50 border border-transparent hover:border-[#17838F]/20 hover:bg-[#17838F]/5 rounded-2xl transition-all duration-300",
+            showTagDropdown ? "border-[#17838F]/30 bg-white dark:bg-gray-900 shadow-sm" : ""
+          )}
+        >
           {tags.map((tag) => (
-            <span key={tag} className="inline-flex items-center gap-1.5 bg-[#17838F]/10 text-[#17838F] text-[12px] font-bold px-3 py-1 rounded-full">
+            <span key={tag} className="inline-flex items-center gap-1.5 bg-[#17838F]/10 text-[#17838F] text-[12px] font-bold px-3 py-1 rounded-full animate-in zoom-in-95 duration-200">
               {tag}
-              <button onClick={() => removeTag(tag)} className="hover:text-red-500 transition-colors leading-none">×</button>
+              <button 
+                onClick={() => removeTag(tag)} 
+                className="hover:text-red-500 transition-colors leading-none"
+              >
+                ×
+              </button>
             </span>
           ))}
           <input
@@ -175,33 +232,54 @@ export function MetadataSection({
             onKeyDown={handleTagKeyDown}
             onFocus={() => setShowTagDropdown(true)}
             onBlur={() => setTimeout(() => setShowTagDropdown(false), 200)}
-            placeholder={tags.length ? "" : "Cth: tajwid, hafaz... (Enter untuk tambah)"}
-            className="flex-1 min-w-[120px] bg-transparent text-[14px] font-medium outline-none text-gray-800 dark:text-gray-200 placeholder:text-gray-400"
+            placeholder={tags.length ? "" : "Cari atau tambah tag..."}
+            className="flex-1 min-w-[120px] bg-transparent text-[14px] font-bold outline-none text-gray-800 dark:text-gray-200 placeholder:text-gray-400"
           />
         </div>
         <AnimatePresence>
-          {showTagDropdown && filteredTags.length > 0 && (
+          {showTagDropdown && (tagInput.trim() || filteredTags.length > 0) && (
             <motion.div
-              initial={{ opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 5 }}
-              className="absolute top-full left-0 right-0 mt-1 z-50 bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] overflow-hidden max-h-[200px] overflow-y-auto p-1.5"
+              initial={{ opacity: 0, y: 10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 10, scale: 0.95 }}
+              className="absolute top-full left-0 right-0 mt-2 z-50 bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] overflow-hidden p-1.5"
             >
-              {filteredTags.map((t) => (
-                <button
-                  key={t.id}
-                  onClick={() => {
-                    if (!tags.includes(t.name)) {
-                      onTagsChange([...tags, t.name]);
-                    }
-                    setTagInput("");
-                    setShowTagDropdown(false);
-                  }}
-                  className="w-full text-left px-4 py-2 hover:bg-[#17838F]/5 rounded-xl text-sm text-gray-700 dark:text-gray-300 transition-colors"
-                >
-                  {t.name}
-                </button>
-              ))}
+              <div className="max-h-[200px] overflow-y-auto scrollbar-hide py-1">
+                {filteredTags.map((t) => (
+                  <button
+                    key={t.id}
+                    onClick={() => {
+                      if (!tags.includes(t.name)) {
+                        onTagsChange([...tags, t.name]);
+                      }
+                      setTagInput("");
+                      setShowTagDropdown(false);
+                    }}
+                    className="w-full text-left px-4 py-2.5 hover:bg-[#17838F]/5 rounded-xl text-[13px] font-bold text-gray-700 dark:text-gray-300 transition-colors"
+                  >
+                    {t.name}
+                  </button>
+                ))}
+                
+                {/* Add New Tag Option */}
+                {tagInput.trim() && !exactTagMatch && !tags.includes(tagInput.trim()) && (
+                  <div className={cn("pt-1", filteredTags.length > 0 && "mt-1 border-t border-gray-50 dark:border-gray-800")}>
+                    <button
+                      onClick={() => {
+                        const newTag = tagInput.trim();
+                        onTagsChange([...tags, newTag]);
+                        if (onAddTag) onAddTag(newTag);
+                        setTagInput("");
+                        setShowTagDropdown(false);
+                      }}
+                      className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-primary hover:bg-primary/5 transition-all text-left"
+                    >
+                      <div className="w-5 h-5 rounded-lg bg-primary/10 flex items-center justify-center font-bold text-sm">+</div>
+                      <span className="text-[13px] font-bold">Tambah tag &quot;{tagInput.trim()}&quot;</span>
+                    </button>
+                  </div>
+                )}
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
