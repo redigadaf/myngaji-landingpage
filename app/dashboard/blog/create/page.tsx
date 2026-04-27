@@ -10,6 +10,7 @@ import { ImageSection } from "@/components/sections/dashboard/blog-editor/ImageS
 import { EditorField } from "@/components/sections/dashboard/blog-editor/EditorField";
 import { RelatedArticlesSection } from "@/components/sections/dashboard/blog-editor/RelatedArticlesSection";
 import { PublishSidebar } from "@/components/sections/dashboard/blog-editor/PublishSidebar";
+import { useDashboard } from "@/components/providers/DashboardProvider";
 
 // ─── Types ────────────────────────────────────────────────
 interface Category {
@@ -49,6 +50,7 @@ interface PinnedArticle {
 
 export default function CreateBlogPost() {
   const router = useRouter();
+  const { setIsLoading } = useDashboard();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [categories, setCategories] = useState<Category[] | null>(null);
@@ -237,6 +239,7 @@ export default function CreateBlogPost() {
     }
 
     setIsSubmitting(true);
+    setIsLoading(true);
     setSubmitError(null);
 
     try {
@@ -320,6 +323,7 @@ export default function CreateBlogPost() {
       setSubmitError(msg);
     } finally {
       setIsSubmitting(false);
+      setIsLoading(false);
     }
   };
 

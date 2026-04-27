@@ -7,12 +7,14 @@ import { supabase } from "@/lib/supabase/client";
 import { motion } from "framer-motion";
 import { Loader2, Mail, Lock, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { Toast } from "@/components/ui/Toast";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -28,7 +30,14 @@ export default function LoginPage() {
 
       if (authError) throw authError;
 
-      router.push("/dashboard");
+      // Show success toast before navigating
+      setSuccessMessage("Log masuk berjaya! Menghala ke dashboard...");
+      
+      // Delay navigation to allow user to see the toast
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 1500);
+
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Gagal log masuk. Sila semak emel dan kata laluan anda.";
       setError(errorMessage);
@@ -38,6 +47,8 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-primary flex items-center justify-center p-4 font-sans selection:bg-secondary/30 relative overflow-hidden">
+      {/* Toast Notification */}
+      <Toast message={successMessage} type="success" />
       {/* Premium Background Decorative Ornaments */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div 
