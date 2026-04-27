@@ -8,7 +8,6 @@ import { TableOfContents } from "@/components/sections/blog/detail/table-of-cont
 import { AuthorSidebarCard } from "@/components/sections/blog/detail/author-card";
 import { ArticleRelated } from "@/components/sections/blog/detail/article-related";
 import { ArticleShareBottom } from "@/components/sections/blog/detail/article-share";
-import { ArticleComments } from "@/components/sections/blog/detail/article-comment";
 import { ArticleNavigation } from "@/components/sections/blog/detail/article-navigation";
 import { ReadingProgress } from "@/components/sections/blog/detail/reading-progress";
 import { ChevronRight, Home } from "lucide-react";
@@ -243,8 +242,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             <ArticleShareBottom />
 
             <ArticleNavigation prev={prevArticle} next={nextArticle} />
-
-            <ArticleComments />
           </main>
 
           {/* Sidebar */}

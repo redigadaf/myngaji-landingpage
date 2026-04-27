@@ -1,6 +1,5 @@
 "use client";
 
-import { FooterSection } from "@/components/layout/footer-section";
 import PageHeader from "@/components/sections/tenaga-pengajar/page-header";
 import InstructorCard from "@/components/sections/tenaga-pengajar/instructor-card";
 import CTASection from "@/components/sections/tenaga-pengajar/cta-section";
@@ -51,7 +50,6 @@ export default function TenagaPengajarPage() {
 
       <CTASection />
 
-      <FooterSection />
     </main>
   );
 }

@@ -1,10 +1,11 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-
-import { Calendar, Clock, Facebook, Link as LinkIcon, Linkedin, Twitter } from "lucide-react";
+import { Calendar, Clock, Facebook, Link as LinkIcon, Check } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 interface ArticleHeaderProps {
   title: string;
@@ -21,6 +22,26 @@ interface ArticleHeaderProps {
 }
 
 export function ArticleHeader({ title, category, author, date, readingTime, image, excerpt }: ArticleHeaderProps) {
+  const [copied, setCopied] = useState(false);
+
+  const handleShareWhatsApp = () => {
+    const url = window.location.href;
+    const text = `Baca artikel ini: ${title}\n\n${url}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
+  };
+
+  const handleShareFacebook = () => {
+    const url = window.location.href;
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, "_blank");
+  };
+
+  const handleCopyLink = () => {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   // Format date safely
   const formattedDate = new Date(date).toLocaleDateString("ms-MY", {
     day: "numeric",
@@ -73,23 +94,39 @@ export function ArticleHeader({ title, category, author, date, readingTime, imag
 
         <div className="flex-1"></div>
 
-        {/* Share Buttons (Desktop) */}
         <div className="hidden md:flex items-center gap-2">
           <span className="text-sm font-medium mr-2">Kongsi:</span>
-          <Button variant="outline" size="icon" className="h-9 w-9 rounded-full hover:text-emerald-600 hover:border-emerald-200">
-            {/* WhatsApp Icon placeholder / using LinkIcon for now or simple SVG */}
+          <Button 
+            variant="outline" 
+            size="icon" 
+            onClick={handleShareWhatsApp}
+            title="Kongsi ke WhatsApp"
+            className="h-9 w-9 rounded-full hover:text-emerald-600 hover:border-emerald-200"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
               <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592z" />
             </svg>
           </Button>
-          <Button variant="outline" size="icon" className="h-9 w-9 rounded-full hover:text-blue-600 hover:border-blue-200">
+          <Button 
+            variant="outline" 
+            size="icon" 
+            onClick={handleShareFacebook}
+            title="Kongsi ke Facebook"
+            className="h-9 w-9 rounded-full hover:text-blue-600 hover:border-blue-200"
+          >
             <Facebook className="h-4 w-4" />
           </Button>
-          <Button variant="outline" size="icon" className="h-9 w-9 rounded-full hover:text-sky-500 hover:border-sky-200">
-            <Twitter className="h-4 w-4" />
-          </Button>
-          <Button variant="outline" size="icon" className="h-9 w-9 rounded-full hover:text-gray-600">
-            <LinkIcon className="h-4 w-4" />
+          <Button 
+            variant="outline" 
+            size="icon" 
+            onClick={handleCopyLink}
+            title="Salin Pautan"
+            className={cn(
+              "h-9 w-9 rounded-full transition-all",
+              copied ? "text-emerald-600 border-emerald-200 bg-emerald-50 scale-110" : "hover:text-gray-600"
+            )}
+          >
+            {copied ? <Check className="h-4 w-4" /> : <LinkIcon className="h-4 w-4" />}
           </Button>
         </div>
       </div>

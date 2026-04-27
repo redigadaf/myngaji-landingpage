@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import { Heart, ArrowRight, MessageCircle } from "lucide-react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase/client";
 
 interface ClosingProps {
   data: {
@@ -11,6 +13,36 @@ interface ClosingProps {
 }
 
 export function Closing({ data }: ClosingProps) {
+  const [waLink, setWaLink] = useState('https://wa.me/601156406429'); // Default fallback
+
+  useEffect(() => {
+    async function fetchWhatsApp() {
+      try {
+        const { data: socialData } = await supabase
+          .from('social_links')
+          .select('url')
+          .eq('platform', 'whatsapp')
+          .eq('is_active', true)
+          .maybeSingle();
+        
+        if (socialData?.url) {
+          // Format as wa.me link if it starts with 0
+          let cleanNum = socialData.url.replace(/\D/g, '');
+          if (cleanNum.startsWith('0')) {
+            cleanNum = '6' + cleanNum;
+          } else if (!cleanNum.startsWith('60')) {
+             // If it doesn't start with 60 or 0, we assume it's just the rest of the number
+             cleanNum = '60' + cleanNum;
+          }
+          setWaLink(`https://wa.me/${cleanNum}`);
+        }
+      } catch (err) {
+        console.error('Error fetching WhatsApp link:', err);
+      }
+    }
+    fetchWhatsApp();
+  }, []);
+
   // Split headline at the first comma if present to highlight the second part
   const headlineParts = data.headline.includes(",") 
     ? [data.headline.split(",")[0] + ",", data.headline.split(",").slice(1).join(",")]
@@ -70,7 +102,7 @@ export function Closing({ data }: ClosingProps) {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => {
-                    window.open('https://wa.me/601111000000', '_blank'); // Replace with real number later
+                    window.open(waLink, '_blank');
                   }}
                   className="bg-primary border-2 border-white/30 text-white px-8 py-4 rounded-xl font-black text-lg hover:bg-white/10 transition-all flex items-center gap-2 w-full sm:w-auto justify-center"
                 >

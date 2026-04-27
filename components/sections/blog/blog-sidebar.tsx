@@ -7,32 +7,23 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, Mail } from "lucide-react";
 import { BlogArticle } from "./blog-card";
+import { cn } from "@/lib/utils";
 
 interface BlogSidebarProps {
   popularArticles: BlogArticle[];
   categories: { name: string; count: number }[];
+  activeCategory?: string;
+  onCategoryChange?: (category: string) => void;
 }
 
-export function BlogSidebar({ popularArticles, categories }: BlogSidebarProps) {
+export function BlogSidebar({ 
+  popularArticles, 
+  categories, 
+  activeCategory = "Semua", 
+  onCategoryChange 
+}: BlogSidebarProps) {
   return (
     <aside className="hidden w-full lg:block lg:w-80 space-y-8">
-      {/* Newsletter Widget */}
-      <Card className="border-emerald-100 bg-emerald-50/50 dark:bg-emerald-900/10 dark:border-emerald-900">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg text-emerald-800 dark:text-emerald-400">
-            <Mail className="h-5 w-5" />
-            Langgan Newsletter
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-sm text-gray-600 dark:text-gray-300">Dapatkan tips mengaji dan panduan terkini terus ke inbox anda.</p>
-          <div className="space-y-2">
-            <Input placeholder="Alamat Emel" className="bg-white dark:bg-gray-800" />
-            <Button className="w-full bg-primary hover:bg-emerald-700 text-white">Langgan Sekarang</Button>
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Popular Articles */}
       <Card className="border-none shadow-sm">
         <CardHeader>
@@ -60,9 +51,24 @@ export function BlogSidebar({ popularArticles, categories }: BlogSidebarProps) {
           <ul className="space-y-2">
             {categories.map((cat) => (
               <li key={cat.name}>
-                <button className="flex w-full items-center justify-between rounded-lg px-2 py-2 text-sm text-gray-600 hover:bg-emerald-50 hover:text-emerald-700 dark:text-gray-400 dark:hover:bg-gray-800 transition-colors">
+                <button 
+                  onClick={() => onCategoryChange?.(cat.name)}
+                  className={cn(
+                    "flex w-full items-center justify-between rounded-lg px-2 py-2 text-sm transition-colors",
+                    activeCategory === cat.name 
+                      ? "bg-emerald-100 text-emerald-800 font-bold" 
+                      : "text-gray-600 hover:bg-emerald-50 hover:text-emerald-700 dark:text-gray-400 dark:hover:bg-gray-800"
+                  )}
+                >
                   <span>{cat.name}</span>
-                  <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-500 dark:bg-gray-800 dark:text-gray-400">{cat.count}</span>
+                  <span className={cn(
+                    "rounded-full px-2 py-0.5 text-xs transition-colors",
+                    activeCategory === cat.name
+                      ? "bg-emerald-200 text-emerald-900"
+                      : "bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
+                  )}>
+                    {cat.count}
+                  </span>
                 </button>
               </li>
             ))}
@@ -74,9 +80,11 @@ export function BlogSidebar({ popularArticles, categories }: BlogSidebarProps) {
       <div className="rounded-xl bg-gradient-to-br from-emerald-600 to-teal-700 p-6 text-center text-white">
         <h3 className="mb-2 font-bold text-lg">Jom Mengaji Bersama Kami!</h3>
         <p className="mb-4 text-sm opacity-90">Kelas percubaan percuma untuk minggu pertama.</p>
-        <Button variant="secondary" className="w-full text-emerald-800 hover:bg-emerald-50">
-          Daftar Sekarang
-        </Button>
+        <Link href="https://dashboard.myngaji.com/daftar-trial" target="_blank" rel="noopener noreferrer">
+          <Button variant="secondary" className="w-full text-emerald-800 hover:bg-emerald-50">
+            Daftar Sekarang
+          </Button>
+        </Link>
       </div>
     </aside>
   );

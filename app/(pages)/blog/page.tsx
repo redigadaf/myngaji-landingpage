@@ -175,7 +175,15 @@ export default function BlogPage() {
               </div>
 
               {/* Sidebar */}
-              <BlogSidebar popularArticles={popularArticles} categories={categories} />
+              <BlogSidebar 
+                popularArticles={popularArticles} 
+                categories={categories} 
+                activeCategory={activeCategory}
+                onCategoryChange={(cat) => {
+                  setActiveCategory(cat);
+                  setCurrentPage(1);
+                }}
+              />
             </div>
           </div>
         </>

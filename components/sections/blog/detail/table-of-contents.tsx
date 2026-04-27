@@ -3,6 +3,8 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { Facebook, Twitter, Link as LinkIcon } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 interface TOCItem {
   id: string;
@@ -180,17 +182,15 @@ export function TableOfContents({ items = [] }: TableOfContentsProps) {
         </nav>
       </div>
 
-      {/* Newsletter Widget */}
-      <div className="bg-slate-900 text-white rounded-xl p-6 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-[#17838F]/20 rounded-full blur-2xl -mr-10 -mt-10"></div>
-        <div className="relative z-10">
-          <h3 className="font-bold text-lg mb-2">Langgan Newsletter</h3>
-          <p className="text-slate-300 text-sm mb-4">Dapatkan artikel, tips mengaji, dan panduan terkini terus ke inbox anda.</p>
-          <div className="space-y-3">
-            <input type="email" placeholder="Alamat Emel" className="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#17838F] placeholder:text-slate-500" />
-            <button className="w-full bg-[#17838F] hover:bg-[#17838F]/90 text-white font-bold py-2 px-4 rounded-lg transition-colors text-sm">Langgan Sekarang</button>
-          </div>
-        </div>
+      {/* Banner/Ad Placeholder */}
+      <div className="rounded-xl bg-gradient-to-br from-emerald-600 to-teal-700 p-6 text-center text-white">
+        <h3 className="mb-2 font-bold text-lg">Jom Mengaji Bersama Kami!</h3>
+        <p className="mb-4 text-sm opacity-90">Kelas percubaan percuma untuk minggu pertama.</p>
+        <Link href="https://dashboard.myngaji.com/daftar-trial" target="_blank" rel="noopener noreferrer">
+          <Button variant="secondary" className="w-full text-emerald-800 hover:bg-emerald-50">
+            Daftar Sekarang
+          </Button>
+        </Link>
       </div>
     </div>
   );
