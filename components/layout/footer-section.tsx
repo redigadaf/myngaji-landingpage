@@ -3,9 +3,20 @@
 import Image from "next/image";
 import { Facebook, Instagram, Phone } from "lucide-react";
 import { useSocialLinks } from "@/hooks/useSocialLinks";
+import { usePathname } from "next/navigation";
 
 export function FooterSection() {
   const { getLink } = useSocialLinks();
+  const pathname = usePathname();
+
+  if (
+    pathname.startsWith("/dashboard") || 
+    pathname === "/login" || 
+    pathname === "/pendaftaran" ||
+    (pathname.startsWith("/blog/") && pathname !== "/blog")
+  ) {
+    return null;
+  }
   
   return (
     <footer className="bg-primary text-white pt-24 pb-12">

@@ -23,7 +23,16 @@ export default function CTASection() {
         </motion.h2>
 
         <div className="relative inline-flex items-center justify-center">
-          <ShinyButton className="relative z-10 !px-12 !py-6 !text-lg md:!text-xl font-bold shadow-2xl hover:scale-105 transition-transform duration-300">Daftar Kelas Sekarang</ShinyButton>
+          <a 
+            href="https://dashboard.myngaji.com/daftar-trial" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-block relative z-10"
+          >
+            <ShinyButton className="!px-12 !py-6 !text-lg md:!text-xl font-bold shadow-2xl hover:scale-105 transition-transform duration-300">
+              Tempah Slot Percubaan
+            </ShinyButton>
+          </a>
 
           {/* Floating 'Sticker' Badge with StickerPeel */}
           <div className="absolute left-full top-1/2 -translate-y-1/2 ml-8 hidden md:block z-20">

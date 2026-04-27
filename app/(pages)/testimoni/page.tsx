@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Star, Quote } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
-import { FooterSection } from "@/components/layout/footer-section";
 import Image from "next/image";
 
 // --- Types ---
@@ -321,7 +320,6 @@ export default function TestimonialPage() {
         </div>
       </section>
 
-      <FooterSection />
     </main>
   );
 }

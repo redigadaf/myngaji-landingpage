@@ -42,11 +42,11 @@ export function PainPoints({ data }: PainPointsProps) {
       */}
       <div className="h-[350vh] relative">
         {/* Sticky wrapper */}
-        <div className="sticky top-0 h-screen flex flex-col justify-center items-center py-4 md:py-8 overflow-hidden">
+        <div className="sticky top-0 h-[100dvh] flex flex-col justify-start lg:justify-center items-center py-4 md:py-8 overflow-hidden">
           {/* Background Subtle Gradient */}
           <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-stone-200/20 to-transparent"></div>
           
-          <div className="container mx-auto px-6 md:px-12 lg:px-20 relative z-10 w-full pt-16 md:pt-20">
+          <div className="container mx-auto px-6 md:px-12 lg:px-20 relative z-10 w-full pt-12 md:pt-20">
             {/* Header */}
             <div className="max-w-4xl mx-auto text-center mb-4 md:mb-6 px-4">
               <GradualSpacing 
@@ -55,14 +55,14 @@ export function PainPoints({ data }: PainPointsProps) {
               />
               
               <motion.h2 
-                className="text-2xl md:text-3xl lg:text-4xl font-black text-primary leading-[1.2] tracking-tight"
+                className="text-xl md:text-3xl lg:text-4xl font-black text-primary leading-[1.2] tracking-tight"
               >
                 {data.hook}
               </motion.h2>
               
               {data.description && (
                 <motion.p
-                  className="text-base md:text-lg text-stone-500 font-medium mt-4 max-w-2xl mx-auto"
+                  className="text-sm md:text-lg text-stone-500 font-medium mt-3 md:mt-4 max-w-2xl mx-auto"
                 >
                   {data.description}
                 </motion.p>
@@ -74,7 +74,7 @@ export function PainPoints({ data }: PainPointsProps) {
               <div className="grid lg:grid-cols-2 gap-4 items-center">
                 
                 {/* Left side: Points List */}
-                <div className="relative pl-8 space-y-2 md:space-y-3 py-1">
+                <div className="relative pl-8 space-y-1 md:space-y-3 py-1">
                   {/* Vertical line indicator */}
                   <div className="absolute left-[3px] top-4 bottom-4 w-[2px] bg-stone-200"></div>
                   

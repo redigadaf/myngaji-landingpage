@@ -7,7 +7,6 @@ import { PakejSesuaiUntuk } from "@/components/sections/pakej-kelas/pakej-sesuai
 import { PakejSyllabus } from "@/components/sections/pakej-kelas/pakej-syllabus";
 import { PakejHarga } from "@/components/sections/pakej-kelas/pakej-harga";
 import { PakejCta } from "@/components/sections/pakej-kelas/pakej-cta";
-import { FooterSection } from "@/components/layout/footer-section";
 
 export const dynamicParams = true;
 
@@ -49,7 +48,6 @@ export default async function PakejDetail({ params }: { params: Promise<{ slug: 
       <PakejSyllabus data={pakej} />
       <PakejHarga data={pakej} />
       <PakejCta />
-      <FooterSection />
     </main>
   );
 }
