@@ -6,17 +6,19 @@ import { GradualSpacing } from "@/components/ui/gradual-spacing";
 import ScrollFloat from "@/components/scroll-float";
 import { FaYoutube, FaTiktok, FaInstagram } from "react-icons/fa";
 import { ArrowRight } from "lucide-react";
+import { useSocialLinks } from "@/hooks/useSocialLinks";
 
 export function ContentSocialMedia() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { getLink } = useSocialLinks();
 
   const socialLinks = [
     {
       name: "TikTok",
       username: "@myngajiacademy",
       icon: <FaTiktok className="w-8 h-8" />,
-      url: "https://www.tiktok.com/@myngajiacademy?_r=1&_t=ZS-940olNyXBsw",
+      url: getLink("tiktok")?.url || "https://www.tiktok.com/@myngajiacademy",
       color: "bg-black text-white hover:bg-gray-900 border-gray-800",
       description: "Video pendek & tips mengaji pantas",
       delay: 0.1,
@@ -25,7 +27,7 @@ export function ContentSocialMedia() {
       name: "Instagram",
       username: "@myngaji.academy",
       icon: <FaInstagram className="w-8 h-8" />,
-      url: "https://www.instagram.com/myngaji.academy?igsh=bXRmaW83a3Q3cmNz&utm_source=qr",
+      url: getLink("instagram")?.url || "https://www.instagram.com/myngaji.academy",
       color: "bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600 text-white hover:opacity-90 border-transparent",
       description: "Perkembangan terkini & inspirasi harian",
       delay: 0.2,
@@ -34,7 +36,7 @@ export function ContentSocialMedia() {
       name: "YouTube",
       username: "@MyngajiAcademy",
       icon: <FaYoutube className="w-8 h-8" />,
-      url: "https://www.youtube.com/@MyngajiAcademy",
+      url: getLink("youtube")?.url || "https://www.youtube.com/@MyngajiAcademy",
       color: "bg-red-600 text-white hover:bg-red-700 border-red-700",
       description: "Video pembelajaran & kuliah penuh",
       delay: 0.3,
@@ -109,7 +111,7 @@ export function ContentSocialMedia() {
 
             {/* Desktop View: Full Cards */}
             <div className="hidden md:grid md:grid-cols-3 gap-6">
-              {socialLinks.map((social, index) => (
+              {socialLinks.map((social) => (
                 <motion.a
                   key={social.name}
                   href={social.url}

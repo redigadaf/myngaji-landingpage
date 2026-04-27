@@ -1,9 +1,17 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useSocialLinks } from "@/hooks/useSocialLinks";
 
 export function FloatingWhatsApp() {
-  const whatsappNumber = "601111000000"; // Replace with real number
+  const { getLink } = useSocialLinks();
+  const whatsappLink = getLink("whatsapp");
+  
+  // Clean number for URL (remove non-digits if necessary, though getLink returns what's in DB)
+  // If the DB has "01156406429", we might need to prefix "6" for Malaysia
+  const rawNumber = whatsappLink?.url || "601111000000";
+  const whatsappNumber = rawNumber.startsWith("6") ? rawNumber : `6${rawNumber}`;
+  
   const message = encodeURIComponent("Assalammualaikum MyNgaji, saya berminat untuk bertanya tentang kelas mengaji.");
 
   return (
