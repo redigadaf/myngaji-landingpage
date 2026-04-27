@@ -325,7 +325,16 @@ export default function CtaSection() {
 
           {/* CTA Button */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1, type: "spring", stiffness: 100 }} className="mt-8">
-            <ShinyButton className="!px-12 !py-4 !text-lg !rounded-full shadow-xl hover:shadow-2xl transition-all font-bold">Daftar Sekarang</ShinyButton>
+            <a 
+              href="https://dashboard.myngaji.com/daftar-trial" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-block"
+            >
+              <ShinyButton className="!px-12 !py-4 !text-lg !rounded-full shadow-xl hover:shadow-2xl transition-all font-bold">
+                Tempah Slot Percubaan
+              </ShinyButton>
+            </a>
           </motion.div>
         </motion.div>
       </div>

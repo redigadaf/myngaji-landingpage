@@ -190,6 +190,45 @@ export default function EditBlogPost({ params }: { params: Promise<{ id: string 
     });
   }, []);
 
+  // ─── Add Categoriy/Tag handlers ───────────────────────
+  const handleAddCategory = async (name: string) => {
+    try {
+      const slug = slugify(name);
+      const { data, error } = await supabase
+        .from("blog_categories")
+        .insert({ name, slug })
+        .select()
+        .single();
+      
+      if (error) throw error;
+      if (data) {
+        setCategories(prev => prev ? [...prev, data].sort((a, b) => a.name.localeCompare(b.name)) : [data]);
+        handleUpdate("category_id", data.id);
+      }
+    } catch (err) {
+      console.error("Error adding category:", err);
+      setSubmitError("Gagal menambah kategori baru.");
+    }
+  };
+
+  const handleAddTag = async (name: string) => {
+    try {
+      const slug = slugify(name);
+      const { data, error } = await supabase
+        .from("blog_tags")
+        .insert({ name, slug })
+        .select()
+        .single();
+      
+      if (error) throw error;
+      if (data) {
+        setAvailableTags(prev => [...prev, { id: data.id, name: data.name }].sort((a, b) => a.name.localeCompare(b.name)));
+      }
+    } catch (err) {
+      console.error("Error adding tag:", err);
+    }
+  };
+
   // ─── Handle tags upsert ───────────────────────────────
   const upsertTags = async (postId: string, tagNames: string[]) => {
     // Basic implementation: delete existing post tags and insert new ones
@@ -424,6 +463,8 @@ export default function EditBlogPost({ params }: { params: Promise<{ id: string 
               onReadingTimeChange={(val) => handleUpdate("reading_time", val)}
               onFeaturedToggle={(val) => handleUpdate("is_featured", val)}
               onTagsChange={(val) => handleUpdate("tags", val)}
+              onAddCategory={handleAddCategory}
+              onAddTag={handleAddTag}
               onFocusKeywordsChange={(val) => handleUpdate("focus_keywords", val)}
               currentPinned={currentPinned}
             />

@@ -1,5 +1,7 @@
+import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { ShinyButton } from "@/components/shiny-button";
 import { ArrowRight, MessageCircle } from "lucide-react";
 
 export function PakejCta() {
@@ -23,9 +25,11 @@ export function PakejCta() {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-          <Button size="lg" className="bg-white text-primary hover:bg-emerald-50 px-10 h-16 rounded-full text-lg font-bold shadow-xl shadow-black/20 hover:scale-105 transition-all w-full sm:w-auto group">
-            Daftar Kelas Percubaan <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </Button>
+          <Link href="https://dashboard.myngaji.com/daftar-trial" target="_blank" rel="noopener noreferrer">
+            <ShinyButton className="inline-flex items-center justify-center !px-10 !py-5 rounded-full text-lg font-black shadow-2xl hover:shadow-primary/20 transition-all hover:scale-105 group text-white">
+              Daftar Kelas Percubaan <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </ShinyButton>
+          </Link>
           <Button
             variant="outline"
             size="lg"
